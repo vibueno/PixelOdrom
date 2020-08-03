@@ -1,5 +1,7 @@
 $(function() {
 
+	let mouseIsDown = false;
+
 	function resetValues(){
 
 		$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
@@ -36,8 +38,8 @@ $(function() {
 	}
 
 	/*
-	e.preventDefault() prevents the form from submmiting, which would refresh the page,
-	and make the grid dissapear
+	Creates the grid and prevents the form from submmiting,
+	which would refresh the page and make the grid dissapear
 	*/
 	$('#sizePicker').submit( function(e){
 		makeGrid();
@@ -45,9 +47,36 @@ $(function() {
 	});
 
 
-	//Handling click event with event delegation
-	$('#pixelCanvas').on('click', 'td', function() {
+	/*
+	Handling canvas events with delegation
+	*/
+
+	$('#pixelCanvas').on('mousedown', 'td', function() {
 		$ ( this ).css( "background-color", $('#colorPicker').val());
+		mouseIsDown=true;
+	});
+
+	$('#pixelCanvas').on('mouseover', 'td', function() {
+		if (mouseIsDown){
+			$ ( this ).css( "background-color", $('#colorPicker').val());
+		}
+	});
+
+	/*
+	In this case, we must use the document and not the canvas,
+	because the user may release the mouse outside the canvas
+	*/
+	$(document).on('mouseup', function() {
+		mouseIsDown=false;
+	});
+
+
+	/*
+	Prevents dragging on already painting pixels,
+	which otherwise may behave together like an image
+	*/
+	$('#pixelCanvas').on('dragstart', function (e) {
+    e.preventDefault();
 	});
 
 
