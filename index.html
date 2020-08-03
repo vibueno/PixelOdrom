@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
         <link rel="stylesheet" href="./css/styles.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
         <script src="./js/app.js"></script>
     </head>
     <body>
@@ -17,14 +18,18 @@
             <input type="number" id="inputHeight" name="height" min="1" value="1">
             Grid Width:
             <input type="number" id="inputWidth" name="width" min="1" value="1">
-            <input type="submit" value="Create Canvas">
+            <input type="submit" id="btnSubmit" value="Create Canvas">
         </form>
 
         <h2>Pick A Color</h2>
-        <input type="color" id="colorPicker" value="#ffffff">
+        <input type="color" id="colorPicker" value="#000">
 
         <h2>Design Canvas</h2>
         <table id="pixelCanvas"></table>
-        <button id="reset">Reset Canvas</button>
+        <button id="btnResetCanvas">Reset Canvas</button>
+        <div id="result"></div>
+        <a id ="downloadLink" download="PixelArtMaker.jpeg"></a>
+        <button id="btnSaveCanvas">Save Canvas</button>
+
     </body>
 </html>

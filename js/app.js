@@ -37,6 +37,21 @@ $(function() {
 		}
 	}
 
+
+	$('#btnSaveCanvas').click(function(){
+
+	 	let pixelCanvas = $( "#pixelCanvas" );
+		let resultDiv = $( "#result" );
+
+    html2canvas(pixelCanvas.get(0)).then(function (canvas) {
+      let pixelImage = canvas.toDataURL("image/jpeg", 1);
+      let downloadLink = $ ( '#downloadLink' );
+      downloadLink.attr("href", pixelImage)
+		}).then(function(){
+			downloadLink.click();
+		});
+  });
+
 	/*
 	Creates the grid and prevents the form from submmiting,
 	which would refresh the page and make the grid dissapear
@@ -80,7 +95,7 @@ $(function() {
 	});
 
 
-	$('#reset').click(function() {
+	$('#btnResetCanvas').click(function() {
 		resetCanvas();
 	});
 
