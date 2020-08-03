@@ -8,4 +8,7 @@
 
 This project was developed within the frame of the Front End Developer Nanodegree program at Udacity.
 
+## Technologies & Patterns used:
+* [jQuery](https://jquery.com/)
+
 ## Instructions
