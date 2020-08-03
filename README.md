@@ -10,5 +10,6 @@ This project was developed within the frame of the Front End Developer Nanodegre
 
 ## Technologies & Patterns used:
 * [jQuery](https://jquery.com/)
+* jQuery Event Delegation
 
 ## Instructions

@@ -1,4 +1,18 @@
 $(function() {
+
+	function resetValues(){
+
+		$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
+		$('#inputWidth').val($('#inputWidth').prop("defaultValue"));
+		$('#colorPicker').val($('#colorPicker').prop("defaultValue"));
+
+	}
+
+	function resetCanvas(){
+		const gridRows = $ ('#pixelCanvas tr');
+		gridRows.remove();
+	}
+
 	function makeGrid() {
 
 		const gridHeight = $('#inputHeight').val();
@@ -9,7 +23,7 @@ $(function() {
 		const column = '<td></td>';
 		let lastRow;
 
-		gridRows.remove();
+		resetCanvas();
 
 		for (let i=1; i<=gridHeight; i++){
 			grid.append(row);
@@ -22,11 +36,25 @@ $(function() {
 	}
 
 	/*
-	e.preventDefault() prevents the form from submmiting and therefore refreshing the page,
-	which would make the grid dissapear
+	e.preventDefault() prevents the form from submmiting, which would refresh the page,
+	and make the grid dissapear
 	*/
-	$('#sizePicker').on('submit', function(e){
+	$('#sizePicker').submit( function(e){
 		makeGrid();
 		e.preventDefault();
 	});
+
+
+	//Handling click event with event delegation
+	$('#pixelCanvas').on('click', 'td', function() {
+		$ ( this ).css( "background-color", $('#colorPicker').val());
+	});
+
+
+	$('#reset').click(function() {
+		resetCanvas();
+	});
+
+	resetValues();
+
 });
