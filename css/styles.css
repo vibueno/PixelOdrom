@@ -18,8 +18,9 @@ body {
 }
 
 h1 {
-  font-family: Monoton;
-  font-size: 70px;
+  font-family: 'Monoton', cursive;
+  font-size: 4.5em;
+  font-weight: 500;
   margin: 0.2em 0 0.2em 0;
   color: #ea9085;
   background-color: #6e5773;
