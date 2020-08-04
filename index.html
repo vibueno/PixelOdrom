@@ -6,6 +6,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Monoton&family=Press+Start+2P&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="./css/styles.css">
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
 	<script src="https://cdn.rawgit.com/jwarby/jquery-awesome-cursor/master/dist/jquery.awesome-cursor.min.js"></script>
@@ -21,22 +23,22 @@
 		<input type="number" id="inputHeight" name="height" min="1" max="45" value="1">
 		Grid Width:
 		<input type="number" id="inputWidth" name="width" min="1" max="45" value="1">
-		<button type="submit" id="btnSubmit" class="btn btn-action">
+		<button type="submit" id="btnSubmit" class="btn">
 			<i class="fa fa-plus fa-2x"></i>
 		</button>
 	</form>
 
-	<div class= "toolbox">
-		<input type="color" id="colorPicker" class="btn btn-color-picker" value="#524156">
-		<button id="btnToolPaintBrush" class="btn btn-tool"><i class="fa fa-paint-brush fa-2x"></i></button>
-		<button id="btnToolEraser" class="btn btn-tool"><i class="fa fa-eraser fa-2x"></i></button>
+	<div id="toolbox" class= "toolbox">
+		<input type="color" id="colorPicker" class="btn btn-color-picker" value="#000000">
+		<button id="btnToolPaintBrush" class="btn"><i class="fa fa-paint-brush fa-2x"></i></button>
+		<button id="btnToolEraser" class="btn"><i class="fa fa-eraser fa-2x"></i></button>
 	</div>
 	<table id="pixelCanvas"></table>
 	<div class="actions">
-		<button id="btnResetCanvas" class="btn btn-action btn-reset-canvas"><i class="fa fa-refresh fa-2x"></i></button>
+		<button id="btnResetCanvas" class="btn btn-reset-canvas"><i class="fa fa-refresh fa-2x"></i></button>
 		<div id="result"></div>
 		<a id ="downloadLink" download="PixelArtMaker.jpeg"></a>
-		<button id="btnSaveCanvas" class="btn btn-action"><i class="fa fa-floppy-o fa-2x"></i></button>
+		<button id="btnSaveCanvas" class="btn"><i class="fa fa-floppy-o fa-2x"></i></button>
 	</div>
 
 	<footer>

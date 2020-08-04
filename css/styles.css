@@ -58,6 +58,10 @@ input[type=number] {
   justify-content: center;
 }
 
+.toolbox-hidden{
+  display: none;
+}
+
 .btn{
   border-radius: 4px;
   border: 2px solid #6e5773;
@@ -65,12 +69,25 @@ input[type=number] {
   background-color: #fff;
   color: #6e5773;
   font-weight: 600;
-}
-
-.btn-tool{
+  cursor: pointer;
+  padding: 0;
   height: 43px;
   width: 43px;
-  padding: 0 0 0 0;
+  outline:0;
+}
+
+.btn:active {
+  transform: translateY(1px);
+  filter: saturate(150%);
+  color: #ea9085;
+  border-color: #ea9085;
+}
+
+.btn:hover,
+.btn:focus {
+  color: #ea9085;
+  border-color: #ea9085;
+  background-color: white;
 }
 
 .btn-color-picker{
@@ -82,11 +99,6 @@ input[type=number] {
 .actions{
   margin: 2em 0 1em 0;
   justify-content: center;
-}
-
-.btn-action{
-  height: 43px;
-  width: 43px;
 }
 
 /*

@@ -5,15 +5,16 @@ const toolEraserColor = '#ffffff'
 let mouseIsDown = false;
 let selectedTool = toolPaintBrush;
 
+
 $(function() {
 
-	function resetValues(){
 
+	function resetValues(){
 		$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
 		$('#inputWidth').val($('#inputWidth').prop("defaultValue"));
 		$('#colorPicker').val($('#colorPicker').prop("defaultValue"));
-
 	}
+
 
 	function createCanvas() {
 
@@ -35,12 +36,15 @@ $(function() {
 				lastRow.append(column);
 			}
 		}
+		showToolbox(true);
 	}
+
 
 	function resetCanvas(){
 		const gridRows = $ ('#pixelCanvas tr');
 		gridRows.remove();
 	}
+
 
 	function saveCanvas(){
 		let pixelCanvas = $( "#pixelCanvas" );
@@ -58,11 +62,14 @@ $(function() {
 		}
 	}
 
+
 	function isCanvasActive(){
 		return $('#pixelCanvas tr').length;
 	}
 
+
 	$('#btnSaveCanvas').click( saveCanvas );
+
 
 	/*
 	Creates the grid and prevents the form from submmiting,
@@ -74,9 +81,25 @@ $(function() {
 	});
 
 
+	$('#colorPicker').change( function(e){
+		selectTool(toolPaintBrush);
+	});
+
+
 	function selectTool(tool){
 		selectedTool = tool;
 	}
+
+	function showToolbox(show){
+		if (show){
+			$('#toolbox').removeClass('toolbox-hidden');
+		}
+		else
+		{
+			$('#toolbox').addClass('toolbox-hidden');
+		}
+	}
+
 
 	function paintPixel(pixel){
 		if ((selectedTool) == toolPaintBrush){
@@ -88,10 +111,10 @@ $(function() {
 		}
 	}
 
+
 	/*
 	Handling canvas events with delegation
 	*/
-
 	$('#pixelCanvas').on('mousedown', 'td', function() {
 		mouseIsDown=true;
 		paintPixel(this);
@@ -109,6 +132,7 @@ $(function() {
 		});
 	});
 
+
 	/*
 	In this case, we must use the document and not the canvas,
 	because the user may release the mouse outside the canvas
@@ -119,18 +143,17 @@ $(function() {
 
 
 	/*
-	Prevents dragging on already painting pixels,
+	Prevents dragging on already painted pixels,
 	which otherwise may behave together like an image
 	*/
 	$('#pixelCanvas').on('dragstart', function (e) {
 		e.preventDefault();
 	});
 
-
 	$('#btnResetCanvas').click(function() {
 		resetCanvas();
+		showToolbox(false);
 	});
-
 
 	$('#btnToolPaintBrush').click(function() {
 		selectTool(toolPaintBrush);
@@ -141,5 +164,6 @@ $(function() {
 	});
 
 	resetValues();
+	showToolbox(false);
 
 });
