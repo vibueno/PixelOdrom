@@ -52,6 +52,36 @@ input[type=number] {
   border: 1px dotted #d45d79;
 }
 
+.toolbox{
+  justify-content: center;
+}
+
+/*
+Hack needed for compensating the fact
+that Firefox does not add padding to height and width
+*/
+@-moz-document url-prefix() {
+  .btn-color-picker {
+    height: 40px !important;
+    width: 40px !important;
+  }
+}
+
+.btn-tool{
+  height: 40px;
+  width: 40px;
+  border-radius: 4px;
+  padding: 0 0 0 0;
+}
+
+.btn-color-picker{
+  height: 32px;
+  width: 32px;
+  border-radius: 4px;
+  padding: 4px 4px 4px 4px;
+}
+
+
 /*
  *
  * Footer

@@ -1,53 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Pixel Art Maker!</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
-    <link rel="stylesheet" href="./css/styles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
-    <script src="./js/app.js"></script>
+	<meta charset="UTF-8">
+	<title>Pixel Art Maker!</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
+	<link rel="stylesheet" href="./css/styles.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+	<script src="https://cdn.rawgit.com/jwarby/jquery-awesome-cursor/master/dist/jquery.awesome-cursor.min.js"></script>
+	<script src="https://kit.fontawesome.com/3bee1206cd.js" crossorigin="anonymous"></script>
+	<script src="./js/app.js"></script>
 </head>
 <body>
-    <h1>Pixel Art Maker</h1>
+	<h1>Pixel Art Maker</h1>
 
-    <h2>Choose Grid Size</h2>
-    <form id="sizePicker">
-        Grid Height:
-        <input type="number" id="inputHeight" name="height" min="1" max="45" value="1">
-        Grid Width:
-        <input type="number" id="inputWidth" name="width" min="1" max="45" value="1">
-        <input type="submit" id="btnSubmit" value="Create Canvas">
-    </form>
+	<h2>Choose Grid Size</h2>
+	<form id="sizePicker">
+		Grid Height:
+		<input type="number" id="inputHeight" name="height" min="1" max="45" value="1">
+		Grid Width:
+		<input type="number" id="inputWidth" name="width" min="1" max="45" value="1">
+		<input type="submit" id="btnSubmit" value="Create Canvas">
+	</form>
 
-    <h2>Pick A Color</h2>
-    <input type="color" id="colorPicker" value="#524156">
+	<div class= "toolbox">
+		<input type="color" id="colorPicker" class="btn-color-picker" value="#524156">
+		<button id="btnToolPaintBrush" class="btn-tool"><i class="fa fa-paint-brush"></i></button>
+		<button id="btntoolEraser" class="btn-tool"><i class="fa fa-eraser"></i></button>
+	</div>
+	<h2>Design Canvas</h2>
+	<table id="pixelCanvas"></table>
+	<button id="btnResetCanvas">Reset Canvas</button>
+	<div id="result"></div>
+	<a id ="downloadLink" download="PixelArtMaker.jpeg"></a>
+	<button id="btnSaveCanvas">Save Canvas</button>
 
-    <h2>Design Canvas</h2>
-    <table id="pixelCanvas"></table>
-    <button id="btnResetCanvas">Reset Canvas</button>
-    <div id="result"></div>
-    <a id ="downloadLink" download="PixelArtMaker.jpeg"></a>
-    <button id="btnSaveCanvas">Save Canvas</button>
-
-    <footer>
-        <p id="credits">
-            <ul class= "footer_credits">
-                Credits:
-                <li><span class="footer_credits_title">Programming: </span>Víctor Isabel-Bueno;</li>
-                <li><span class="footer_credits_title">Base HTML and CSS: </span><a href="https://www.udacity.com/course/front-end-web-developer-nanodegree--nd0011">Udacity Front End Web Developer Nanodegree (Pixel Art Maker)</a>;
-                </li>
-                <li>
-                    <span class="footer_credits_title">Color Palette:</span>
-                    <a href="https://colorhunt.co/palette/168803">Gal Shir</a>;
-                </li>
-                <li>
-                    <span class="footer_credits_title">Fonts:</span>
-                    <a href="https://fonts.google.com/specimen/Monoton">Monoton</a>
-                </li>
-            </ul>
-        </p>
-    </footer>
+	<footer>
+		<p id="credits">
+			<ul class= "footer_credits">
+				Credits:
+				<li><span class="footer_credits_title">Programming: </span>Víctor Isabel-Bueno;</li>
+				<li><span class="footer_credits_title">Base HTML and CSS: </span><a href="https://www.udacity.com/course/front-end-web-developer-nanodegree--nd0011">Udacity Front End Web Developer Nanodegree (Pixel Art Maker)</a>;
+				</li>
+				<li>
+					<span class="footer_credits_title">Libraries & Plugins:</span>
+					<a href="https://jquery.com">jQuery</a>,
+					<a href="https://jwarby.github.io/jquery-awesome-cursor/">jQuery Awesome Cursor</a>,
+					<a href="https://html2canvas.hertzen.com">html2canvas</a>;
+				</li>
+				<li>
+					<span class="footer_credits_title">Color Palette:</span>
+					<a href="https://colorhunt.co/palette/168803">Gal Shir</a>;
+				</li>
+				<li>
+					<span class="footer_credits_title">Fonts:</span>
+					<a href="https://fonts.google.com/specimen/Monoton">Monoton</a>,
+					<a href="https://fontawesome.com">Font Awesome</a>
+				</li>
+			</ul>
+		</p>
+	</footer>
 </body>
 </html>

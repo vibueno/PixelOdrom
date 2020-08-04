@@ -1,6 +1,11 @@
 $(function() {
 
+	const toolPaintBrush = 'paint-brush';
+	const toolEraser = 'eraser';
+
+
 	let mouseIsDown = false;
+	let selectedTool = toolPaintBrush;
 
 	function resetValues(){
 
@@ -40,17 +45,17 @@ $(function() {
 
 	$('#btnSaveCanvas').click(function(){
 
-	 	let pixelCanvas = $( "#pixelCanvas" );
+		let pixelCanvas = $( "#pixelCanvas" );
 		let resultDiv = $( "#result" );
 
-    html2canvas(pixelCanvas.get(0)).then(function (canvas) {
-      let pixelImage = canvas.toDataURL("image/jpeg", 1);
-      let downloadLink = $ ( '#downloadLink' );
-      downloadLink.attr("href", pixelImage)
+		html2canvas(pixelCanvas.get(0)).then(function (canvas) {
+			let pixelImage = canvas.toDataURL("image/jpeg", 1);
+			let downloadLink = $ ( '#downloadLink' );
+			downloadLink.attr("href", pixelImage)
 		}).then(function(){
 			downloadLink.click();
 		});
-  });
+	});
 
 	/*
 	Creates the grid and prevents the form from submmiting,
@@ -77,6 +82,12 @@ $(function() {
 		}
 	});
 
+	$('#pixelCanvas').on('mouseover', function() {
+		$( this ).awesomeCursor(selectedTool, {
+			hotspot: [2, 15]
+		});
+	});
+
 	/*
 	In this case, we must use the document and not the canvas,
 	because the user may release the mouse outside the canvas
@@ -91,7 +102,7 @@ $(function() {
 	which otherwise may behave together like an image
 	*/
 	$('#pixelCanvas').on('dragstart', function (e) {
-    e.preventDefault();
+		e.preventDefault();
 	});
 
 
