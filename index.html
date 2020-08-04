@@ -20,20 +20,23 @@
 		<input type="number" id="inputHeight" name="height" min="1" max="45" value="1">
 		Grid Width:
 		<input type="number" id="inputWidth" name="width" min="1" max="45" value="1">
-		<input type="submit" id="btnSubmit" value="Create Canvas">
+		<button type="submit" id="btnSubmit" class="btn btn-action">
+			<i class="fa fa-plus fa-2x"></i>
+		</button>
 	</form>
 
 	<div class= "toolbox">
-		<input type="color" id="colorPicker" class="btn-color-picker" value="#524156">
-		<button id="btnToolPaintBrush" class="btn-tool"><i class="fa fa-paint-brush"></i></button>
-		<button id="btntoolEraser" class="btn-tool"><i class="fa fa-eraser"></i></button>
+		<input type="color" id="colorPicker" class="btn btn-color-picker" value="#524156">
+		<button id="btnToolPaintBrush" class="btn btn-tool"><i class="fa fa-paint-brush fa-2x"></i></button>
+		<button id="btntoolEraser" class="btn btn-tool"><i class="fa fa-eraser fa-2x"></i></button>
 	</div>
-	<h2>Design Canvas</h2>
 	<table id="pixelCanvas"></table>
-	<button id="btnResetCanvas">Reset Canvas</button>
-	<div id="result"></div>
-	<a id ="downloadLink" download="PixelArtMaker.jpeg"></a>
-	<button id="btnSaveCanvas">Save Canvas</button>
+	<div class="actions">
+		<button id="btnResetCanvas" class="btn btn-action"><i class="fa fa-refresh fa-2x"></i></button>
+		<div id="result"></div>
+		<a id ="downloadLink" download="PixelArtMaker.jpeg"></a>
+		<button id="btnSaveCanvas" class="btn btn-action"><i class="fa fa-floppy-o fa-2x"></i></button>
+	</div>
 
 	<footer>
 		<p id="credits">

@@ -53,7 +53,39 @@ input[type=number] {
 }
 
 .toolbox{
+  margin: 2em 0 1em 0;
   justify-content: center;
+}
+
+.btn{
+  border-radius: 4px;
+  border: 2px solid #6e5773;
+  margin: 0 0.3em 0 0.3em;
+  background-color: #fff;
+  color: #6e5773;
+  font-weight: 600;
+}
+
+.btn-tool{
+  height: 43px;
+  width: 43px;
+  padding: 0 0 0 0;
+}
+
+.btn-color-picker{
+  height: 31px;
+  width: 31px;
+  padding: 4px 4px 4px 4px;
+}
+
+.actions{
+  margin: 2em 0 1em 0;
+  justify-content: center;
+}
+
+.btn-action{
+  height: 43px;
+  width: 43px;
 }
 
 /*
@@ -62,25 +94,10 @@ that Firefox does not add padding to height and width
 */
 @-moz-document url-prefix() {
   .btn-color-picker {
-    height: 40px !important;
-    width: 40px !important;
+    height: 43px !important;
+    width: 43px !important;
   }
 }
-
-.btn-tool{
-  height: 40px;
-  width: 40px;
-  border-radius: 4px;
-  padding: 0 0 0 0;
-}
-
-.btn-color-picker{
-  height: 32px;
-  width: 32px;
-  border-radius: 4px;
-  padding: 4px 4px 4px 4px;
-}
-
 
 /*
  *
