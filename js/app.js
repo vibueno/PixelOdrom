@@ -1,11 +1,11 @@
+const toolPaintBrush = 'paint-brush';
+const toolEraser = 'eraser';
+const toolEraserColor = '#ffffff'
+
+let mouseIsDown = false;
+let selectedTool = toolPaintBrush;
+
 $(function() {
-
-	const toolPaintBrush = 'paint-brush';
-	const toolEraser = 'eraser';
-
-
-	let mouseIsDown = false;
-	let selectedTool = toolPaintBrush;
 
 	function resetValues(){
 
@@ -15,12 +15,7 @@ $(function() {
 
 	}
 
-	function resetCanvas(){
-		const gridRows = $ ('#pixelCanvas tr');
-		gridRows.remove();
-	}
-
-	function makeGrid() {
+	function createCanvas() {
 
 		const gridHeight = $('#inputHeight').val();
 		const gridWidth = $('#inputWidth').val();
@@ -42,43 +37,69 @@ $(function() {
 		}
 	}
 
+	function resetCanvas(){
+		const gridRows = $ ('#pixelCanvas tr');
+		gridRows.remove();
+	}
 
-	$('#btnSaveCanvas').click(function(){
-
+	function saveCanvas(){
 		let pixelCanvas = $( "#pixelCanvas" );
 		let resultDiv = $( "#result" );
 
-		html2canvas(pixelCanvas.get(0)).then(function (canvas) {
-			let pixelImage = canvas.toDataURL("image/jpeg", 1);
-			let downloadLink = $ ( '#downloadLink' );
-			downloadLink.attr("href", pixelImage)
-		}).then(function(){
-			downloadLink.click();
-		});
-	});
+		if (isCanvasActive()){
+
+			html2canvas(pixelCanvas.get(0)).then(function (canvas) {
+				let pixelImage = canvas.toDataURL("image/jpeg", 1);
+				let downloadLink = $ ( '#downloadLink' );
+				downloadLink.attr("href", pixelImage)
+			}).then(function(){
+				downloadLink.click();
+			});
+		}
+	}
+
+	function isCanvasActive(){
+		return $('#pixelCanvas tr').length;
+	}
+
+	$('#btnSaveCanvas').click( saveCanvas );
 
 	/*
 	Creates the grid and prevents the form from submmiting,
 	which would refresh the page and make the grid dissapear
 	*/
 	$('#sizePicker').submit( function(e){
-		makeGrid();
+		createCanvas();
 		e.preventDefault();
 	});
 
+
+	function selectTool(tool){
+		selectedTool = tool;
+	}
+
+	function paintPixel(pixel){
+		if ((selectedTool) == toolPaintBrush){
+			$ ( pixel ).css( "background-color", $('#colorPicker').val());
+		}
+		else
+		{
+			$ ( pixel ).css( "background-color", toolEraserColor);
+		}
+	}
 
 	/*
 	Handling canvas events with delegation
 	*/
 
 	$('#pixelCanvas').on('mousedown', 'td', function() {
-		$ ( this ).css( "background-color", $('#colorPicker').val());
 		mouseIsDown=true;
+		paintPixel(this);
 	});
 
 	$('#pixelCanvas').on('mouseover', 'td', function() {
 		if (mouseIsDown){
-			$ ( this ).css( "background-color", $('#colorPicker').val());
+			paintPixel(this);
 		}
 	});
 
@@ -108,6 +129,15 @@ $(function() {
 
 	$('#btnResetCanvas').click(function() {
 		resetCanvas();
+	});
+
+
+	$('#btnToolPaintBrush').click(function() {
+		selectTool(toolPaintBrush);
+	});
+
+	$('#btnToolEraser').click(function() {
+		selectTool(toolEraser);
 	});
 
 	resetValues();
