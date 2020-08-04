@@ -89,13 +89,23 @@ input[type=number] {
 }
 
 /*
-Hack needed for compensating the fact
-that Firefox does not add padding to height and width
+Hack needed for compensating the fact that Firefox
+does not compute the height (width)=height (width) property + padding
 */
 @-moz-document url-prefix() {
   .btn-color-picker {
     height: 43px !important;
     width: 43px !important;
+  }
+}
+
+/*
+Hack needed since for some reason the icon on this button was not centered.
+Weirdly enough, a padding 0 solves the issue
+*/
+@-moz-document url-prefix() {
+  .btn-reset-canvas{
+    padding: 0 !important;
   }
 }
 
