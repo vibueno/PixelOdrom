@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 	<title>Pixel Art Maker</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monoton&display=swap">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Monoton&family=Press+Start+2P&display=swap">
@@ -13,7 +13,7 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
 	<script src="https://cdn.rawgit.com/jwarby/jquery-awesome-cursor/master/dist/jquery.awesome-cursor.min.js"></script>
 	<script src="https://kit.fontawesome.com/3bee1206cd.js" crossorigin="anonymous"></script>
 	<script src="./js/app.js"></script>
@@ -41,16 +41,21 @@
 	<div class="actions">
 		<button id="btnResetCanvas" class="btn btn-reset-canvas"><i class="far fa-trash-alt fa-2x"></i></button>
 		<div id="result"></div>
-		<a id ="downloadLink" download="PixelArtMaker.jpeg"></a>
+		<a href="" id ="downloadLink" download="PixelArtMaker.jpeg"></a>
 		<button id="btnSaveCanvas" class="btn"><i class="fa fa-floppy-o fa-2x"></i></button>
 	</div>
 
 	<footer>
-		<p id="credits">
+		<div id="credits">
 			<ul class= "footer_credits">
-				Credits:
-				<li><span class="footer_credits_title">Programming: </span>Víctor Isabel-Bueno;</li>
-				<li><span class="footer_credits_title">Base HTML and CSS: </span><a href="https://www.udacity.com/course/front-end-web-developer-nanodegree--nd0011">Udacity Front End Web Developer Nanodegree (Pixel Art Maker)</a>;
+				<li>
+					Credits:
+					<span class="footer_credits_title">Programming: </span>
+					Víctor Isabel-Bueno;
+				</li>
+				<li>
+					<span class="footer_credits_title">Base HTML and CSS: </span>
+					<a href="https://www.udacity.com/course/front-end-web-developer-nanodegree--nd0011">Udacity Front End Web Developer Nanodegree (Pixel Art Maker)</a>;
 				</li>
 				<li>
 					<span class="footer_credits_title">Libraries & Plugins:</span>
@@ -69,11 +74,11 @@
 					<a href="https://fontawesome.com">Font Awesome</a>
 				</li>
 			</ul>
-		</p>
+		</div>
 	</footer>
 
-	<div id="dialog" title="Basic dialog">
-	  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+	<div id="dialog" title="">
+	  <p></p>
 	</div>
 
 </body>
