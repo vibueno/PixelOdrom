@@ -56,6 +56,7 @@ function showConfirmDialog(title, text, callback){
 			}
 		}
 		showToolbox(true);
+		selectedTool = toolPaintBrush;
 	}
 
 
