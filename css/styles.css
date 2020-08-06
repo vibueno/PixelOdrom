@@ -45,6 +45,24 @@ h2:first-of-type {
 
 /*
  *
+ * Input fields
+ *
+ */
+
+input[type=number] {
+  width: 6em;
+  border: 1px dotted #d45d79;
+}
+
+input[type=color] {
+	-webkit-appearance: none;
+	width: 32px;
+	height: 32px;
+}
+
+
+/*
+ *
  * Canvas
  *
  */
@@ -79,11 +97,6 @@ tr {
   width: 30px;
 }
 
-input[type=number] {
-  width: 6em;
-  border: 1px dotted #d45d79;
-}
-
 /*
  *
  * Buttons
@@ -115,7 +128,7 @@ input[type=number] {
 
 .btn:active {
   transform: translateY(1px);
-  filter: saturate(150%);
+  filter: saturate(200%);
   color: #ea9085;
   border-color: #ea9085;
 }
@@ -170,6 +183,7 @@ Weirdly enough, a padding 0 solves the issue
  * Footer
  *
  */
+
  footer {
   margin: 1em 0 0 0;
   padding: 0.4em 0.4em 0.4em 0.4em;
@@ -209,7 +223,7 @@ footer a {
 
 /*
  *
- * Dialogs
+ * Dialog
  *
  */
 
@@ -219,14 +233,47 @@ footer a {
   width: 100%;
 }
 
+.ui-dialog-title {
+    width: 100% !important;
+}
+
+.ui-widget-header{
+	color: #f98c84;
+	background-color: #6e5773;
+}
+
 .ui-dialog .ui-dialog-buttonpane {
   display: inline-block;
   text-align: center;
   padding: 0.3em 0.4em 0.5em 0.4em;
+	border-top: 1px dotted #d45d79;
 }
 
 .ui-dialog .ui-dialog-buttonset {
   display: inline-block;
   text-align: center;
   float: none !important;
+}
+
+.ui-button:active {
+   border-color: #ea9085;
+   transform: translateY(1px);
+   filter: saturate(200%);
+}
+
+.ui-button:hover,
+.ui-button:focus
+ {
+  background-color: #ea9085;
+  border-color: #ea9085;
+  outline: 0;
+  color: #fff;
+}
+
+.ui-widget.ui-widget-content {
+    border: 1px dotted #d45d79;
+}
+
+.ui-dialog-titlebar-close{
+  display: none;
 }
