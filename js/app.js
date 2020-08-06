@@ -8,61 +8,105 @@ let selectedTool = toolPaintBrush;
 
 $(function() {
 
-function showConfirmDialog(title, text, callback){
+	function showConfirmDialog(title, text, callback){
 
-	$( '#dialog' ).attr('title', title);
-	$( '#dialog' ).first('p').text(text);
+		$( '#dialog' ).attr('title', title);
+		$( '#dialog' ).first('p').text(text);
 
-	$( '#dialog' ).dialog({
-		modal: true,
-		buttons: {
-    	"Yes": function () {
-        $(this).dialog('close');
-        callback();
-      },
-      "No": function () {
-        $(this).dialog('close');
-      }
-    }
-  });
-}
+		$( '#dialog' ).dialog({
+			modal: true,
+			buttons: {
+	    	"Yes": function () {
+	        $(this).dialog('close');
+	        callback();
+	      },
+	      "No": function () {
+	        $(this).dialog('close');
+	      }
+	    }
+	  });
+	}
 
+	function showInfoDialog(title, text){
+
+		$( '#dialog' ).attr('title', title);
+		$( '#dialog' ).first('p').text(text);
+
+		$( '#dialog' ).dialog({
+			modal: true,
+			buttons: {
+	    	"OK": function () {
+	        $(this).dialog('close');
+	      }
+	    }
+	  });
+	}
 
 	function resetValues(){
-		$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
 		$('#inputWidth').val($('#inputWidth').prop("defaultValue"));
+		$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
 		$('#colorPicker').val($('#colorPicker').prop("defaultValue"));
 	}
 
 
-	function createCanvas() {
+	function createCanvas(height, width) {
 
-		const gridHeight = $('#inputHeight').val();
-		const gridWidth = $('#inputWidth').val();
-		const grid = $ ('#pixelCanvas');
-		const gridRows = $ ('#pixelCanvas tr');
+		const canvasWidth = $('#inputWidth').val();
+		const canvasHeight = $('#inputHeight').val();
+
+		const numpixels = canvasWidth*canvasHeight;
+		const canvas = $ ('#pixelCanvas');
+		const canvasRows = $ ('#pixelCanvas tr');
 		const row = '<tr></tr>';
 		const column = '<td></td>';
 		let lastRow;
 
 		resetCanvas();
 
-		for (let i=1; i<=gridHeight; i++){
-			grid.append(row);
+		for (let i=1; i<=canvasHeight; i++){
+			canvas.append(row);
 			lastRow = $('#pixelCanvas tr').last();
 
-			for (let j=1; j<=gridWidth; j++){
+			for (let j=1; j<=canvasWidth; j++){
 				lastRow.append(column);
 			}
 		}
+
+		switch(true) {
+		  case (numpixels>200 && numpixels<=1000):
+		  	canvas.find('tr').addClass('tr-m');
+		    canvas.find('td').addClass('td-m');
+		    break;
+		  case (numpixels<=200):
+		  	canvas.find('tr').addClass('tr-l');
+		    canvas.find('td').addClass('td-l');
+		    break;
+		  default:
+		  	canvas.find('tr').addClass('tr-s');
+		    canvas.find('td').addClass('td-s');
+		}
+
 		showToolbox(true);
 		selectedTool = toolPaintBrush;
 	}
 
+	function canvasPropCorrect(width, height){
+
+		const proportions = width/height;
+
+		if (proportions>=0.5 && proportions <=2){
+			return true;
+		}
+		else{
+			return false;
+		}
+
+	}
+
 
 	function resetCanvas(){
-		const gridRows = $ ('#pixelCanvas tr');
-		gridRows.remove();
+		const canvasRows = $ ('#pixelCanvas tr');
+		canvasRows.remove();
 	}
 
 
@@ -84,7 +128,6 @@ function showConfirmDialog(title, text, callback){
 		return $('#pixelCanvas tr').length;
 	}
 
-
 	$('#btnSaveCanvas').click( function(){
 		if (isCanvasActive()){
 			showConfirmDialog("Confirm", "Are you sure that you want to save this canvas?", saveCanvas);
@@ -93,13 +136,24 @@ function showConfirmDialog(title, text, callback){
 
 
 	/*
-	Creates the grid and prevents the form from submmiting,
-	which would refresh the page and make the grid dissapear
+	Creates the canvas and prevents the form from submmiting,
+	which would refresh the page and make the canvas dissapear
 	*/
 
 	$('#sizePicker').submit( function(e){
 
-		showConfirmDialog("Confirm", "Are you sure that you want to create a new canvas?", createCanvas);
+		const canvasWidth = $('#inputWidth').val();
+		const canvasHeight = $('#inputHeight').val();
+
+		if (!canvasPropCorrect($('#inputHeight').val(), $('#inputWidth').val())){
+			showInfoDialog('Information', 'The proportions selected are not allowed. Canvas height cannot be more than double the width and vice versa.');
+		}
+		else
+		{
+			const dialogMsg = `Are you sure that you want to create a new ${canvasWidth}x${canvasHeight} canvas?`;
+			showConfirmDialog("Confirm", dialogMsg, createCanvas);
+		}
+
 		e.preventDefault();
 
 	});

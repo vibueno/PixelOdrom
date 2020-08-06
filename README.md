@@ -23,5 +23,6 @@ This project was developed within the frame of the Front End Developer Nanodegre
 ## Instructions
 * Select the width and height and create a new canvas
 * Select a color with the color picker
-* Paint pixels by clicking on them. You can also paint more then one pixel in one go by keeping the mouse button pressed.
+* Paint pixels by clicking on them. You can also paint more then one pixel in one go by dragging the mouse
+* You may reset pixel colors by using the erase tool. Dragging function works for erasing too
 * Click on Save to download your work

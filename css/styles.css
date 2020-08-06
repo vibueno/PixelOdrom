@@ -1,3 +1,9 @@
+/*
+ *
+ * Main
+ *
+ */
+
 header, footer, div {
   box-sizing: border-box;
   display: flex;
@@ -35,6 +41,12 @@ h2:first-of-type {
   margin-top: 0.5em;
 }
 
+/*
+ *
+ * Canvas
+ *
+ */
+
 table {
   border-collapse: collapse;
   margin: 1em auto 1em auto;
@@ -43,15 +55,34 @@ table {
 }
 
 td, tr {
-  height: 5px;
-  width: 5px;
   border: 0.5px solid #ffdde2;
+}
+
+.td-s, .tr-s {
+  height: 10px;
+  width: 10px;
+}
+
+.td-m, .tr-m {
+  height: 25px;
+  width: 25px;
+}
+
+.td-l, .tr-l {
+  height: 30px;
+  width: 30px;
 }
 
 input[type=number] {
   width: 6em;
   border: 1px dotted #d45d79;
 }
+
+/*
+ *
+ * Buttons
+ *
+ */
 
 .toolbox{
   margin: 2em 0 1em 0;
@@ -100,6 +131,12 @@ input[type=number] {
   margin: 2em 0 1em 0;
   justify-content: center;
 }
+
+/*
+ *
+ * Firefox Hacks
+ *
+ */
 
 /*
 Hack needed for compensating the fact that Firefox
@@ -166,9 +203,10 @@ footer a {
 
 /*
  *
- * Dialog
+ * Dialogs
  *
  */
+
 .ui-dialog .ui-dialog-titlebar,
 .ui-dialog .ui-dialog-buttonpane
 {
