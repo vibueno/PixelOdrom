@@ -8,6 +8,25 @@ let selectedTool = toolPaintBrush;
 
 $(function() {
 
+function showConfirmDialog(title, text, callback){
+
+	$( '#dialog' ).attr('title', title);
+	$( '#dialog' ).first('p').text(text);
+
+	$( '#dialog' ).dialog({
+		modal: true,
+		buttons: {
+    	"Yes": function () {
+        $(this).dialog('close');
+        callback();
+      },
+      "No": function () {
+        $(this).dialog('close');
+      }
+    }
+  });
+}
+
 
 	function resetValues(){
 		$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
@@ -50,16 +69,13 @@ $(function() {
 		let pixelCanvas = $( "#pixelCanvas" );
 		let resultDiv = $( "#result" );
 
-		if (isCanvasActive()){
-
-			html2canvas(pixelCanvas.get(0)).then(function (canvas) {
-				let pixelImage = canvas.toDataURL("image/jpeg", 1);
-				let downloadLink = $ ( '#downloadLink' );
-				downloadLink.attr("href", pixelImage)
-			}).then(function(){
-				downloadLink.click();
-			});
-		}
+		html2canvas(pixelCanvas.get(0)).then(function (canvas) {
+			let pixelImage = canvas.toDataURL("image/jpeg", 1);
+			let downloadLink = $ ( '#downloadLink' );
+			downloadLink.attr("href", pixelImage)
+		}).then(function(){
+			downloadLink.click();
+		});
 	}
 
 
@@ -68,16 +84,23 @@ $(function() {
 	}
 
 
-	$('#btnSaveCanvas').click( saveCanvas );
+	$('#btnSaveCanvas').click( function(){
+		if (isCanvasActive()){
+			showConfirmDialog("Confirm", "Are you sure that you want to save this canvas?", saveCanvas);
+		}
+	});
 
 
 	/*
 	Creates the grid and prevents the form from submmiting,
 	which would refresh the page and make the grid dissapear
 	*/
+
 	$('#sizePicker').submit( function(e){
-		createCanvas();
+
+		showConfirmDialog("Confirm", "Are you sure that you want to create a new canvas?", createCanvas);
 		e.preventDefault();
+
 	});
 
 
@@ -89,6 +112,7 @@ $(function() {
 	function selectTool(tool){
 		selectedTool = tool;
 	}
+
 
 	function showToolbox(show){
 		if (show){
@@ -150,9 +174,16 @@ $(function() {
 		e.preventDefault();
 	});
 
-	$('#btnResetCanvas').click(function() {
+
+	function btnResetCanvasClick(){
 		resetCanvas();
 		showToolbox(false);
+	}
+
+	$('#btnResetCanvas').click(function() {
+		if (isCanvasActive()){
+			showConfirmDialog("Confirm", "Are you sure that you want to reset this canvas?", btnResetCanvasClick);
+		}
 	});
 
 	$('#btnToolPaintBrush').click(function() {

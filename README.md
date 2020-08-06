@@ -10,10 +10,11 @@
 This project was developed within the frame of the Front End Developer Nanodegree program at Udacity.
 
 ## Libraries
-* [jQuery](https://jquery.com/)
-* [Font Awesome](https://fontawesome.com/)
-* [jQuery Awesome Cursor](https://jwarby.github.io/jquery-awesome-cursor/)
-* [html2canvas](https://html2canvas.hertzen.com/)
+* [jQuery](https://jquery.com)
+* [jQuery Awesome Cursor](https://jwarby.github.io/jquery-awesome-cursor)
+* [jQuery UI](https://jqueryui.com)
+* [Font Awesome](https://fontawesome.com)
+* [html2canvas](https://html2canvas.hertzen.com)
 
 ## Programming
 * jQuery Event Delegation

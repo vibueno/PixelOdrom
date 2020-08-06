@@ -3,12 +3,16 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Pixel Art Maker</title>
-	<link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Monoton&family=Press+Start+2P&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monoton&display=swap">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Monoton&family=Press+Start+2P&display=swap">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 	<link rel="stylesheet" href="./css/styles.css">
+
 	<link rel="shortcut icon" href="favicon.ico">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
 	<script src="https://cdn.rawgit.com/jwarby/jquery-awesome-cursor/master/dist/jquery.awesome-cursor.min.js"></script>
 	<script src="https://kit.fontawesome.com/3bee1206cd.js" crossorigin="anonymous"></script>
@@ -23,7 +27,7 @@
 		<input type="number" id="inputHeight" name="height" min="1" max="45" value="1">
 		Grid Width:
 		<input type="number" id="inputWidth" name="width" min="1" max="45" value="1">
-		<button type="submit" id="btnMakeGrid" class="btn">
+		<button type="submit" id="btnCreateCanvas" class="btn">
 			<i class="fas fa-th fa-2x"></i>
 		</button>
 	</form>
@@ -51,6 +55,7 @@
 				<li>
 					<span class="footer_credits_title">Libraries & Plugins:</span>
 					<a href="https://jquery.com">jQuery</a>,
+					<a href="https://jqueryui.com">jQuery UI</a>,
 					<a href="https://jwarby.github.io/jquery-awesome-cursor/">jQuery Awesome Cursor</a>,
 					<a href="https://html2canvas.hertzen.com">html2canvas</a>;
 				</li>
@@ -66,5 +71,9 @@
 			</ul>
 		</p>
 	</footer>
+	<div id="dialog" title="Basic dialog">
+	  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+	</div>
+
 </body>
 </html>

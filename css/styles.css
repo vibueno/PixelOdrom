@@ -156,6 +156,33 @@ footer a {
   padding: 0 0 10px 0;
 }
 
+#dialog{
+  display: none;
+}
+
 .footer_credits_title {
   font-weight: 600;
+}
+
+/*
+ *
+ * Dialog
+ *
+ */
+.ui-dialog .ui-dialog-titlebar,
+.ui-dialog .ui-dialog-buttonpane
+{
+  width: 100%;
+}
+
+.ui-dialog .ui-dialog-buttonpane{
+  display: inline-block;
+  text-align: center;
+  padding: .3em .4em .5em .4em;
+}
+
+.ui-dialog .ui-dialog-buttonset{
+  display: inline-block;
+  text-align: center;
+  float: none !important;
 }
