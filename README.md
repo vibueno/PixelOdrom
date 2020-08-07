@@ -1,4 +1,4 @@
-# Pixel Art Maker
+# PixelOdrom
 
 ## Table of Contents
 - [Description](#description)
