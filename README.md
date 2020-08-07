@@ -6,6 +6,7 @@
 - [Programming](#programming)
 - [Usage](#usage)
 - [Samples](#samples)
+- [Improvements](#improvements)
 
 ## Description
 This project was developed within the frame of the Front End Developer Nanodegree program at Udacity.
@@ -30,3 +31,8 @@ This project was developed within the frame of the Front End Developer Nanodegre
 
 ## Samples
 In the folder [samples](https://github.com/vibueno/PixelArtMaker/tree/master/samples), you can find art made with Pixel Art Maker
+
+##Improvements
+* Save & load functions (JSON?)
+* Selectable brush size
+* Replacing colors on canvas (it could be helpful if you have a big surface painted with one color and you decide to change it)
