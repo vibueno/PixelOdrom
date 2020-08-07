@@ -2,12 +2,34 @@
 	h1 {
 		font-size: 2.5em;
 	}
+
+	.input-label {
+		font-size: 1.3em;
+	}
+
+	input[type=number] {
+		width: 50px;
+	}
 }
 
-@media screen and (min-width:600px) {
+@media screen and (min-width:700px) {
 	h1 {
-		font-size: 3.5em;
+		font-size: 3em;
 	}
+
+	.input-label {
+		font-size: 1.4em;
+	}
+
+	.input-field {
+		width: auto;
+		margin: 0 2em 0 0;
+	}
+
+	input[type=number] {
+		width: 50px;
+	}
+
 }
 
 @media screen and (min-width:900px) {
