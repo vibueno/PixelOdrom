@@ -1,6 +1,11 @@
 const toolPaintBrush = 'paint-brush';
 const toolEraser = 'eraser';
-const toolEraserColor = '#ffffff'
+const toolEraserColor = '#ffffff';
+
+const numPixelThreshold1 = 50;
+const numPixelThreshold2 = 100;
+const numPixelThreshold3 = 500;
+const numPixelThreshold4 = 1000;
 
 let mouseIsDown = false;
 let selectedTool = toolPaintBrush;
@@ -73,17 +78,25 @@ $(function() {
 		}
 
 		switch(true) {
-		  case (numpixels>200 && numpixels<=1000):
-		  	canvas.find('tr').addClass('tr-m');
-		    canvas.find('td').addClass('td-m');
-		    break;
-		  case (numpixels<=200):
+		  case (numpixels>=numPixelThreshold1 && numpixels<=numPixelThreshold2):
 		  	canvas.find('tr').addClass('tr-l');
 		    canvas.find('td').addClass('td-l');
 		    break;
-		  default:
+		  case (numpixels>=numPixelThreshold2 && numpixels<=numPixelThreshold3):
+		  	canvas.find('tr').addClass('tr-m');
+		    canvas.find('td').addClass('td-m');
+		    break;
+		  case (numpixels>=numPixelThreshold3 && numpixels<=numPixelThreshold4):
 		  	canvas.find('tr').addClass('tr-s');
 		    canvas.find('td').addClass('td-s');
+		    break;
+		  case (numpixels>numPixelThreshold4):
+		  	canvas.find('tr').addClass('tr-xs');
+		    canvas.find('td').addClass('td-xs');
+		    break;
+		  default:
+		  	canvas.find('tr').addClass('tr-xl');
+		    canvas.find('td').addClass('td-xl');
 		}
 
 		showToolbox(true);

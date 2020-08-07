@@ -79,6 +79,12 @@ tr {
   border: 0.5px solid #ffdde2;
 }
 
+.td-xs,
+.tr-xs {
+  height: 5px;
+  width: 5px;
+}
+
 .td-s,
 .tr-s {
   height: 10px;
@@ -87,14 +93,20 @@ tr {
 
 .td-m,
 .tr-m {
-  height: 25px;
-  width: 25px;
+  height: 15px;
+  width: 15px;
 }
 
 .td-l,
 .tr-l {
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
+}
+
+.td-xl,
+.tr-xl {
+  height: 25px;
+  width: 25px;
 }
 
 /*
