@@ -8,6 +8,7 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 	<link rel="stylesheet" href="./css/styles.css">
+	<link rel="stylesheet" href="./css/responsive.css">
 
 	<link rel="shortcut icon" href="favicon.ico">
 
@@ -19,71 +20,79 @@
 	<script src="./js/app.js"></script>
 </head>
 <body>
+
 	<h1>PixelOdrom</h1>
 
-	<h2>Choose Grid Size</h2>
-	<form id="sizePicker">
-		Grid Width:
-		<input type="number" id="inputWidth" name="width" min="2" max="45" value="2">
-		Grid Height:
-		<input type="number" id="inputHeight" name="height" min="2" max="45" value="2">
-		<button type="submit" id="btnCreateCanvas" class="btn">
-			<i class="fas fa-th fa-2x"></i>
-		</button>
-	</form>
-
-	<div id="toolbox" class= "toolbox">
-		<input type="color" id="colorPicker" class="btn btn-color-picker" value="#000000">
-		<button id="btnToolPaintBrush" class="btn">
-			<i class="fa fa-paint-brush fa-2x"></i>
-		</button>
-		<button id="btnToolEraser" class="btn">
-			<i class="fa fa-eraser fa-2x"></i>
-		</button>
-	</div>
-	<table id="pixelCanvas"></table>
-	<div class="actions">
-		<button id="btnResetCanvas" class="btn btn-reset-canvas">
-			<i class="far fa-trash-alt fa-2x"></i>
-		</button>
-		<div id="result"></div>
-		<a href="" id ="downloadLink" download="PixelArtMaker.jpeg"></a>
-		<button id="btnSaveCanvas" class="btn">
-			<i class="fa fa-floppy-o fa-2x"></i>
-		</button>
-	</div>
-
-	<footer>
-		<div id="credits">
-			<ul class= "footer-credits">
-				<li>
-					Credits:
-					<span class="footer-credits-title">Programming: </span>
-					Víctor Isabel-Bueno;
-				</li>
-				<li>
-					<span class="footer-credits-title">Base HTML and CSS: </span>
-					<a href="https://www.udacity.com/course/front-end-web-developer-nanodegree--nd0011">Udacity Front End Web Developer Nanodegree (Pixel Art Maker)</a>;
-				</li>
-				<li>
-					<span class="footer-credits-title">Libraries & Plugins:</span>
-					<a href="https://jquery.com">jQuery</a>,
-					<a href="https://jqueryui.com">jQuery UI</a>,
-					<a href="https://jwarby.github.io/jquery-awesome-cursor/">jQuery Awesome Cursor</a>,
-					<a href="https://html2canvas.hertzen.com">html2canvas</a>;
-				</li>
-				<li>
-					<span class="footer-credits-title">Color Palette:</span>
-					<a href="https://colorhunt.co/palette/168803">Gal Shir</a>;
-				</li>
-				<li>
-					<span class="footer-credits-title">Fonts:</span>
-					<a href="https://fonts.google.com/specimen/Monoton">Monoton</a>,
-					<a href="https://fontawesome.com">Font Awesome</a>
-				</li>
-			</ul>
+	<div class="main">
+		<div class="input-form-container">
+			<form id="sizePicker" class="size-picker-form">
+				Grid Width:
+				<input type="number" id="inputWidth" name="width" min="2" max="45" value="2">
+				Grid Height:
+				<input type="number" id="inputHeight" name="height" min="2" max="45" value="2">
+				<button type="submit" id="btnCreateCanvas" class="btn">
+					<i class="fas fa-th fa-2x"></i>
+				</button>
+			</form>
 		</div>
-	</footer>
+
+		<div id="toolbox" class= "toolbox">
+			<input type="color" id="colorPicker" class="btn btn-color-picker" value="#000000">
+			<button id="btnToolPaintBrush" class="btn">
+				<i class="fa fa-paint-brush fa-2x"></i>
+			</button>
+			<button id="btnToolEraser" class="btn">
+				<i class="fa fa-eraser fa-2x"></i>
+			</button>
+		</div>
+
+		<div class="canvas-container">
+			<table id="pixelCanvas" class="pixel-canvas-hidden"></table>
+		</div>
+
+		<div id="actionbox" class="actionbox">
+			<button id="btnResetCanvas" class="btn btn-reset-canvas">
+				<i class="far fa-trash-alt fa-2x"></i>
+			</button>
+			<div id="result"></div>
+			<a href="" id ="downloadLink" download="PixelArtMaker.jpeg"></a>
+			<button id="btnSaveCanvas" class="btn">
+				<i class="fa fa-floppy-o fa-2x"></i>
+			</button>
+		</div>
+
+		<footer>
+			<div id="credits">
+				<ul class= "footer-credits">
+					<li>
+						Credits:
+						<span class="footer-credits-title">Programming: </span>
+						Víctor Isabel-Bueno;
+					</li>
+					<li>
+						<span class="footer-credits-title">Base HTML and CSS: </span>
+						<a href="https://www.udacity.com/course/front-end-web-developer-nanodegree--nd0011">Udacity Front End Web Developer Nanodegree (Pixel Art Maker)</a>;
+					</li>
+					<li>
+						<span class="footer-credits-title">Libraries & Plugins:</span>
+						<a href="https://jquery.com">jQuery</a>,
+						<a href="https://jqueryui.com">jQuery UI</a>,
+						<a href="https://jwarby.github.io/jquery-awesome-cursor/">jQuery Awesome Cursor</a>,
+						<a href="https://html2canvas.hertzen.com">html2canvas</a>;
+					</li>
+					<li>
+						<span class="footer-credits-title">Color Palette:</span>
+						<a href="https://colorhunt.co/palette/168803">Gal Shir</a>;
+					</li>
+					<li>
+						<span class="footer-credits-title">Fonts:</span>
+						<a href="https://fonts.google.com/specimen/Monoton">Monoton</a>,
+						<a href="https://fontawesome.com">Font Awesome</a>
+					</li>
+				</ul>
+			</div>
+		</footer>
+	</div>
 
 	<div id="dialog" title="">
 	  <p></p>

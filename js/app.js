@@ -1,17 +1,19 @@
-const toolPaintBrush = 'paint-brush';
-const toolEraser = 'eraser';
-const toolEraserColor = '#ffffff';
-
-const numPixelThreshold1 = 50;
-const numPixelThreshold2 = 100;
-const numPixelThreshold3 = 500;
-const numPixelThreshold4 = 1000;
-
-let mouseIsDown = false;
-let selectedTool = toolPaintBrush;
-
-
 $(function() {
+
+	const pixelCanvasSel = '#pixelCanvas';
+
+	const toolPaintBrush = 'paint-brush';
+	const toolEraser = 'eraser';
+	const toolEraserColor = '#ffffff';
+
+	const numPixelThreshold1 = 50;
+	const numPixelThreshold2 = 100;
+	const numPixelThreshold3 = 500;
+	const numPixelThreshold4 = 1000;
+
+	let mouseIsDown = false;
+	let selectedTool = toolPaintBrush;
+
 
 	function showConfirmDialog(title, text, callback){
 
@@ -32,6 +34,7 @@ $(function() {
 	  });
 	}
 
+
 	function showInfoDialog(title, text){
 
 		$( '#dialog' ).attr('title', title);
@@ -47,6 +50,7 @@ $(function() {
 	  });
 	}
 
+
 	function resetValues(){
 		$('#inputWidth').val($('#inputWidth').prop("defaultValue"));
 		$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
@@ -54,14 +58,13 @@ $(function() {
 	}
 
 
-	function createCanvas(height, width) {
+	function createCanvas() {
 
 		const canvasWidth = $('#inputWidth').val();
 		const canvasHeight = $('#inputHeight').val();
 
 		const numpixels = canvasWidth*canvasHeight;
-		const canvas = $ ('#pixelCanvas');
-		const canvasRows = $ ('#pixelCanvas tr');
+		const canvas = $ ( pixelCanvasSel );
 		const row = '<tr></tr>';
 		const column = '<td></td>';
 		let lastRow;
@@ -100,8 +103,11 @@ $(function() {
 		}
 
 		showToolbox(true);
+		showActionbox(true);
 		selectedTool = toolPaintBrush;
+		canvas.removeClass('pixel-canvas-hidden');
 	}
+
 
 	function canvasPropCorrect(width, height){
 
@@ -118,13 +124,16 @@ $(function() {
 
 
 	function resetCanvas(){
+		const canvas = $ (pixelCanvasSel);
 		const canvasRows = $ ('#pixelCanvas tr');
+
 		canvasRows.remove();
+		canvas.addClass('pixel-canvas-hidden');
 	}
 
 
 	function saveCanvas(){
-		let pixelCanvas = $( "#pixelCanvas" );
+		let pixelCanvas = $( pixelCanvasSel );
 		let resultDiv = $( "#result" );
 
 		html2canvas(pixelCanvas.get(0)).then(function (canvas) {
@@ -138,7 +147,7 @@ $(function() {
 
 
 	function isCanvasActive(){
-		return $('#pixelCanvas tr').length;
+		return $(pixelCanvasSel + ' tr').length;
 	}
 
 	$('#btnSaveCanvas').click( function(){
@@ -193,6 +202,17 @@ $(function() {
 	}
 
 
+	function showActionbox(show){
+		if (show){
+			$('#actionbox').removeClass('actionbox-hidden');
+		}
+		else
+		{
+			$('#actionbox').addClass('actionbox-hidden');
+		}
+	}
+
+
 	function paintPixel(pixel){
 		if ((selectedTool) == toolPaintBrush){
 			$ ( pixel ).css( "background-color", $('#colorPicker').val());
@@ -207,18 +227,18 @@ $(function() {
 	/*
 	Handling canvas events with delegation
 	*/
-	$('#pixelCanvas').on('mousedown', 'td', function() {
+	$( pixelCanvasSel ).on('mousedown', 'td', function() {
 		mouseIsDown=true;
 		paintPixel(this);
 	});
 
-	$('#pixelCanvas').on('mouseover', 'td', function() {
+	$( pixelCanvasSel ).on('mouseover', 'td', function() {
 		if (mouseIsDown){
 			paintPixel(this);
 		}
 	});
 
-	$('#pixelCanvas').on('mouseover', function() {
+	$( pixelCanvasSel ).on('mouseover', function() {
 		$( this ).awesomeCursor(selectedTool, {
 			hotspot: [2, 15]
 		});
@@ -238,7 +258,7 @@ $(function() {
 	Prevents dragging on already painted pixels,
 	which otherwise may behave together like an image
 	*/
-	$('#pixelCanvas').on('dragstart', function (e) {
+	$( pixelCanvasSel ).on('dragstart', function (e) {
 		e.preventDefault();
 	});
 
@@ -246,6 +266,7 @@ $(function() {
 	function btnResetCanvasClick(){
 		resetCanvas();
 		showToolbox(false);
+		showActionbox(false);
 	}
 
 	$('#btnResetCanvas').click(function() {
@@ -254,15 +275,19 @@ $(function() {
 		}
 	});
 
+
 	$('#btnToolPaintBrush').click(function() {
 		selectTool(toolPaintBrush);
 	});
+
 
 	$('#btnToolEraser').click(function() {
 		selectTool(toolEraser);
 	});
 
+
 	resetValues();
 	showToolbox(false);
+	showActionbox(false);
 
 });

@@ -4,9 +4,28 @@
  *
  */
 
+img,
+embeb,
+object,
+video {
+  max-width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body,
+html {
+  margin: 0 auto 0 auto;
+  padding: 0;
+  width: 100%;
+}
+
 header,
 footer,
-div {
+div,
+form {
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -23,16 +42,18 @@ body {
   background-color: #e9e2d0;
   width: 90%;
   margin: auto;
+  font-size: 17px;
 }
 
 h1 {
   font-family: "Monoton", cursive;
   font-size: 4.5em;
   font-weight: 500;
-  margin: 0.2em 0 0.2em 0;
+  margin: auto;
   color: #ea9085;
   background-color: #6e5773;
   border: 2px dotted #d45d79;
+  max-width: 1400px;
 }
 
 h2 {
@@ -43,21 +64,42 @@ h2:first-of-type {
   margin-top: 0.5em;
 }
 
+.main{
+	max-width: 1400px;
+	margin: auto;
+}
+
 /*
  *
  * Input fields
  *
  */
 
+ .input-form-container{
+ 	width: 100%;
+	border: 2px dotted #d45d79;
+	margin: 1.5em auto 0.5em auto;
+	padding: 0.5em 0 0.5em 0;
+	justify-content: center;
+ }
+
+ .size-picker-form {
+ 	align-items: center;
+ }
+
 input[type=number] {
-  width: 6em;
-  border: 1px dotted #d45d79;
+  width: 4em;
+  border: 1px dotted #6e5773;
+  position: relative;
+  display: inline-block;
 }
 
 input[type=color] {
 	-webkit-appearance: none;
 	width: 32px;
 	height: 32px;
+	position: relative;
+	display: inline-block;
 }
 
 
@@ -66,6 +108,14 @@ input[type=color] {
  * Canvas
  *
  */
+
+.canvas-container{
+	width: 100%;
+}
+
+.pixel-canvas-hidden{
+	display: none;
+}
 
 table {
   border-collapse: collapse;
@@ -118,6 +168,7 @@ tr {
 .toolbox {
   margin: 2em 0 1em 0;
   justify-content: center;
+  width: 100%;
 }
 
 .toolbox-hidden {
@@ -158,9 +209,14 @@ tr {
   padding: 4px 4px 4px 4px;
 }
 
-.actions {
-  margin: 2em 0 1em 0;
+.actionbox {
+  margin: 1.5em 0 1em 0;
   justify-content: center;
+  width: 100%;
+}
+
+.actionbox-hidden {
+  display: none;
 }
 
 /*
