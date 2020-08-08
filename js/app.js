@@ -73,7 +73,7 @@ $(function() {
 
 		for (let i=1; i<=canvasHeight; i++){
 			canvas.append(row);
-			lastRow = $('#pixelCanvas tr').last();
+			lastRow = $(pixelCanvasSel + ' tr').last();
 
 			for (let j=1; j<=canvasWidth; j++){
 				lastRow.append(column);
@@ -125,7 +125,7 @@ $(function() {
 
 	function resetCanvas(){
 		const canvas = $ (pixelCanvasSel);
-		const canvasRows = $ ('#pixelCanvas tr');
+		const canvasRows = $ (pixelCanvasSel + ' tr');
 
 		canvasRows.remove();
 		canvas.addClass('pixel-canvas-hidden');
@@ -133,6 +133,7 @@ $(function() {
 
 
 	function saveCanvas(){
+		/*
 		let pixelCanvas = $( pixelCanvasSel );
 		let resultDiv = $( "#result" );
 
@@ -143,6 +144,14 @@ $(function() {
 		}).then(function(){
 			downloadLink.click();
 		});
+		*/
+
+		canvasContent = $(pixelCanvasSel).html();
+		console.log (canvasContent);
+
+    const blob = new Blob([canvasContent], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "canvas.pix");
+
 	}
 
 
