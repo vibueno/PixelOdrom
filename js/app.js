@@ -154,6 +154,10 @@ $(function() {
 
 	}
 
+	function loadCanvas(){
+		console.log("Loading canvas");
+	}
+
 
 	function isCanvasActive(){
 		return $(pixelCanvasSel + ' tr').length;
@@ -171,12 +175,12 @@ $(function() {
 	which would refresh the page and make the canvas dissapear
 	*/
 
-	$('#sizePicker').submit( function(e){
+	$('#btnCreateCanvas').click( function(e){
 
 		const canvasWidth = $('#inputWidth').val();
 		const canvasHeight = $('#inputHeight').val();
 
-		if (!canvasPropCorrect($('#inputHeight').val(), $('#inputWidth').val())){
+		if (!canvasPropCorrect(canvasHeight, canvasWidth)){
 			showInfoDialog('Information', 'The proportions selected are not allowed. Canvas height cannot be more than double the width and vice versa.');
 		}
 		else
@@ -185,9 +189,15 @@ $(function() {
 			showConfirmDialog("Confirm", dialogMsg, createCanvas);
 		}
 
-		e.preventDefault();
+	});
+
+	$('#btnLoadCanvas').click( function(e){
+
+		const dialogMsg = "Are you sure that you want to load a previously saved canvas?";
+		showConfirmDialog("Confirm", dialogMsg, loadCanvas);
 
 	});
+
 
 
 	$('#colorPicker').change( function(e){

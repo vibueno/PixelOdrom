@@ -30,9 +30,9 @@ This project was developed within the frame of the Front End Developer Nanodegre
 * Click on Save to download your work
 
 ## Samples
-In the folder [samples](https://github.com/vibueno/PixelArtMaker/tree/master/samples), you can find art made with Pixel Art Maker
+In the folder [samples](https://github.com/vibueno/PixelOdrom/tree/master/samples), you can find art made with PixelOdrom
 
-##Improvements
-* Save & load functions (JSON?)
+## Improvements
+* Save & load functions (HTML)
 * Selectable brush size
 * Replacing colors on canvas (it could be helpful if you have a big surface painted with one color and you decide to change it)

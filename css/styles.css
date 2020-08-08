@@ -24,8 +24,7 @@ html {
 
 header,
 footer,
-div,
-form {
+div {
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -84,7 +83,7 @@ h2:first-of-type {
 }
 
 .input-field {
-	margin: 0 0.5em 1em 0.5em;
+	margin: 0 0.3em 1em 0.5em;
 	width: 100%;
 	justify-content: center;
 	align-items: center;
@@ -241,7 +240,7 @@ tr {
 
 /*
  *
- * Firefox Hacks
+ * Hacks
  *
  */
 
@@ -264,6 +263,16 @@ Weirdly enough, a padding 0 solves the issue
   .btn-reset-canvas{
     padding: 0 !important;
   }
+}
+
+
+/*
+Hack for Chrome so that up/down arrows for input number
+are always shown
+*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+   opacity: 1;
 }
 
 /*
