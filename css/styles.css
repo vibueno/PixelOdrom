@@ -128,55 +128,53 @@ input[type=color] {
  *
  */
 
-.canvas-container{
-	width: 100%;
+#pixelCanvas {
+	table-layout: fixed;
+  margin: auto;
+  border-collapse: collapse;
+  border: 2px solid #6e5773;
+  background-color: #fff;
+  position: relative;
+  max-width: 100%;
 }
 
 .pixel-canvas-hidden{
 	display: none;
 }
 
-table {
-  border-collapse: collapse;
-  margin: 1em auto 1em auto;
-  border: 2px solid #6e5773;
-  background-color: #fff;
+.pixel-canvas{
+	display: block;
 }
 
-td,
-tr {
+#pixelCanvas td,
+#pixelCanvas tr {
   border: 0.5px solid #ffdde2;
-}
-
-.td-xs,
-.tr-xs {
-  height: 4px;
-  width: 4px;
 }
 
 .td-s,
 .tr-s {
+	width: 10px;
   height: 10px;
-  width: 10px;
 }
 
 .td-m,
 .tr-m {
-  height: 15px;
   width: 15px;
+  height: 15px;
 }
 
 .td-l,
 .tr-l {
-  height: 20px;
   width: 20px;
+  height: 20px;
 }
 
 .td-xl,
 .tr-xl {
-  height: 25px;
   width: 25px;
+  height: 25px;
 }
+
 
 /*
  *

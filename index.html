@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>PixelOdrom</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monoton&display=swap">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Monoton&family=Press+Start+2P&display=swap">
-	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Monofett&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
@@ -31,12 +30,12 @@
 			<div id="sizePicker" class="size-picker-form">
 				<div class="input-field">
 					<label for="inputWidth" class="input-label">Grid Width:</label>
-					<input type="number" id="inputWidth" name="width" min="2" max="45" value="2">
+					<input type="number" id="inputWidth" name="width" min="2" value="2">
 				</div>
 
 				<div class="input-field">
 					<label for="inputHeight" class="input-label">Grid Height:</label>
-					<input type="number" id="inputHeight" name="height" min="2" max="45" value="2">
+					<input type="number" id="inputHeight" name="height" min="2" value="2">
 				</div>
 				<div>
 					<button type="submit" id="btnCreateCanvas" class="btn">
@@ -60,9 +59,7 @@
 			</button>
 		</div>
 
-		<div class="canvas-container">
-			<table id="pixelCanvas" class="pixel-canvas-hidden"></table>
-		</div>
+		<table id="pixelCanvas" class="pixel-canvas-hidden"></table>
 
 		<div id="actionbox" class="actionbox">
 			<button id="btnResetCanvas" class="btn btn-reset-canvas">

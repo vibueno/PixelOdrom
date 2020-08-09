@@ -9,11 +9,15 @@ $(function() {
 	const numPixelThreshold1 = 50;
 	const numPixelThreshold2 = 100;
 	const numPixelThreshold3 = 500;
-	const numPixelThreshold4 = 1000;
 
 	let mouseIsDown = false;
 	let selectedTool = toolPaintBrush;
 
+	/*
+	*
+	* Dialogs
+	*
+	*/
 
 	function showConfirmDialog(title, text, callback){
 
@@ -51,6 +55,13 @@ $(function() {
 	}
 
 
+	/*
+	*
+	* Input fields
+	*
+	*/
+
+
 	function resetValues(){
 		$('#inputWidth').val($('#inputWidth').prop("defaultValue"));
 		$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
@@ -58,12 +69,18 @@ $(function() {
 	}
 
 
+	/*
+	*
+	* Canvas
+	*
+	*/
+
 	function createCanvas() {
 
-		const canvasWidth = $('#inputWidth').val();
-		const canvasHeight = $('#inputHeight').val();
+		const canvasNumPixX = parseInt($('#inputWidth').val());
+		const canvasNumPixY = parseInt($('#inputHeight').val());
 
-		const numpixels = canvasWidth*canvasHeight;
+		const numpixels = canvasNumPixX*canvasNumPixY;
 		const canvas = $ ( pixelCanvasSel );
 		const row = '<tr></tr>';
 		const column = '<td></td>';
@@ -71,41 +88,45 @@ $(function() {
 
 		resetCanvas();
 
-		for (let i=1; i<=canvasHeight; i++){
-			canvas.append(row);
-			lastRow = $(pixelCanvasSel + ' tr').last();
+		canvas.append(row);
+		lastRow = $(pixelCanvasSel + ' tr').last();
+		lastRow.append(column);
 
-			for (let j=1; j<=canvasWidth; j++){
-				lastRow.append(column);
+		addPixelClass(canvas, numpixels);
+
+		const pixelWidth = parseInt(canvas.find("tr td:first-child").first().css("height").replace('px', ''));
+		const bodyWidth = parseInt($("body").css("width").replace('px', ''));
+
+		console.log(pixelWidth);
+		console.log(canvasNumPixX);
+		console.log(bodyWidth-60);
+
+		if (pixelWidth*canvasNumPixX > bodyWidth-100){
+			showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.");
+			resetCanvas();
+		}
+		else
+		{
+
+			resetCanvas();
+
+			for (let i=1; i<=canvasNumPixY; i++){
+				canvas.append(row);
+				lastRow = $(pixelCanvasSel + ' tr').last();
+
+				for (let j=1; j<=canvasNumPixX; j++){
+					lastRow.append(column);
+				}
 			}
-		}
 
-		switch(true) {
-		  case (numpixels>=numPixelThreshold1 && numpixels<=numPixelThreshold2):
-		  	canvas.find('tr').addClass('tr-l');
-		    canvas.find('td').addClass('td-l');
-		    break;
-		  case (numpixels>=numPixelThreshold2 && numpixels<=numPixelThreshold3):
-		  	canvas.find('tr').addClass('tr-m');
-		    canvas.find('td').addClass('td-m');
-		    break;
-		  case (numpixels>=numPixelThreshold3 && numpixels<=numPixelThreshold4):
-		  	canvas.find('tr').addClass('tr-s');
-		    canvas.find('td').addClass('td-s');
-		    break;
-		  case (numpixels>numPixelThreshold4):
-		  	canvas.find('tr').addClass('tr-xs');
-		    canvas.find('td').addClass('td-xs');
-		    break;
-		  default:
-		  	canvas.find('tr').addClass('tr-xl');
-		    canvas.find('td').addClass('td-xl');
-		}
+			addPixelClass(canvas, numpixels);
 
-		showToolbox(true);
-		showActionbox(true);
-		selectedTool = toolPaintBrush;
-		canvas.removeClass('pixel-canvas-hidden');
+			showToolbox(true);
+			showActionbox(true);
+			selectedTool = toolPaintBrush;
+			canvas.removeClass('pixel-canvas-hidden');
+			canvas.addClass('pixel-canvas');
+		}
 	}
 
 
@@ -129,22 +150,11 @@ $(function() {
 
 		canvasRows.remove();
 		canvas.addClass('pixel-canvas-hidden');
+		canvas.removeClass('pixel-canvas');
 	}
 
 
 	function saveCanvas(){
-		/*
-		let pixelCanvas = $( pixelCanvasSel );
-		let resultDiv = $( "#result" );
-
-		html2canvas(pixelCanvas.get(0)).then(function (canvas) {
-			let pixelImage = canvas.toDataURL("image/jpeg", 1);
-			let downloadLink = $ ( '#downloadLink' );
-			downloadLink.attr("href", pixelImage)
-		}).then(function(){
-			downloadLink.click();
-		});
-		*/
 
 		canvasContent = $(pixelCanvasSel).html();
 		console.log (canvasContent);
@@ -168,6 +178,94 @@ $(function() {
 			showConfirmDialog("Confirm", "Are you sure that you want to save this canvas?", saveCanvas);
 		}
 	});
+
+	function addPixelClass(canvas, numpixels){
+
+		switch(true) {
+	  case (numpixels>=numPixelThreshold1 && numpixels<=numPixelThreshold2):
+	  	canvas.find('tr').addClass('tr-l');
+	    canvas.find('td').addClass('td-l');
+	    break;
+	  case (numpixels>=numPixelThreshold2 && numpixels<=numPixelThreshold3):
+	  	canvas.find('tr').addClass('tr-m');
+	    canvas.find('td').addClass('td-m');
+	    break;
+	  case (numpixels>=numPixelThreshold3):
+	  	canvas.find('tr').addClass('tr-s');
+	    canvas.find('td').addClass('td-s');
+	    break;
+	  default:
+	  	canvas.find('tr').addClass('tr-xl');
+	    canvas.find('td').addClass('td-xl');
+
+	  }
+	}
+
+	function paintPixel(pixel){
+		if ((selectedTool) == toolPaintBrush){
+			$ ( pixel ).css( "background-color", $('#colorPicker').val());
+		}
+		else
+		{
+			$ ( pixel ).css( "background-color", toolEraserColor);
+		}
+	}
+
+	/*
+	*
+	* Toolbox
+	*
+	*/
+
+	function selectTool(tool){
+		selectedTool = tool;
+	}
+
+
+	function showToolbox(show){
+		if (show){
+			$('#toolbox').removeClass('toolbox-hidden');
+		}
+		else
+		{
+			$('#toolbox').addClass('toolbox-hidden');
+		}
+	}
+
+
+	/*
+	*
+	* Action box
+	*
+	*/
+
+	function showActionbox(show){
+		if (show){
+			$('#actionbox').removeClass('actionbox-hidden');
+		}
+		else
+		{
+			$('#actionbox').addClass('actionbox-hidden');
+		}
+	}
+
+	function btnResetCanvasClick(){
+		resetCanvas();
+		showToolbox(false);
+		showActionbox(false);
+	}
+
+	/*
+	*
+	* Events
+	*
+	*/
+
+	/*
+	*
+	* Canvas events
+	*
+	*/
 
 
 	/*
@@ -199,48 +297,9 @@ $(function() {
 	});
 
 
-
 	$('#colorPicker').change( function(e){
 		selectTool(toolPaintBrush);
 	});
-
-
-	function selectTool(tool){
-		selectedTool = tool;
-	}
-
-
-	function showToolbox(show){
-		if (show){
-			$('#toolbox').removeClass('toolbox-hidden');
-		}
-		else
-		{
-			$('#toolbox').addClass('toolbox-hidden');
-		}
-	}
-
-
-	function showActionbox(show){
-		if (show){
-			$('#actionbox').removeClass('actionbox-hidden');
-		}
-		else
-		{
-			$('#actionbox').addClass('actionbox-hidden');
-		}
-	}
-
-
-	function paintPixel(pixel){
-		if ((selectedTool) == toolPaintBrush){
-			$ ( pixel ).css( "background-color", $('#colorPicker').val());
-		}
-		else
-		{
-			$ ( pixel ).css( "background-color", toolEraserColor);
-		}
-	}
 
 
 	/*
@@ -282,11 +341,11 @@ $(function() {
 	});
 
 
-	function btnResetCanvasClick(){
-		resetCanvas();
-		showToolbox(false);
-		showActionbox(false);
-	}
+	/*
+	*
+	* Action box events
+	*
+	*/
 
 	$('#btnResetCanvas').click(function() {
 		if (isCanvasActive()){
@@ -294,6 +353,12 @@ $(function() {
 		}
 	});
 
+
+	/*
+	*
+	* Toolbox events
+	*
+	*/
 
 	$('#btnToolPaintBrush').click(function() {
 		selectTool(toolPaintBrush);
@@ -304,6 +369,12 @@ $(function() {
 		selectTool(toolEraser);
 	});
 
+
+	/*
+	*
+	* Initial calls
+	*
+	*/
 
 	resetValues();
 	showToolbox(false);
