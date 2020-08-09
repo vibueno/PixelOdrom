@@ -236,6 +236,11 @@ input[type=color] {
   display: none;
 }
 
+.create-canvas-input-hidden {
+  display: none;
+}
+
+
 /*
  *
  * Hacks

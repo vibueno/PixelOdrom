@@ -165,9 +165,27 @@ $(function() {
 	}
 
 	function loadCanvas(){
-		console.log("Loading canvas");
+		$("#btnCreateCanvasInput").trigger('click');
 	}
 
+
+	function readTextFile(file)
+	{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+      if(rawFile.readyState === 4)
+      {
+        if(rawFile.status === 200 || rawFile.status == 0)
+        {
+          var allText = rawFile.responseText;
+          alert(allText);
+        }
+      }
+    }
+    rawFile.send(null);
+	}
 
 	function isCanvasActive(){
 		return $(pixelCanvasSel + ' tr').length;
@@ -381,3 +399,13 @@ $(function() {
 	showActionbox(false);
 
 });
+
+
+$("i").click(function () {
+
+});
+
+$('input[type="file"]').on('change', function() {
+  var val = $(this).val();
+  $(this).siblings('span').text(val);
+})

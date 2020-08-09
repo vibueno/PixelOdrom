@@ -38,13 +38,17 @@
 					<input type="number" id="inputHeight" name="height" min="2" value="2">
 				</div>
 				<div>
-					<button type="submit" id="btnCreateCanvas" class="btn">
+					<button id="btnCreateCanvas" class="btn">
 						<i class="fas fa-th fa-2x"></i>
 					</button>
 
-					<button type="submit" id="btnLoadCanvas" class="btn">
-						<i class="fas fa-folder-open fa-2x"></i>
-					</button>
+					<div id="btnLoadCanvasWrapper">
+					  <button id="btnLoadCanvas" class="btn">
+					  	<i class="fas fa-folder-open fa-2x"></i>
+					  </button>
+					  <input type="file" id="btnCreateCanvasInput" class="create-canvas-input-hidden">
+					</div>
+
 				</div>
 			</div>
 		</div>
