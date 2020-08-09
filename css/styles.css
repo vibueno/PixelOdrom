@@ -292,7 +292,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 footer ul {
-  text-align: center;
   width: 100%;
   padding: 0 0 10px 0;
 }
@@ -300,6 +299,7 @@ footer ul {
 footer li {
   display: inline;
   margin: 0 0.5em;
+  text-align: center;
 }
 
 footer a {
@@ -307,17 +307,23 @@ footer a {
   color: #333;
 }
 
-.footer-credits {
+.footer-credits,
+.footer-samples
+ {
+ 	width: 100%;
   font-size: 0.7em;
   margin: 5px 0 0 0;
   padding: 0 0 10px 0;
+  align-content: center;
 }
 
 #dialog{
   display: none;
 }
 
-.footer-credits-title {
+.footer-credits-title,
+.footer-samples-title
+ {
   font-weight: 600;
 }
 
@@ -326,6 +332,10 @@ footer a {
  * Dialog
  *
  */
+
+.ui-dialog {
+	max-width: 100%;
+}
 
 .ui-dialog .ui-dialog-titlebar,
 .ui-dialog .ui-dialog-buttonpane
