@@ -3,7 +3,7 @@ $(function() {
 	const pixelCanvasSel = '#pixelCanvas';
 
 	const toolPaintBrush = 'paint-brush';
-	const toolEraser = 'eraser';
+	const toolEraser = 'crosshairs';
 	const toolEraserColor = '#ffffff';
 
 	const numPixelThreshold1 = 50;
@@ -165,7 +165,7 @@ $(function() {
 	}
 
 	function loadCanvas(){
-		$("#btnCreateCanvasInput").trigger('click');
+		$("#btnLoadCanvasInput").trigger('click');
 	}
 
 
@@ -335,9 +335,17 @@ $(function() {
 	});
 
 	$( pixelCanvasSel ).on('mouseover', function() {
-		$( this ).awesomeCursor(selectedTool, {
-			hotspot: [2, 15]
-		});
+
+		if (selectedTool==toolPaintBrush){
+			$( this ).awesomeCursor(selectedTool, {
+				hotspot: [2, 15]
+			});
+		}
+		else{
+			$( this ).awesomeCursor(selectedTool, {
+				hotspot: [10, 5]
+			});
+		}
 	});
 
 
@@ -399,13 +407,3 @@ $(function() {
 	showActionbox(false);
 
 });
-
-
-$("i").click(function () {
-
-});
-
-$('input[type="file"]').on('change', function() {
-  var val = $(this).val();
-  $(this).siblings('span').text(val);
-})

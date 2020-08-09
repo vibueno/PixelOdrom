@@ -236,7 +236,7 @@ input[type=color] {
   display: none;
 }
 
-.create-canvas-input-hidden {
+#btnLoadCanvasInput {
   display: none;
 }
 
