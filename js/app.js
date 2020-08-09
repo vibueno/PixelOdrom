@@ -4,7 +4,6 @@ $(function() {
 
 	const toolPaintBrush = 'paint-brush';
 	const toolEraser = 'crosshairs';
-	const toolEraserColor = '#ffffff';
 
 	const numPixelThreshold1 = 50;
 	const numPixelThreshold2 = 100;
@@ -97,10 +96,6 @@ $(function() {
 		const pixelWidth = parseInt(canvas.find("tr td:first-child").first().css("height").replace('px', ''));
 		const bodyWidth = parseInt($("body").css("width").replace('px', ''));
 
-		console.log(pixelWidth);
-		console.log(canvasNumPixX);
-		console.log(bodyWidth-60);
-
 		if (pixelWidth*canvasNumPixX > bodyWidth-100){
 			showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.");
 			resetCanvas();
@@ -126,6 +121,7 @@ $(function() {
 			selectedTool = toolPaintBrush;
 			canvas.removeClass('pixel-canvas-hidden');
 			canvas.addClass('pixel-canvas');
+
 		}
 	}
 
@@ -156,8 +152,13 @@ $(function() {
 
 	function saveCanvas(){
 
-		canvasContent = $(pixelCanvasSel).html();
-		console.log (canvasContent);
+		let canvas = $(pixelCanvasSel);
+
+		//removing classes since they are not needed
+		canvas.find('tr').removeAttr("class");
+		canvas.find('tr td').removeAttr("class");
+
+		const canvasContent = canvas.html();
 
     const blob = new Blob([canvasContent], {type: "text/plain;charset=utf-8"});
     saveAs(blob, "canvas.pix");
@@ -225,7 +226,7 @@ $(function() {
 		}
 		else
 		{
-			$ ( pixel ).css( "background-color", toolEraserColor);
+			$ ( pixel ).removeAttr("style");
 		}
 	}
 
