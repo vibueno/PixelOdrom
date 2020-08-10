@@ -138,7 +138,7 @@ function setUpCanvas(){
 
 	showToolbox(true);
 	showActionbox(true);
-	selectedTool = toolPaintBrush;
+	selectTool(toolPaintBrush);
 	canvas.removeClass('pixel-canvas-hidden');
 	canvas.addClass('pixel-canvas');
 }
@@ -334,6 +334,18 @@ function paintPixel(pixel){
 
 function selectTool(tool){
 	selectedTool = tool;
+
+	switch(selectedTool) {
+	  case toolPaintBrush:
+	  	$( "#btnToolEraser").removeClass("btn-pressed");
+	    $( "#btnToolPaintBrush").addClass("btn-pressed");
+	    break;
+	  case toolEraser:
+	  	$( "#btnToolPaintBrush").removeClass("btn-pressed");
+	  	$( "#btnToolEraser").addClass("btn-pressed");
+	    break;
+	}
+
 }
 
 

@@ -226,6 +226,14 @@ input[type=color] {
   padding: 4px 4px 4px 4px;
 }
 
+#btnToolPaintBrush.btn-pressed,
+#btnToolEraser.btn-pressed {
+  color: #d45d79;
+  border: 2px dotted #d45d79;
+  transform: translateY(1px);
+}
+
+
 .actionbox {
   margin: 1.5em 0 1em 0;
   justify-content: center;
