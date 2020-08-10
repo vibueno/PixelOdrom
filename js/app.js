@@ -185,6 +185,7 @@ function createCanvas() {
 
 	if (!enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY)){
 		deleteCanvas();
+		setUpPixelOdrom();
 		showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.");
 	}
 	else
