@@ -7,7 +7,7 @@
 const pixelCanvasSel = '#pixelCanvas';
 
 const toolPaintBrush = 'paint-brush';
-const toolEraser = 'crosshairs';
+const toolEraser = 'eraser';
 
 const numPixelThreshold1 = 50;
 const numPixelThreshold2 = 100;
@@ -492,7 +492,7 @@ $(function() {
 		}
 		else
 		{
-			cursorHotspot=[10, 5];
+			cursorHotspot=[2, 15];
 		}
 
 		$( this ).awesomeCursor(selectedTool, {

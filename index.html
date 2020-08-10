@@ -16,7 +16,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script src="https://cdn.rawgit.com/jwarby/jquery-awesome-cursor/master/dist/jquery.awesome-cursor.min.js"></script>
-	<script src="https://kit.fontawesome.com/3bee1206cd.js" crossorigin="anonymous"></script>
+
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
 
 	<script src="./js/app.js"></script>
 	<script src="./js/FileSaver.js"></script>
@@ -39,12 +40,12 @@
 				</div>
 				<div>
 					<button id="btnCreateCanvas" class="btn">
-						<i class="fas fa-th fa-2x"></i>
+						<i class="fa fa-th fa-2x"></i>
 					</button>
 
 					<div id="btnLoadCanvasWrapper">
 					  <button id="btnLoadCanvas" class="btn">
-					  	<i class="fas fa-folder-open fa-2x"></i>
+					  	<i class="fa fa-folder-open fa-2x"></i>
 					  </button>
 					  <input type="file" id="btnLoadCanvasInput" class="load-canvas-input-hidden" onchange="loadCanvas(this)">
 					</div>
@@ -59,7 +60,7 @@
 				<i class="fa fa-paint-brush fa-2x"></i>
 			</button>
 			<button id="btnToolEraser" class="btn">
-				<i class="fa fa-crosshairs fa-2x"></i>
+				<i class="fa fa-eraser fa-2x"></i>
 			</button>
 		</div>
 
@@ -67,7 +68,7 @@
 
 		<div id="actionbox" class="actionbox">
 			<button id="btnResetCanvas" class="btn btn-reset-canvas">
-				<i class="far fa-trash-alt fa-2x"></i>
+				<i class="fa fa-trash fa-2x"></i>
 			</button>
 
 			<button id="btnSaveCanvas" class="btn">
@@ -119,7 +120,7 @@
 
 		</footer>
 	</div>
-
+	<!-- This div is used for showing dialogs -->
 	<div id="dialog" title="">
 	  <p></p>
 	</div>
