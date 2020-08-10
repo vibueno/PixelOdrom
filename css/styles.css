@@ -48,7 +48,7 @@ h1 {
   font-family: "Monoton";
   font-size: 1.5em;
   font-weight: 500;
-  margin: auto;
+  margin: 0.5em auto auto auto;
   color: #ea9085;
   background-color: #6e5773;
   border: 2px dotted #d45d79;

@@ -1,278 +1,382 @@
-$(function() {
+/*
+*
+* Constants
+*
+*/
 
-	const pixelCanvasSel = '#pixelCanvas';
+const pixelCanvasSel = '#pixelCanvas';
 
-	const toolPaintBrush = 'paint-brush';
-	const toolEraser = 'crosshairs';
+const toolPaintBrush = 'paint-brush';
+const toolEraser = 'crosshairs';
 
-	const numPixelThreshold1 = 50;
-	const numPixelThreshold2 = 100;
-	const numPixelThreshold3 = 500;
+const numPixelThreshold1 = 50;
+const numPixelThreshold2 = 100;
+const numPixelThreshold3 = 500;
 
-	let mouseIsDown = false;
-	let selectedTool = toolPaintBrush;
+const cursorColor="#888888";
 
-	/*
-	*
-	* Dialogs
-	*
-	*/
+const row = '<tr></tr>';
+const column = '<td></td>';
 
-	function showConfirmDialog(title, text, callback){
+/*
+*
+* Globals
+*
+*/
 
-		$( '#dialog' ).attr('title', title);
-		$( '#dialog' ).first('p').text(text);
+let mouseIsDown = false;
+let selectedTool = toolPaintBrush;
 
-		$( '#dialog' ).dialog({
-			modal: true,
-			buttons: {
-	    	"Yes": function () {
-	        $(this).dialog('close');
-	        callback();
-	      },
-	      "No": function () {
-	        $(this).dialog('close');
-	      }
-	    }
-	  });
-	}
+/*
+*
+* General
+*
+*/
 
+function setUpPixelOdrom(){
+	resetValues();
+	showToolbox(false);
+	showActionbox(false);
+}
 
-	function showInfoDialog(title, text){
+/*
+*
+* Dialogs
+*
+*/
 
-		$( '#dialog' ).attr('title', title);
-		$( '#dialog' ).first('p').text(text);
+function showConfirmDialog(title, text, callback){
 
-		$( '#dialog' ).dialog({
-			modal: true,
-			buttons: {
-	    	"OK": function () {
-	        $(this).dialog('close');
-	      }
-	    }
-	  });
-	}
+	$( '#dialog' ).attr('title', title);
+	$( '#dialog' ).first('p').text(text);
 
-
-	/*
-	*
-	* Input fields
-	*
-	*/
-
-
-	function resetValues(){
-		$('#inputWidth').val($('#inputWidth').prop("defaultValue"));
-		$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
-		$('#colorPicker').val($('#colorPicker').prop("defaultValue"));
-	}
-
-
-	/*
-	*
-	* Canvas
-	*
-	*/
-
-	function createCanvas() {
-
-		const canvasNumPixX = parseInt($('#inputWidth').val());
-		const canvasNumPixY = parseInt($('#inputHeight').val());
-
-		const numpixels = canvasNumPixX*canvasNumPixY;
-		const canvas = $ ( pixelCanvasSel );
-		const row = '<tr></tr>';
-		const column = '<td></td>';
-		let lastRow;
-
-		resetCanvas();
-
-		canvas.append(row);
-		lastRow = $(pixelCanvasSel + ' tr').last();
-		lastRow.append(column);
-
-		addPixelClass(canvas, numpixels);
-
-		const pixelWidth = parseInt(canvas.find("tr td:first-child").first().css("height").replace('px', ''));
-		const bodyWidth = parseInt($("body").css("width").replace('px', ''));
-
-		if (pixelWidth*canvasNumPixX > bodyWidth-100){
-			showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.");
-			resetCanvas();
-		}
-		else
-		{
-
-			resetCanvas();
-
-			for (let i=1; i<=canvasNumPixY; i++){
-				canvas.append(row);
-				lastRow = $(pixelCanvasSel + ' tr').last();
-
-				for (let j=1; j<=canvasNumPixX; j++){
-					lastRow.append(column);
-				}
-			}
-
-			addPixelClass(canvas, numpixels);
-
-			showToolbox(true);
-			showActionbox(true);
-			selectedTool = toolPaintBrush;
-			canvas.removeClass('pixel-canvas-hidden');
-			canvas.addClass('pixel-canvas');
-
-		}
-	}
-
-
-	function canvasPropCorrect(width, height){
-
-		const proportions = width/height;
-
-		if (proportions>=0.5 && proportions <=2){
-			return true;
-		}
-		else{
-			return false;
-		}
-
-	}
-
-
-	function resetCanvas(){
-		const canvas = $ (pixelCanvasSel);
-		const canvasRows = $ (pixelCanvasSel + ' tr');
-
-		canvasRows.remove();
-		canvas.addClass('pixel-canvas-hidden');
-		canvas.removeClass('pixel-canvas');
-	}
-
-
-	function saveCanvas(){
-
-		let canvas = $(pixelCanvasSel);
-
-		//removing classes since they are not needed
-		canvas.find('tr').removeAttr("class");
-		canvas.find('tr td').removeAttr("class");
-
-		const canvasContent = canvas.html();
-
-    const blob = new Blob([canvasContent], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "canvas.pix");
-
-	}
-
-	function loadCanvas(){
-		$("#btnLoadCanvasInput").trigger('click');
-	}
-
-
-	function readTextFile(file)
-	{
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function ()
-    {
-      if(rawFile.readyState === 4)
-      {
-        if(rawFile.status === 200 || rawFile.status == 0)
-        {
-          var allText = rawFile.responseText;
-          alert(allText);
-        }
+	$( '#dialog' ).dialog({
+		modal: true,
+		buttons: {
+    	"Yes": function () {
+        $(this).dialog('close');
+        callback();
+      },
+      "No": function () {
+        $(this).dialog('close');
       }
     }
-    rawFile.send(null);
-	}
+  });
+}
 
-	function isCanvasActive(){
-		return $(pixelCanvasSel + ' tr').length;
-	}
 
-	$('#btnSaveCanvas').click( function(){
-		if (isCanvasActive()){
-			showConfirmDialog("Confirm", "Are you sure that you want to save this canvas?", saveCanvas);
-		}
-	});
+function showInfoDialog(title, text){
 
-	function addPixelClass(canvas, numpixels){
+	$( '#dialog' ).attr('title', title);
+	$( '#dialog' ).first('p').text(text);
 
-		switch(true) {
-	  case (numpixels>=numPixelThreshold1 && numpixels<=numPixelThreshold2):
-	  	canvas.find('tr').addClass('tr-l');
-	    canvas.find('td').addClass('td-l');
-	    break;
-	  case (numpixels>=numPixelThreshold2 && numpixels<=numPixelThreshold3):
-	  	canvas.find('tr').addClass('tr-m');
-	    canvas.find('td').addClass('td-m');
-	    break;
-	  case (numpixels>=numPixelThreshold3):
-	  	canvas.find('tr').addClass('tr-s');
-	    canvas.find('td').addClass('td-s');
-	    break;
-	  default:
-	  	canvas.find('tr').addClass('tr-xl');
-	    canvas.find('td').addClass('td-xl');
+	$( '#dialog' ).dialog({
+		modal: true,
+		buttons: {
+    	"OK": function () {
+        $(this).dialog('close');
+      }
+    }
+  });
+}
 
-	  }
-	}
-
-	function paintPixel(pixel){
-		if ((selectedTool) == toolPaintBrush){
-			$ ( pixel ).css( "background-color", $('#colorPicker').val());
-		}
-		else
-		{
-			$ ( pixel ).removeAttr("style");
-		}
-	}
-
+function showFileDialog(){
 	/*
-	*
-	* Toolbox
-	*
+	We need to trigger this event manually, since we are using
+	a button to activate a hidden input file field
 	*/
+	$("#btnLoadCanvasInput").trigger('click');
+}
 
-	function selectTool(tool){
-		selectedTool = tool;
+
+/*
+*
+* Input fields
+*
+*/
+
+
+function resetValues(){
+	$('#inputWidth').val($('#inputWidth').prop("defaultValue"));
+	$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
+	$('#colorPicker').val($('#colorPicker').prop("defaultValue"));
+}
+
+
+/*
+*
+* Canvas
+*
+*/
+
+function getCanvasNumPixelX(canvas){
+	const canvasNumPixX = parseInt(canvas.find("tr:first td").length);
+
+	return canvasNumPixX;
+}
+
+function getCanvasNumPixelY(canvas){
+	const canvasNumPixY = parseInt(canvas.find("tr:first td").length);
+
+	return canvasNumPixY;
+}
+
+function getCanvasNumPixel(canvas){
+	const canvasNumPixX = getCanvasNumPixelX(canvas);
+	const canvasNumPixY = getCanvasNumPixelY(canvas);
+
+	const numpixels = canvasNumPixX*canvasNumPixY;
+
+	return numpixels;
+}
+
+function setUpCanvas(){
+
+	const canvas = $ ( pixelCanvasSel );
+
+	addPixelClass(canvas);
+
+	showToolbox(true);
+	showActionbox(true);
+	selectedTool = toolPaintBrush;
+	canvas.removeClass('pixel-canvas-hidden');
+	canvas.addClass('pixel-canvas');
+}
+
+function enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY){
+
+	const canvas = $ ( pixelCanvasSel );
+
+	const bodyWidth = parseInt($("body").css("width").replace('px', ''));
+
+	deleteCanvas();
+
+	canvas.append(row);
+	lastRow = $(pixelCanvasSel + ' tr').last();
+	for (i=1;i<canvasNumPixX;i++){
+		lastRow.append(column);
 	}
 
+	addPixelClass(canvas);
 
-	function showToolbox(show){
-		if (show){
-			$('#toolbox').removeClass('toolbox-hidden');
+	const pixelWidth = parseInt(canvas.find("tr td:first-child").first().css("height").replace('px', ''));
+
+	if (pixelWidth*canvasNumPixX > bodyWidth-100){
+		deleteCanvas();
+		return false;
+	}
+	else
+	{
+		deleteCanvas();
+		return true;
+	}
+}
+
+function createCanvas() {
+
+	const canvas = $ ( pixelCanvasSel );
+	let lastRow;
+
+	const canvasNumPixX = parseInt($('#inputWidth').val());
+	const canvasNumPixY = parseInt($('#inputHeight').val());
+
+	const numpixels = parseInt($('#inputHeight').val());
+
+
+	if (!enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY)){
+		deleteCanvas();
+		showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.");
+	}
+	else
+	{
+
+		deleteCanvas();
+
+		for (let i=1; i<=canvasNumPixY; i++){
+			canvas.append(row);
+			lastRow = $(pixelCanvasSel + ' tr').last();
+
+			for (let j=1; j<=canvasNumPixX; j++){
+				lastRow.append(column);
+			}
+		}
+
+		setUpCanvas(numpixels);
+
+	}
+}
+
+
+function canvasPropCorrect(width, height){
+
+	const proportions = width/height;
+
+	if (proportions>=0.5 && proportions <=2){
+		return true;
+	}
+	else{
+		return false;
+	}
+
+}
+
+function deleteCanvas(){
+	const canvas = $ (pixelCanvasSel);
+	const canvasRows = $ (pixelCanvasSel + ' tr');
+
+	canvasRows.remove();
+	canvas.addClass('pixel-canvas-hidden');
+	canvas.removeClass('pixel-canvas');
+}
+
+
+function resetCanvas(){
+	const canvas = $ (pixelCanvasSel);
+	canvas.find("tr td").removeAttr("style");
+}
+
+
+function saveCanvas(){
+
+	const canvas = $(pixelCanvasSel);
+
+	//We need to clone, so that we don't modify the DOM
+	const canvasToSave = canvas.clone();
+
+	//removing classes since they are not needed
+	canvasToSave.find('tr').removeAttr("class");
+	canvasToSave.find('tr td').removeAttr("class");
+
+	const canvasContent = canvasToSave.html();
+
+  const blob = new Blob([canvasContent], {type: "text/plain;charset=utf-8"});
+  saveAs(blob, "canvas.pix");
+
+}
+
+function loadCanvas(input){
+
+	const canvas = $ (pixelCanvasSel);
+
+	const file = input.files[0];
+  let reader = new FileReader();
+
+  reader.readAsText(file);
+
+  reader.onload = function(){
+
+  	canvas.html(reader.result);
+
+  	if (!enoughSpaceForCanvas(getCanvasNumPixelX(canvas), getCanvasNumPixelY(canvas))){
+			deleteCanvas();
+			showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.");
 		}
 		else
 		{
-			$('#toolbox').addClass('toolbox-hidden');
+			canvas.html(reader.result);
+			setUpCanvas();
+			$('#inputWidth').val(getCanvasNumPixelX(canvas));
+			$('#inputHeight').val(getCanvasNumPixelY(canvas));
 		}
+  };
+
+  reader.onerror = function() {
+    showInfoDialog("Error", `There was an error while trying to read the file: ${reader.error}`);
+  };
+
+}
+
+function isCanvasActive(){
+	return $(pixelCanvasSel + ' tr').length;
+}
+
+
+function addPixelClass(canvas){
+
+	const numpixels = getCanvasNumPixel(canvas);
+
+	switch(true) {
+  case (numpixels>=numPixelThreshold1 && numpixels<=numPixelThreshold2):
+  	canvas.find('tr').addClass('tr-l');
+    canvas.find('td').addClass('td-l');
+    break;
+  case (numpixels>=numPixelThreshold2 && numpixels<=numPixelThreshold3):
+  	canvas.find('tr').addClass('tr-m');
+    canvas.find('td').addClass('td-m');
+    break;
+  case (numpixels>=numPixelThreshold3):
+  	canvas.find('tr').addClass('tr-s');
+    canvas.find('td').addClass('td-s');
+    break;
+  default:
+  	canvas.find('tr').addClass('tr-xl');
+    canvas.find('td').addClass('td-xl');
+
+  }
+}
+
+function paintPixel(pixel){
+	if ((selectedTool) == toolPaintBrush){
+		$ ( pixel ).css( "background-color", $('#colorPicker').val());
 	}
-
-
-	/*
-	*
-	* Action box
-	*
-	*/
-
-	function showActionbox(show){
-		if (show){
-			$('#actionbox').removeClass('actionbox-hidden');
-		}
-		else
-		{
-			$('#actionbox').addClass('actionbox-hidden');
-		}
+	else
+	{
+		$ ( pixel ).removeAttr("style");
 	}
+}
 
-	function btnResetCanvasClick(){
-		resetCanvas();
-		showToolbox(false);
-		showActionbox(false);
+
+/*
+*
+* Toolbox
+*
+*/
+
+function selectTool(tool){
+	selectedTool = tool;
+}
+
+
+function showToolbox(show){
+	if (show){
+		$('#toolbox').removeClass('toolbox-hidden');
 	}
+	else
+	{
+		$('#toolbox').addClass('toolbox-hidden');
+	}
+}
+
+
+/*
+*
+* Action box
+*
+*/
+
+function showActionbox(show){
+	if (show){
+		$('#actionbox').removeClass('actionbox-hidden');
+	}
+	else
+	{
+		$('#actionbox').addClass('actionbox-hidden');
+	}
+}
+
+function btnResetCanvasClick(){
+	resetCanvas();
+}
+
+
+/*
+*
+* document.ready
+*
+*/
+
+
+$(function() {
 
 	/*
 	*
@@ -286,11 +390,6 @@ $(function() {
 	*
 	*/
 
-
-	/*
-	Creates the canvas and prevents the form from submmiting,
-	which would refresh the page and make the canvas dissapear
-	*/
 
 	$('#btnCreateCanvas').click( function(e){
 
@@ -311,7 +410,7 @@ $(function() {
 	$('#btnLoadCanvas').click( function(e){
 
 		const dialogMsg = "Are you sure that you want to load a previously saved canvas?";
-		showConfirmDialog("Confirm", dialogMsg, loadCanvas);
+		showConfirmDialog("Confirm", dialogMsg, showFileDialog);
 
 	});
 
@@ -335,18 +434,22 @@ $(function() {
 		}
 	});
 
-	$( pixelCanvasSel ).on('mouseover', function() {
+	$( pixelCanvasSel ).on('mouseover', function(e) {
 
-		if (selectedTool==toolPaintBrush){
-			$( this ).awesomeCursor(selectedTool, {
-				hotspot: [2, 15]
-			});
+		if (selectedTool==toolPaintBrush)
+		{
+			cursorHotspot=[2, 15];
 		}
-		else{
-			$( this ).awesomeCursor(selectedTool, {
-				hotspot: [10, 5]
-			});
+		else
+		{
+			cursorHotspot=[10, 5];
 		}
+
+		$( this ).awesomeCursor(selectedTool, {
+			hotspot: cursorHotspot,
+			color: cursorColor
+		});
+
 	});
 
 
@@ -380,6 +483,12 @@ $(function() {
 		}
 	});
 
+	$('#btnSaveCanvas').click( function(){
+		if (isCanvasActive()){
+			showConfirmDialog("Confirm", "Are you sure that you want to save this canvas?", saveCanvas);
+		}
+	});
+
 
 	/*
 	*
@@ -402,9 +511,6 @@ $(function() {
 	* Initial calls
 	*
 	*/
-
-	resetValues();
-	showToolbox(false);
-	showActionbox(false);
+	setUpPixelOdrom();
 
 });
