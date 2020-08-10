@@ -13,7 +13,7 @@ const numPixelThreshold1 = 50;
 const numPixelThreshold2 = 100;
 const numPixelThreshold3 = 500;
 
-const cursorColor="#888888";
+const cursorColor='#888888';
 
 const row = '<tr></tr>';
 const column = '<td></td>';
@@ -53,11 +53,11 @@ function showConfirmDialog(title, text, callback){
 	$( '#dialog' ).dialog({
 		modal: true,
 		buttons: {
-    	"Yes": function () {
+    	'Yes': function () {
         $(this).dialog('close');
         callback();
       },
-      "No": function () {
+      'No': function () {
         $(this).dialog('close');
       }
     }
@@ -73,7 +73,7 @@ function showInfoDialog(title, text){
 	$( '#dialog' ).dialog({
 		modal: true,
 		buttons: {
-    	"OK": function () {
+    	'OK': function () {
         $(this).dialog('close');
       }
     }
@@ -85,7 +85,7 @@ function showFileDialog(){
 	We need to trigger this event manually, since we are using
 	a button to activate a hidden input file field
 	*/
-	$("#btnLoadCanvasInput").trigger('click');
+	$('#btnLoadCanvasInput').trigger('click');
 }
 
 
@@ -97,9 +97,9 @@ function showFileDialog(){
 
 
 function resetValues(){
-	$('#inputWidth').val($('#inputWidth').prop("defaultValue"));
-	$('#inputHeight').val($('#inputHeight').prop("defaultValue"));
-	$('#colorPicker').val($('#colorPicker').prop("defaultValue"));
+	$('#inputWidth').val($('#inputWidth').prop('defaultValue'));
+	$('#inputHeight').val($('#inputHeight').prop('defaultValue'));
+	$('#colorPicker').val($('#colorPicker').prop('defaultValue'));
 }
 
 
@@ -110,13 +110,13 @@ function resetValues(){
 */
 
 function getCanvasNumPixelX(canvas){
-	const canvasNumPixX = parseInt(canvas.find("tr:first td").length);
+	const canvasNumPixX = parseInt(canvas.find('tr:first td').length);
 
 	return canvasNumPixX;
 }
 
 function getCanvasNumPixelY(canvas){
-	const canvasNumPixY = parseInt(canvas.find("tr:first td").length);
+	const canvasNumPixY = parseInt(canvas.find('tr:first td').length);
 
 	return canvasNumPixY;
 }
@@ -147,7 +147,7 @@ function enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY){
 
 	const canvas = $ ( pixelCanvasSel );
 
-	const bodyWidth = parseInt($("body").css("width").replace('px', ''));
+	const bodyWidth = parseInt($('body').css('width').replace('px', ''));
 
 	deleteCanvas();
 
@@ -159,7 +159,7 @@ function enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY){
 
 	addPixelClass(canvas);
 
-	const pixelWidth = parseInt(canvas.find("tr td:first-child").first().css("height").replace('px', ''));
+	const pixelWidth = parseInt(canvas.find('tr td:first-child').first().css('height').replace('px', ''));
 
 	if (pixelWidth*canvasNumPixX > bodyWidth-100){
 		deleteCanvas();
@@ -186,7 +186,7 @@ function createCanvas() {
 	if (!enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY)){
 		deleteCanvas();
 		setUpPixelOdrom();
-		showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.");
+		showInfoDialog('Canvas too big', 'The selected canvas is too big for the available space.');
 	}
 	else
 	{
@@ -233,7 +233,7 @@ function deleteCanvas(){
 
 function resetCanvas(){
 	const canvas = $ (pixelCanvasSel);
-	canvas.find("tr td").removeAttr("style");
+	canvas.find('tr td').removeAttr('style');
 }
 
 
@@ -245,13 +245,13 @@ function saveCanvas(){
 	const canvasToSave = canvas.clone();
 
 	//removing classes since they are not needed
-	canvasToSave.find('tr').removeAttr("class");
-	canvasToSave.find('tr td').removeAttr("class");
+	canvasToSave.find('tr').removeAttr('class');
+	canvasToSave.find('tr td').removeAttr('class');
 
 	const canvasContent = canvasToSave.html();
 
-  const blob = new Blob([canvasContent], {type: "text/plain;charset=utf-8"});
-  saveAs(blob, "canvas.pix");
+  const blob = new Blob([canvasContent], {type: 'text/plain;charset=utf-8'});
+  saveAs(blob, 'canvas.pix');
 
 }
 
@@ -270,7 +270,7 @@ function loadCanvas(input){
 
   	if (!enoughSpaceForCanvas(getCanvasNumPixelX(canvas), getCanvasNumPixelY(canvas))){
 			deleteCanvas();
-			showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.");
+			showInfoDialog('Canvas too big', 'The selected canvas is too big for the available space.');
 		}
 		else
 		{
@@ -282,7 +282,7 @@ function loadCanvas(input){
   };
 
   reader.onerror = function() {
-    showInfoDialog("Error", `There was an error while trying to read the file: ${reader.error}`);
+    showInfoDialog('Error', `There was an error while trying to read the file: ${reader.error}`);
   };
 
 }
@@ -318,11 +318,11 @@ function addPixelClass(canvas){
 
 function paintPixel(pixel){
 	if ((selectedTool) == toolPaintBrush){
-		$ ( pixel ).css( "background-color", $('#colorPicker').val());
+		$ ( pixel ).css( 'background-color', $('#colorPicker').val());
 	}
 	else
 	{
-		$ ( pixel ).removeAttr("style");
+		$ ( pixel ).removeAttr('style');
 	}
 }
 
@@ -338,12 +338,12 @@ function selectTool(tool){
 
 	switch(selectedTool) {
 	  case toolPaintBrush:
-	  	$( "#btnToolEraser").removeClass("btn-pressed");
-	    $( "#btnToolPaintBrush").addClass("btn-pressed");
+	  	$( '#btnToolEraser').removeClass('btn-pressed');
+	    $( '#btnToolPaintBrush').addClass('btn-pressed');
 	    break;
 	  case toolEraser:
-	  	$( "#btnToolPaintBrush").removeClass("btn-pressed");
-	  	$( "#btnToolEraser").addClass("btn-pressed");
+	  	$( '#btnToolPaintBrush').removeClass('btn-pressed');
+	  	$( '#btnToolEraser').addClass('btn-pressed');
 	    break;
 	}
 
@@ -415,15 +415,15 @@ $(function() {
 		else
 		{
 			const dialogMsg = `Are you sure that you want to create a new ${canvasWidth}x${canvasHeight} canvas?`;
-			showConfirmDialog("Confirm", dialogMsg, createCanvas);
+			showConfirmDialog('Confirm', dialogMsg, createCanvas);
 		}
 
 	});
 
 	$('#btnLoadCanvas').click( function(e){
 
-		const dialogMsg = "Are you sure that you want to load a previously saved canvas?";
-		showConfirmDialog("Confirm", dialogMsg, showFileDialog);
+		const dialogMsg = 'Are you sure that you want to load a previously saved canvas?';
+		showConfirmDialog('Confirm', dialogMsg, showFileDialog);
 
 	});
 
@@ -492,13 +492,13 @@ $(function() {
 
 	$('#btnResetCanvas').click(function() {
 		if (isCanvasActive()){
-			showConfirmDialog("Confirm", "Are you sure that you want to reset this canvas?", btnResetCanvasClick);
+			showConfirmDialog('Confirm', 'Are you sure that you want to reset this canvas?', btnResetCanvasClick);
 		}
 	});
 
 	$('#btnSaveCanvas').click( function(){
 		if (isCanvasActive()){
-			showConfirmDialog("Confirm", "Are you sure that you want to save this canvas?", saveCanvas);
+			showConfirmDialog('Confirm', 'Are you sure that you want to save this canvas?', saveCanvas);
 		}
 	});
 
