@@ -255,6 +255,27 @@ function saveCanvas(){
 
 }
 
+function isValidCanvas(canvas){
+
+	if (canvas.length>0){
+
+		const canvasCheck = canvas.filter('tr').get(0);
+
+		if (canvasCheck === canvas.get(0)){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
 function loadCanvas(input){
 
 	const canvas = $ (pixelCanvasSel);
@@ -266,24 +287,40 @@ function loadCanvas(input){
 
   reader.onload = function(){
 
-  	canvas.html(reader.result);
+  	let readerResult = reader.result;
+  	let canvasToImport= $(readerResult);
 
-  	if (!enoughSpaceForCanvas(getCanvasNumPixelX(canvas), getCanvasNumPixelY(canvas))){
-			deleteCanvas();
-			showInfoDialog('Canvas too big', 'The selected canvas is too big for the available space.');
+  	if (!isValidCanvas(canvasToImport)){
+  		showInfoDialog('Wrong format', 'The selected file does not contain a valid canvas.');
+  	}
+  	else
+  	{
+	  	canvas.html(canvasToImport);
+
+	  	if (!enoughSpaceForCanvas(getCanvasNumPixelX(canvas), getCanvasNumPixelY(canvas))){
+				deleteCanvas();
+				setUpPixelOdrom();
+				showInfoDialog('Canvas too big', 'The selected canvas is too big for the available space.');
+			}
+			else
+			{
+				canvas.html(reader.result);
+				setUpCanvas();
+				$('#inputWidth').val(getCanvasNumPixelX(canvas));
+				$('#inputHeight').val(getCanvasNumPixelY(canvas));
+			}
 		}
-		else
-		{
-			canvas.html(reader.result);
-			setUpCanvas();
-			$('#inputWidth').val(getCanvasNumPixelX(canvas));
-			$('#inputHeight').val(getCanvasNumPixelY(canvas));
-		}
+
   };
 
   reader.onerror = function() {
     showInfoDialog('Error', `There was an error while trying to read the file: ${reader.error}`);
   };
+
+  /*This call is needed in order to make the even onchange fire every time,
+  even if the users selects the same file again
+  */
+  $('#btnLoadCanvasInput').prop('value', '');
 
 }
 
