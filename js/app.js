@@ -441,19 +441,21 @@ $(function() {
 	*/
 
 
-	$('#btnCreateCanvas').click( function(e){
+	$('#sizePicker').submit( function(e){
 
 		const canvasWidth = $('#inputWidth').val();
 		const canvasHeight = $('#inputHeight').val();
 
 		if (!canvasPropCorrect(canvasHeight, canvasWidth)){
-			showInfoDialog('Information', 'The proportions selected are not allowed. Canvas height cannot be more than double the width and vice versa.');
+			showInfoDialog('Information', 'The proportions selected are not allowed: canvas height cannot be more than twice the width and vice versa.');
 		}
 		else
 		{
 			const dialogMsg = `Are you sure that you want to create a new ${canvasWidth}x${canvasHeight} canvas?`;
 			showConfirmDialog('Confirm', dialogMsg, createCanvas);
 		}
+
+		e.preventDefault();
 
 	});
 

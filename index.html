@@ -28,7 +28,7 @@
 
 	<div class="main">
 		<div class="input-form-container">
-			<div id="sizePicker" class="size-picker-form">
+			<form id="sizePicker" class="size-picker-form">
 				<div class="input-field">
 					<label for="inputWidth" class="input-label">Grid Width:</label>
 					<input type="number" id="inputWidth" name="width" min="2" value="2">
@@ -39,18 +39,18 @@
 					<input type="number" id="inputHeight" name="height" min="2" value="2">
 				</div>
 				<div>
-					<button id="btnCreateCanvas" class="btn">
+					<button type="submit" id="btnCreateCanvas" class="btn">
 						<i class="fa fa-th fa-2x"></i>
 					</button>
 
 					<div id="btnLoadCanvasWrapper">
-					  <button id="btnLoadCanvas" class="btn">
+					  <button type="button" id="btnLoadCanvas" class="btn">
 					  	<i class="fa fa-folder-open fa-2x"></i>
 					  </button>
 					  <input type="file" id="btnLoadCanvasInput" class="load-canvas-input-hidden" onchange="loadCanvas(this)">
 					</div>
 
-				</div>
+				</form>
 			</div>
 		</div>
 

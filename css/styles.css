@@ -24,7 +24,8 @@ html {
 
 header,
 footer,
-div {
+div,
+form {
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
