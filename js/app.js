@@ -45,10 +45,52 @@ function setUpPixelOdrom(){
 *
 */
 
-function showConfirmDialog(title, text, callback){
+function showStartUpDialog(){
 
-	$( "#dialog" ).attr("title", title);
-	$( "#dialog" ).first("p").text(text);
+	const dialogTitle = 'Welcome to pixelOdrom';
+
+	const toolBrushHTML = '<i class="fa fa-paint-brush"></i>';
+	const toolEraserHTML = '<i class="fa fa-eraser"></i>';
+	const createCanvasHTML = '<i class="fa fa-th"></i>';
+	const saveCanvasHTML = '<i class="fa fa-floppy-o"></i>';
+	const openCanvasHTML = '<i class="fa fa-folder-open"></i>';
+
+	const dialogText = `<p class = "dialog-text-intro">pixelOdrom is a tool for creating pixel art.</p>
+	<ul class="dialog-list">
+		<li class="dialog-list-element">Create a new canvas &nbsp;${createCanvasHTML} or open an existing one &nbsp;${openCanvasHTML}</li>
+		<li class="dialog-list-element">Choose a color with the picker and use the &nbsp;${toolBrushHTML} for painting pixels.
+		<p class="dialog-list-text-below">If you are using a mouse, you can also paint pixel lines</p></li>
+		<li class="dialog-list-element">By using the &nbsp;${toolEraserHTML}, you can erase pixels.
+		<p class="dialog-list-text-below">If you are using a mouse, you can also delete multiple pixels in one go</p></li>
+		<li class="dialog-list-element">Click on &nbsp;${saveCanvasHTML} to save your canvas to a local file pixelOdrom file (*.pix) to continue your work later</li>
+	</ul>
+`;
+
+	$( "#dialog" ).attr('title', dialogTitle);
+
+	$( "#dialog" ).first("p").html(dialogText);
+
+	$( "#dialog" ).dialog({
+		modal: true,
+		buttons: {
+    	"Get started!": function () {
+        $(this).dialog("close");
+      }
+    },
+    minWidth: "240"
+  });
+}
+
+function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback){
+
+	$( "#dialog" ).dialog('option', 'title', dialogTitle);
+
+	if (isHTMLcontent){
+		$( "#dialog" ).first("p").html(dialogContent);
+	}
+	else{
+		$( "#dialog" ).first("p").text(dialogContent);
+	}
 
 	$( "#dialog" ).dialog({
 		modal: true,
@@ -65,10 +107,16 @@ function showConfirmDialog(title, text, callback){
 }
 
 
-function showInfoDialog(title, text){
+function showInfoDialog(dialogTitle, dialogContent, isHTMLcontent){
 
-	$( "#dialog" ).attr("title", title);
-	$( "#dialog" ).first("p").text(text);
+	$( "#dialog" ).dialog('option', 'title', dialogTitle);
+
+	if (isHTMLcontent){
+		$( "#dialog" ).first("p").html(dialogContent);
+	}
+	else{
+		$( "#dialog" ).first("p").text(dialogContent);
+	}
 
 	$( "#dialog" ).dialog({
 		modal: true,
@@ -186,7 +234,7 @@ function createCanvas() {
 	if (!enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY)){
 		deleteCanvas();
 		setUpPixelOdrom();
-		showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.");
+		showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.", false);
 	}
 	else
 	{
@@ -291,7 +339,7 @@ function loadCanvas(input){
   	let canvasToImport= $(readerResult);
 
   	if (!isValidCanvas(canvasToImport)){
-  		showInfoDialog("Wrong format", "The selected file does not contain a valid canvas.");
+  		showInfoDialog("Wrong format", "The selected file does not contain a valid canvas.", false);
   	}
   	else
   	{
@@ -300,7 +348,7 @@ function loadCanvas(input){
 	  	if (!enoughSpaceForCanvas(getCanvasNumPixelX(canvas), getCanvasNumPixelY(canvas))){
 				deleteCanvas();
 				setUpPixelOdrom();
-				showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.");
+				showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.", false);
 			}
 			else
 			{
@@ -314,7 +362,7 @@ function loadCanvas(input){
   };
 
   reader.onerror = function() {
-    showInfoDialog("Error", `There was an error while trying to read the file: ${reader.error}`);
+    showInfoDialog("Error", `There was an error while trying to read the file: ${reader.error}`, false);
   };
 
   /*This call is needed in order to make the even onchange fire every time,
@@ -447,12 +495,12 @@ $(function() {
 		const canvasHeight = $("#inputHeight").val();
 
 		if (!canvasPropCorrect(canvasHeight, canvasWidth)){
-			showInfoDialog("Information", "The proportions selected are not allowed: canvas height cannot be more than twice the width and vice versa.");
+			showInfoDialog("Information", "The proportions selected are not allowed: canvas height cannot be more than twice the width and vice versa.", false);
 		}
 		else
 		{
 			const dialogMsg = `Are you sure that you want to create a new ${canvasWidth}x${canvasHeight} canvas?`;
-			showConfirmDialog("Confirm", dialogMsg, createCanvas);
+			showConfirmDialog("Confirm", dialogMsg, false, createCanvas);
 		}
 
 		e.preventDefault();
@@ -462,7 +510,7 @@ $(function() {
 	$("#btnLoadCanvas").click( function(e){
 
 		const dialogMsg = "Are you sure that you want to load a previously saved canvas?";
-		showConfirmDialog("Confirm", dialogMsg, showFileDialog);
+		showConfirmDialog("Confirm", dialogMsg, false, showFileDialog);
 
 	});
 
@@ -531,13 +579,13 @@ $(function() {
 
 	$("#btnResetCanvas").click(function() {
 		if (isCanvasActive()){
-			showConfirmDialog("Confirm", "Are you sure that you want to reset this canvas?", btnResetCanvasClick);
+			showConfirmDialog("Confirm", "Are you sure that you want to reset this canvas?", false, btnResetCanvasClick);
 		}
 	});
 
 	$("#btnSaveCanvas").click( function(){
 		if (isCanvasActive()){
-			showConfirmDialog("Confirm", "Are you sure that you want to save this canvas?", saveCanvas);
+			showConfirmDialog("Confirm", "Are you sure that you want to save this canvas?", false, saveCanvas);
 		}
 	});
 
@@ -563,6 +611,8 @@ $(function() {
 	* Initial calls
 	*
 	*/
+
+	showStartUpDialog();
 	setUpPixelOdrom();
 
 });

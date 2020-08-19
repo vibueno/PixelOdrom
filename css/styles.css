@@ -31,12 +31,6 @@ form {
   flex-wrap: wrap;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
 body {
   text-align: center;
   background-color: #e9e2d0;
@@ -303,6 +297,7 @@ input[type=number]::-webkit-outer-spin-button {
 footer ul {
   width: 100%;
   padding: 0 0 10px 0;
+  margin: 0;
 }
 
 footer li {
@@ -326,10 +321,6 @@ footer a {
   align-content: center;
 }
 
-#dialog{
-  display: none;
-}
-
 .footer-credits-title,
 .footer-samples-title
  {
@@ -342,8 +333,33 @@ footer a {
  *
  */
 
+#dialog{
+  display: none;
+}
+
+.dialog-list{
+  padding: 0;
+  margin: 0 0 0 2em;
+  text-align: left;
+}
+
+.dialog-list-element{
+  margin: 0 0 0.5em 0;
+}
+
+.dialog-text-intro{
+	margin: 0 0 1em 0;
+	text-align: left;
+}
+
+.dialog-list-text-below{
+	margin: 0;
+}
+
 .ui-dialog {
 	max-width: 100%;
+	width: 50% !important;
+	min-width: 240px;
 }
 
 .ui-dialog .ui-dialog-titlebar,
@@ -353,7 +369,7 @@ footer a {
 }
 
 .ui-dialog-title {
-    width: 100% !important;
+  width: 100% !important;
 }
 
 .ui-widget-header{
@@ -375,9 +391,9 @@ footer a {
 }
 
 .ui-button:active {
-   border-color: #ea9085;
-   transform: translateY(1px);
-   filter: saturate(200%);
+	border-color: #ea9085;
+ 	transform: translateY(1px);
+ 	filter: saturate(200%);
 }
 
 .ui-button:hover,
@@ -390,7 +406,7 @@ footer a {
 }
 
 .ui-widget.ui-widget-content {
-    border: 1px dotted #d45d79;
+  border: 1px dotted #d45d79;
 }
 
 .ui-dialog-titlebar-close{
