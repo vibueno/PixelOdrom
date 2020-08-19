@@ -634,7 +634,16 @@ $(function() {
 	*/
 
 	$("#backtotop").click(function() {
-		scroll(0,0);
+		if (isCanvasActive()){
+			const toolboxTopMargin = parseInt($("#toolbox").css("marginTop").replace("px", ""))
+			const toolboxPosition = $("#toolbox").position().top + toolboxTopMargin;
+
+			scroll(0, toolboxPosition);
+		}
+		else
+		{
+			scroll(0,0);
+		}
 	});
 
 	$(document).scroll(function() {
