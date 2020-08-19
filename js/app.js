@@ -466,13 +466,35 @@ function btnResetCanvasClick(){
 	resetCanvas();
 }
 
+/*
+*
+* Back to top
+*
+*/
+
+function setBacktotopVisibility(){
+
+	if (((window.innerHeight + window.pageYOffset) >= ($("body").outerHeight()+$("#dialog").outerHeight())/1.75)) {
+
+		window.setTimeout( function() {
+			$(".backtotop").removeClass("backtotop-hidden");
+			$(".backtotop").addClass("backtotop-visible");
+		}, 100);
+	}
+	else{
+		window.setTimeout( function() {
+			$(".backtotop").removeClass("backtotop-visible");
+			$(".backtotop").addClass("backtotop-hidden");
+		}, 100);
+	};
+}
+
 
 /*
 *
 * document.ready
 *
 */
-
 
 $(function() {
 
@@ -605,6 +627,19 @@ $(function() {
 		selectTool(toolEraser);
 	});
 
+	/*
+	*
+	* Back to top events
+	*
+	*/
+
+	$("#backtotop").click(function() {
+		scroll(0,0);
+	});
+
+	$(document).scroll(function() {
+		setBacktotopVisibility();
+	});
 
 	/*
 	*

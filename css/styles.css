@@ -412,3 +412,32 @@ footer a {
 .ui-dialog-titlebar-close{
   display: none;
 }
+
+/*
+*
+* Back to top
+*
+*
+*/
+
+.backtotop {
+  width: 40px;
+  height: auto;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 31;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.backtotop-visible {
+  transition: opacity 1s linear;
+  opacity: 0.75;
+  display: block;
+}
+
+.backtotop-hidden {
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
+}
