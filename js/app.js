@@ -169,6 +169,22 @@ function getToolboxPositionTop(){
 *
 */
 
+function showCanvas(show){
+
+	const canvas = $ ( pixelCanvasSel );
+
+	if (show){
+		canvas.removeClass("pixel-canvas-hidden");
+		canvas.addClass("pixel-canvas");
+	}
+	else
+	{
+		canvas.addClass("pixel-canvas-hidden");
+		canvas.removeClass("pixel-canvas");
+	}
+
+}
+
 function getCanvasNumPixelX(canvas){
 	const canvasNumPixX = parseInt(canvas.find("tr:first td").length);
 
@@ -199,8 +215,7 @@ function setUpCanvas(){
 	showToolbox(true);
 	showActionbox(true);
 	selectTool(toolPaintBrush);
-	canvas.removeClass("pixel-canvas-hidden");
-	canvas.addClass("pixel-canvas");
+	showCanvas(true);
 }
 
 function enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY){
@@ -234,7 +249,9 @@ function enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY){
 
 function createCanvas() {
 
-	const canvas = $ ( pixelCanvasSel );
+	let canvas = $ ( pixelCanvasSel );
+	const canvasBackup = canvas.clone();
+
 	let lastRow;
 
 	const canvasNumPixX = parseInt($("#inputWidth").val());
@@ -244,8 +261,8 @@ function createCanvas() {
 
 
 	if (!enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY)){
-		deleteCanvas();
-		setUpPixelOdrom();
+		canvas.html(canvasBackup.html());
+		showCanvas(true);
 		showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.", false);
 	}
 	else
@@ -287,8 +304,7 @@ function deleteCanvas(){
 	const canvasRows = $ (pixelCanvasSel + " tr");
 
 	canvasRows.remove();
-	canvas.addClass("pixel-canvas-hidden");
-	canvas.removeClass("pixel-canvas");
+	showCanvas(false);
 }
 
 
