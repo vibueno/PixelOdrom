@@ -150,6 +150,18 @@ function resetValues(){
 	$("#colorPicker").val($("#colorPicker").prop("defaultValue"));
 }
 
+/*
+*
+* Toolbox
+*
+*/
+
+function getToolboxPositionTop(){
+	const toolboxMarginTop = parseInt($("#toolbox").css("marginTop").replace("px", ""));
+	const toolboxPositionTop = $("#toolbox").position().top + toolboxMarginTop;
+	return toolboxPositionTop;
+}
+
 
 /*
 *
@@ -251,6 +263,7 @@ function createCanvas() {
 		}
 
 		setUpCanvas(numpixels);
+		scroll(0, getToolboxPositionTop());
 
 	}
 }
@@ -474,7 +487,8 @@ function btnResetCanvasClick(){
 
 function setBacktotopVisibility(){
 
-	if (((window.innerHeight + window.pageYOffset) >= ($("body").outerHeight()+$("#dialog").outerHeight())/1.75)) {
+	if ((($( window ).height() + $(window).scrollTop()) >= ($("body").outerHeight()/1.25)) &&
+		(getToolboxPositionTop()<=$(window).scrollTop()) && isCanvasActive()) {
 
 		window.setTimeout( function() {
 			$(".backtotop").removeClass("backtotop-hidden");
@@ -635,10 +649,7 @@ $(function() {
 
 	$("#backtotop").click(function() {
 		if (isCanvasActive()){
-			const toolboxTopMargin = parseInt($("#toolbox").css("marginTop").replace("px", ""))
-			const toolboxPosition = $("#toolbox").position().top + toolboxTopMargin;
-
-			scroll(0, toolboxPosition);
+			scroll(0, getToolboxPositionTop());
 		}
 		else
 		{
@@ -649,6 +660,11 @@ $(function() {
 	$(document).scroll(function() {
 		setBacktotopVisibility();
 	});
+
+	$(window).resize(function() {
+		setBacktotopVisibility();
+	});
+
 
 	/*
 	*
