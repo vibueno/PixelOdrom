@@ -63,6 +63,11 @@ h2:first-of-type {
 	margin: auto;
 }
 
+a:hover {
+	color: #ea9085;
+	font-size: 0.75rem;
+}
+
 /*
  *
  * Input fields
