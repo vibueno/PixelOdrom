@@ -33,10 +33,20 @@ let selectedTool = toolPaintBrush;
 *
 */
 
+function goToHomePage(){
+	if (isCanvasActive()){
+		showConfirmDialog("Confirm", "Leaving the page will reset the canvas. Do you want to proceed?" , false, setUpPixelOdrom);
+	}
+	else{
+		setUpPixelOdrom();
+	}
+}
+
 function setUpPixelOdrom(){
 	resetValues();
 	showToolbox(false);
 	showActionbox(false);
+	showCanvas(false);
 }
 
 /*

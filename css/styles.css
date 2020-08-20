@@ -58,14 +58,13 @@ h2:first-of-type {
   margin-top: 0.5em;
 }
 
+a {
+	text-decoration: none;
+}
+
 .main{
 	max-width: 1400px;
 	margin: auto;
-}
-
-a:hover {
-	color: #ea9085;
-	font-size: 0.75rem;
 }
 
 /*
@@ -314,6 +313,11 @@ footer li {
 footer a {
   text-decoration: none;
   color: #333;
+}
+
+footer a:hover {
+	color: #ea9085;
+	font-size: 0.75rem;
 }
 
 .footer-credits,
