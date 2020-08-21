@@ -9,9 +9,16 @@ const pixelCanvasSel = "#pixelCanvas";
 const toolPaintBrush = "paint-brush";
 const toolEraser = "eraser";
 
-const numPixelThreshold1 = 50;
-const numPixelThreshold2 = 100;
-const numPixelThreshold3 = 500;
+const canvasWidthThreshold1 = 25;
+const canvasWidthThreshold2 = 50;
+const canvasWidthThreshold3 = 75;
+
+const canvasAspectRatio = 1.5;
+
+const canvasCorrectionFactor = 1/1.2;
+
+const smallestPixelClassRow = "tr-s";
+const smallestPixelClassColumn = "td-s";
 
 const cursorColor="#888888";
 
@@ -41,6 +48,7 @@ function goToHomePage(){
 		setUpPixelOdrom();
 	}
 }
+
 
 function setUpPixelOdrom(){
 	resetValues();
@@ -91,7 +99,8 @@ function showStartUpDialog(){
   });
 }
 
-function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback){
+
+function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback, callbackParams){
 
 	$( "#dialog" ).dialog('option', 'title', dialogTitle);
 
@@ -107,24 +116,13 @@ function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback){
 		buttons: {
     	"Yes": function () {
         $(this).dialog("close");
-        callback();
+        callback(callbackParams);
       },
       "No": function () {
         $(this).dialog("close");
       }
     }
   });
-}
-
-function isDialogOpen(){
-	if ($('#dialog').dialog('isOpen')){
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-
 }
 
 
@@ -149,12 +147,24 @@ function showInfoDialog(dialogTitle, dialogContent, isHTMLcontent){
   });
 }
 
+
 function showFileDialog(){
 	/*
 	We need to trigger this event manually, since we are using
 	a button to activate a hidden input file field
 	*/
 	$("#btnLoadCanvasInput").trigger("click");
+}
+
+
+function isDialogOpen(){
+	if ($('#dialog').dialog('isOpen')){
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 
@@ -169,6 +179,11 @@ function resetValues(){
 	$("#inputWidth").val($("#inputWidth").prop("defaultValue"));
 	$("#inputHeight").val($("#inputHeight").prop("defaultValue"));
 	$("#colorPicker").val($("#colorPicker").prop("defaultValue"));
+}
+
+function setInputFieldValues(canvasWidth, canvasHeight){
+	$("#inputWidth").val(canvasWidth);
+	$("#inputHeight").val(canvasHeight);
 }
 
 /*
@@ -206,6 +221,7 @@ function showCanvas(show){
 
 }
 
+
 function getCanvasNumPixelX(canvas){
 	const canvasNumPixX = parseInt(canvas.find("tr:first td").length);
 
@@ -227,7 +243,8 @@ function getCanvasNumPixel(canvas){
 	return numpixels;
 }
 
-function setUpCanvas(){
+
+function setUpCanvas(canvasWidth, canvasHeight){
 
 	const canvas = $ ( pixelCanvasSel );
 
@@ -237,73 +254,91 @@ function setUpCanvas(){
 	showActionbox(true);
 	selectTool(toolPaintBrush);
 	showCanvas(true);
+
+	setInputFieldValues(canvasWidth, canvasHeight);
 }
 
-function enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY){
+
+function maxCanvasSize (){
 
 	const canvas = $ ( pixelCanvasSel );
 
-	const bodyWidth = parseInt($("body").css("width").replace("px", ""));
+	const canvasBackup = canvas.clone();
+
+	const availableWidth = parseInt($(".main").width());
 
 	deleteCanvas();
 
 	canvas.append(row);
 	lastRow = $(pixelCanvasSel + " tr").last();
-	for (i=1;i<canvasNumPixX;i++){
-		lastRow.append(column);
-	}
 
-	addPixelClass(canvas);
+	lastRow.append(column);
 
-	const pixelWidth = parseInt(canvas.find("tr td:first-child").first().css("height").replace("px", ""));
+	$(pixelCanvasSel + " tr").addClass(smallestPixelClassRow);
+	$(pixelCanvasSel + " tr td").addClass(smallestPixelClassColumn);
 
-	if (pixelWidth*canvasNumPixX > bodyWidth-100){
-		deleteCanvas();
-		return false;
-	}
-	else
-	{
-		deleteCanvas();
-		return true;
-	}
+	const pixelWidth = parseInt(canvas.find('tr:nth-child(1) > td').width());
+
+	let maxCanvasWidth = availableWidth / pixelWidth;
+
+	/*
+	We use this correction factor, because otherwise for some reason,
+	we are creating more pixels than we should for the available width
+	*/
+	maxCanvasWidth = Math.floor(maxCanvasWidth - Math.pow(maxCanvasWidth, canvasCorrectionFactor));
+
+	let maxCanvasHeight = maxCanvasWidth*canvasAspectRatio;
+
+	canvas.html(canvasBackup.html());
+
+	return [maxCanvasWidth, maxCanvasHeight];
+
 }
 
-function createCanvas() {
 
-	let canvas = $ ( pixelCanvasSel );
-	const canvasBackup = canvas.clone();
+function createCanvasCheck(canvasSize) {
+
+	const canvasWidth = canvasSize [0];
+	const canvasHeight = canvasSize [1];
 
 	let lastRow;
 
-	const canvasNumPixX = parseInt($("#inputWidth").val());
-	const canvasNumPixY = parseInt($("#inputHeight").val());
+	let maxCanvasPixel = maxCanvasSize();
 
-	const numpixels = parseInt($("#inputHeight").val());
-
-
-	if (!enoughSpaceForCanvas(canvasNumPixX, canvasNumPixY)){
-		canvas.html(canvasBackup.html());
+	if (canvasWidth > maxCanvasPixel[0] || canvasHeight >  maxCanvasPixel[1]){
 		showCanvas(true);
-		showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.", false);
+		showConfirmDialog("Canvas too big", `The dimensions selected exceed the available space.
+			Would you like to create the biggest possible canvas (width: ${maxCanvasPixel[0]}px, height: ${maxCanvasPixel[1]}px)?`,
+			false,
+			createCanvas, maxCanvasPixel);
 	}
 	else
 	{
-
-		deleteCanvas();
-
-		for (let i=1; i<=canvasNumPixY; i++){
-			canvas.append(row);
-			lastRow = $(pixelCanvasSel + " tr").last();
-
-			for (let j=1; j<=canvasNumPixX; j++){
-				lastRow.append(column);
-			}
-		}
-
-		setUpCanvas(numpixels);
-		scroll(0, getToolboxPositionTop());
-
+		createCanvas(canvasSize);
 	}
+}
+
+
+function createCanvas(canvasSize){
+
+	let canvas = $ ( pixelCanvasSel );
+
+	const canvasWidth = canvasSize [0];
+	const canvasHeight = canvasSize [1];
+
+	deleteCanvas();
+
+	for (let i=1; i<=canvasHeight; i++){
+		canvas.append(row);
+		lastRow = $(pixelCanvasSel + " tr").last();
+
+		for (let j=1; j<=canvasWidth; j++){
+			lastRow.append(column);
+		}
+	}
+
+	setUpCanvas(canvasWidth, canvasHeight);
+	scroll(0, getToolboxPositionTop());
 }
 
 
@@ -311,7 +346,7 @@ function canvasPropCorrect(width, height){
 
 	const proportions = width/height;
 
-	if (proportions>=0.5 && proportions <=2){
+	if (proportions>=(canvasAspectRatio/4) && proportions <=canvasAspectRatio){
 		return true;
 	}
 	else{
@@ -393,19 +428,22 @@ function loadCanvas(input){
   	}
   	else
   	{
-	  	canvas.html(canvasToImport);
 
-	  	if (!enoughSpaceForCanvas(getCanvasNumPixelX(canvas), getCanvasNumPixelY(canvas))){
-				deleteCanvas();
-				setUpPixelOdrom();
-				showInfoDialog("Canvas too big", "The selected canvas is too big for the available space.", false);
+			const canvasWidth = canvasToImport.first().find("td").length;
+			const canvasHeight = canvasToImport.length;
+
+			let maxCanvasPixel = maxCanvasSize();
+
+			if (canvasWidth > maxCanvasPixel[0] || canvasHeight >  maxCanvasPixel[1]){
+				showInfoDialog("Canvas too big", "The selected canvas is too big for the available space. If you created this canvas on another device, please make sure you use a similar one to edit it.", false);
 			}
 			else
 			{
 				canvas.html(reader.result);
-				setUpCanvas();
-				$("#inputWidth").val(getCanvasNumPixelX(canvas));
-				$("#inputHeight").val(getCanvasNumPixelY(canvas));
+				setUpCanvas(canvasWidth, canvasHeight);
+
+				$("#inputWidth").val(canvasWidth);
+				$("#inputHeight").val(canvasHeight);
 			}
 		}
 
@@ -429,25 +467,24 @@ function isCanvasActive(){
 
 function addPixelClass(canvas){
 
-	const numpixels = getCanvasNumPixel(canvas);
+	canvasWidth = canvas.find ("tr:first td").length;
 
 	switch(true) {
-  case (numpixels>=numPixelThreshold1 && numpixels<=numPixelThreshold2):
+  case (canvasWidth>=canvasWidthThreshold1 && canvasWidth<=canvasWidthThreshold2):
   	canvas.find("tr").addClass("tr-l");
     canvas.find("td").addClass("td-l");
     break;
-  case (numpixels>=numPixelThreshold2 && numpixels<=numPixelThreshold3):
+  case (canvasWidth>=canvasWidthThreshold2 && canvasWidth<=canvasWidthThreshold3):
   	canvas.find("tr").addClass("tr-m");
     canvas.find("td").addClass("td-m");
     break;
-  case (numpixels>=numPixelThreshold3):
+  case (canvasWidth>=canvasWidthThreshold3):
   	canvas.find("tr").addClass("tr-s");
     canvas.find("td").addClass("td-s");
     break;
   default:
   	canvas.find("tr").addClass("tr-xl");
     canvas.find("td").addClass("td-xl");
-
   }
 }
 
@@ -565,16 +602,17 @@ $(function() {
 
 	$("#sizePicker").submit( function(e){
 
-		const canvasWidth = $("#inputWidth").val();
-		const canvasHeight = $("#inputHeight").val();
+		const canvasWidth = parseInt($("#inputWidth").val());
+		const canvasHeight = parseInt($("#inputHeight").val());
+		const canvasSize =[canvasWidth, canvasHeight];
 
 		if (!canvasPropCorrect(canvasHeight, canvasWidth)){
-			showInfoDialog("Information", "The proportions selected are not allowed: canvas height cannot be more than twice the width and vice versa.", false);
+			showInfoDialog("Information", `The proportions selected are not allowed: the max. allowed aspect ratio is 1:${canvasAspectRatio}.`, false);
 		}
 		else
 		{
 			const dialogMsg = `Are you sure that you want to create a new ${canvasWidth}x${canvasHeight} canvas?`;
-			showConfirmDialog("Confirm", dialogMsg, false, createCanvas);
+			showConfirmDialog("Confirm", dialogMsg, false, createCanvasCheck, canvasSize);
 		}
 
 		e.preventDefault();
@@ -742,6 +780,9 @@ $(function() {
 
 	showStartUpDialog();
 	setUpPixelOdrom();
-	createCanvas();
+
+	const canvasSizeDefault = [$("#inputWidth").prop("defaultValue"), $("#inputHeight").prop("defaultValue")];
+
+	createCanvas(canvasSizeDefault);
 
 });
