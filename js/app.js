@@ -58,6 +58,14 @@ function setUpPixelOdrom(){
 }
 
 /*
+function getMainDivPositionTop(){
+	const mainDivMarginTop = parseInt($(".main").css("marginTop").replace("px", ""));
+	const mainDivPositionTop = $(".main").position().top + mainDivMarginTop;
+	return mainDivPositionTop;
+}
+*/
+
+/*
 *
 * Dialogs
 *
@@ -555,6 +563,12 @@ function btnResetCanvasClick(){
 
 /*
 *
+* Side bar buttons
+*
+*/
+
+/*
+*
 * Back to top
 *
 */
@@ -566,18 +580,46 @@ function setBacktotopVisibility(){
 		(!isDialogOpen())) {
 
 		window.setTimeout( function() {
-			$(".backtotop").removeClass("backtotop-hidden");
-			$(".backtotop").addClass("backtotop-visible");
+			$("#btnBacktoTop").removeClass("btn-backtotop-hidden");
+			$("#btnBacktoTop").addClass("btn-backtotop-visible");
 		}, 100);
 	}
 	else{
 		window.setTimeout( function() {
-			$(".backtotop").removeClass("backtotop-visible");
-			$(".backtotop").addClass("backtotop-hidden");
+			$("#btnBacktoTop").removeClass("btn-backtotop-visible");
+			$("#btnBacktoTop").addClass("btn-backtotop-hidden");
 		}, 100);
 	};
 }
 
+/*
+*
+* Help
+*
+*/
+
+function setBtnHelpVisibility(){
+
+	if /*(($(window).scrollTop() >= getMainDivPositionTop()) &&*/
+		(!isDialogOpen()) /*)*/ {
+
+		window.setTimeout( function() {
+			$("#btnHelp").removeClass("btn-help-hidden");
+			$("#btnHelp").addClass("btn-help-visible");
+		}, 100);
+	}
+	else{
+		window.setTimeout( function() {
+			$("#btnHelp").removeClass("btn-help-visible");
+			$("#btnHelp").addClass("btn-help-hidden");
+		}, 100);
+	};
+}
+
+function setBtnSidebarVisibility(){
+	setBtnHelpVisibility();
+	setBacktotopVisibility();
+}
 
 /*
 *
@@ -592,6 +634,20 @@ $(function() {
 	* Events
 	*
 	*/
+
+	/*
+	*
+	* General events
+	*
+	*/
+
+	$(document).scroll(function() {
+		setBtnSidebarVisibility();
+	});
+
+	$(window).resize(function() {
+		setBtnSidebarVisibility();
+	});
 
 	/*
 	*
@@ -723,7 +779,7 @@ $(function() {
 	*
 	*/
 
-	$("#backtotop").click(function() {
+	$("#btnBacktoTop").click(function() {
 		if (isCanvasActive()){
 			scroll(0, getToolboxPositionTop());
 		}
@@ -733,13 +789,6 @@ $(function() {
 		}
 	});
 
-	$(document).scroll(function() {
-		setBacktotopVisibility();
-	});
-
-	$(window).resize(function() {
-		setBacktotopVisibility();
-	});
 
 	/*
 	*
@@ -749,13 +798,13 @@ $(function() {
 
 	$( "#dialog" ).on( "dialogopen",
 		function( event, ui ) {
-			setBacktotopVisibility();
+			setBtnSidebarVisibility();
 		}
 	);
 
 		$( "#dialog" ).on( "dialogclose",
 		function( event, ui ) {
-			setBacktotopVisibility();
+			setBtnSidebarVisibility();
 		}
 	);
 
@@ -769,7 +818,6 @@ $(function() {
 	$("#btnHelp").click(function() {
 		showStartUpDialog();
 	});
-
 
 
 	/*

@@ -6,7 +6,6 @@
 	.input-label {
 		font-size: 1.4em;
 	}
-
 }
 
 @media screen and (min-width:750px) {
@@ -22,19 +21,10 @@
 		width: auto;
 		margin: 0 1.5em 0 0;
 	}
-
 }
 
 @media screen and (min-width:900px) {
 	h1 {
 		font-size: 4.5em;
-	}
-}
-
-@media screen and (min-width:1400px) {
-	.help-container {
-		width: 100%;
-		text-align: center;
-		bottom: 0;
 	}
 }

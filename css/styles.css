@@ -116,6 +116,7 @@ input[type=number] {
   display: inline-block;
   height: 25px;
   font-size: 1.05em;
+  color: #362b39;
 }
 
 input[type=color] {
@@ -197,7 +198,7 @@ input[type=color] {
 }
 
 .btn {
-  border-radius: 4px;
+  border-radius: 5px;
   border: 2px solid #6e5773;
   margin: 0 0.3em 0 0.3em;
   background-color: #fff;
@@ -217,8 +218,7 @@ input[type=color] {
 }
 
 .btn:hover,
-.btn:focus,
-.btn-help:hover
+.btn:focus
  {
   color: #ea9085;
   border-color: #ea9085;
@@ -251,6 +251,80 @@ input[type=color] {
 
 #btnLoadCanvasInput {
   display: none;
+}
+
+/*
+*
+* Help
+*
+*/
+
+.btn-help-visible {
+  transition: opacity 1s linear;
+  opacity: 0.5;
+  display: block;
+}
+
+.btn-help-hidden {
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
+}
+
+#btnHelp:active {
+	transform: scale(1.1);
+}
+
+#btnHelp:focus {
+	color: #6e5773;
+}
+
+#btnHelp {
+	width: 40px;
+	height: 40px;
+  border: none;
+	position: fixed;
+	top: 10px;
+	right: 5px;
+	-webkit-box-shadow: 0px 0px 11px 0px rgba(205,171,219,1);
+	-moz-box-shadow: 0px 0px 11px 0px rgba(205,171,219,1);
+	box-shadow: 0px 0px 11px 0px rgba(205,171,219,1);
+}
+
+/*
+*
+* Back to top
+*
+*/
+
+#btnBacktoTop {
+	width: 40px;
+	height: 40px;
+  border: none;
+	position: fixed;
+	bottom: 10px;
+	right: 5px;
+	-webkit-box-shadow: 0px 0px 11px 0px rgba(205,171,219,1);
+	-moz-box-shadow: 0px 0px 11px 0px rgba(205,171,219,1);
+	box-shadow: 0px 0px 11px 0px rgba(205,171,219,1);
+}
+
+#btnBacktoTop:focus {
+	color: #6e5773;
+}
+
+.btn-backtotop-visible {
+  transition: opacity 1s linear;
+  opacity: 0.75;
+  display: block;
+}
+
+.btn-backtotop-hidden {
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
+}
+
+.btn-backtotop:active {
+	transform: scale(1.1);
 }
 
 
@@ -426,58 +500,4 @@ footer a:hover {
 
 .ui-dialog-titlebar-close{
   display: none;
-}
-
-/*
-*
-* Back to top
-*
-*
-*/
-
-.backtotop {
-  width: 40px;
-  height: auto;
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  z-index: 31;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.backtotop-visible {
-  transition: opacity 1s linear;
-  opacity: 0.75;
-  display: block;
-}
-
-.backtotop-hidden {
-  opacity: 0;
-  transition: visibility 0s 1s, opacity 1s linear;
-}
-
-/*
-*
-* Help
-*
-*/
-
-.help-container {
-	display: block;
-	position: fixed;
-	bottom: 3em;
-	left: 0;
-}
-
-.btn-help {
-  border: none;
-  opacity: 0.5;
-  background-color: #fff;
-  color: #6e5773;
-  cursor: pointer;
-  padding: 0;
-  height: 43px;
-  width: 43px;
-  outline: 0;
 }
