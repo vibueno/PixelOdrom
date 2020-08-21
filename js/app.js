@@ -116,6 +116,17 @@ function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback){
   });
 }
 
+function isDialogOpen(){
+	if ($('#dialog').dialog('isOpen')){
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
 
 function showInfoDialog(dialogTitle, dialogContent, isHTMLcontent){
 
@@ -514,7 +525,8 @@ function btnResetCanvasClick(){
 function setBacktotopVisibility(){
 
 	if ((($( window ).height() + $(window).scrollTop()) >= ($("body").outerHeight()/1.25)) &&
-		(getToolboxPositionTop()<=$(window).scrollTop()) && isCanvasActive()) {
+		(getToolboxPositionTop()<=$(window).scrollTop()) && isCanvasActive() &&
+		(!isDialogOpen())) {
 
 		window.setTimeout( function() {
 			$(".backtotop").removeClass("backtotop-hidden");
@@ -691,6 +703,36 @@ $(function() {
 		setBacktotopVisibility();
 	});
 
+	/*
+	*
+	* Dialog events
+	*
+	*/
+
+	$( "#dialog" ).on( "dialogopen",
+		function( event, ui ) {
+			setBacktotopVisibility();
+		}
+	);
+
+		$( "#dialog" ).on( "dialogclose",
+		function( event, ui ) {
+			setBacktotopVisibility();
+		}
+	);
+
+
+	/*
+	*
+	* Help events
+	*
+	*/
+
+	$("#btnHelp").click(function() {
+		showStartUpDialog();
+	});
+
+
 
 	/*
 	*
@@ -700,5 +742,6 @@ $(function() {
 
 	showStartUpDialog();
 	setUpPixelOdrom();
+	createCanvas();
 
 });

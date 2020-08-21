@@ -197,7 +197,6 @@ input[type=color] {
   margin: 0 0.3em 0 0.3em;
   background-color: #fff;
   color: #6e5773;
-  font-weight: 600;
   cursor: pointer;
   padding: 0;
   height: 43px;
@@ -213,7 +212,9 @@ input[type=color] {
 }
 
 .btn:hover,
-.btn:focus {
+.btn:focus,
+.btn-help:hover
+ {
   color: #ea9085;
   border-color: #ea9085;
   background-color: white;
@@ -449,4 +450,29 @@ footer a:hover {
 .backtotop-hidden {
   opacity: 0;
   transition: visibility 0s 1s, opacity 1s linear;
+}
+
+/*
+*
+* Help
+*
+*/
+
+.help-container {
+	display: block;
+	position: fixed;
+	bottom: 3em;
+	left: 0;
+}
+
+.btn-help {
+  border: none;
+  opacity: 0.5;
+  background-color: #fff;
+  color: #6e5773;
+  cursor: pointer;
+  padding: 0;
+  height: 43px;
+  width: 43px;
+  outline: 0;
 }

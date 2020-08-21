@@ -34,3 +34,11 @@
 		font-size: 4.5em;
 	}
 }
+
+@media screen and (min-width:1400px) {
+	.help-container {
+		width: 90%;
+		text-align: center;
+		bottom: 0;
+	}
+}
