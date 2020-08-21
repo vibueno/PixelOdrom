@@ -4,7 +4,7 @@
 	}
 
 	.input-label {
-		font-size: 1.3em;
+		font-size: 1.4em;
 	}
 
 }
@@ -15,16 +15,12 @@
 	}
 
 	.input-label {
-		font-size: 1.4em;
+		font-size: 1.5em;
 	}
 
 	.input-field {
 		width: auto;
 		margin: 0 1.5em 0 0;
-	}
-
-	input[type=number] {
-		width: 50px;
 	}
 
 }

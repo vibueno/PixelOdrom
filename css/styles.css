@@ -25,7 +25,8 @@ html {
 header,
 footer,
 div,
-form {
+form,
+h1 {
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -41,13 +42,16 @@ body {
 
 h1 {
   font-family: "Monoton";
-  font-size: 1.5em;
+  font-size: 1.6em;
   font-weight: 500;
   margin: 0.5em auto auto auto;
   color: #ea9085;
   background-color: #6e5773;
   border: 2px dotted #d45d79;
   max-width: 1400px;
+  height: 2em;
+  align-items: center;
+  justify-content: center;
 }
 
 h2 {
@@ -74,15 +78,15 @@ a {
  */
 
 .input-label{
-	margin: 0 1em 0 0;
+	margin: 0 0.5em 0 0;
 	font-family: "Bungee Inline";
 	color: #6e5773;
-	font-size: 1em;
+	font-size: 1.1em;
 	font-weight: 300;
 }
 
 .input-field {
-	margin: 0 0.3em 1em 0.5em;
+	margin: 0 0.1em 1em 0.1em;
 	width: 100%;
 	justify-content: center;
 	align-items: center;
@@ -105,11 +109,13 @@ a {
  }
 
 input[type=number] {
-  width: 3.3em;
+  width: 3.0em;
+  height: 1.5em;
   border: 1px dotted #6e5773;
   position: relative;
   display: inline-block;
   height: 25px;
+  font-size: 1.05em;
 }
 
 input[type=color] {
@@ -317,14 +323,14 @@ footer a {
 
 footer a:hover {
 	color: #ea9085;
-	font-size: 0.75rem;
+	font-size: 1.05em;
 }
 
 .footer-credits,
 .footer-samples
  {
  	width: 100%;
-  font-size: 0.7em;
+  font-size: 0.8em;
   margin: 5px 0 0 0;
   padding: 0 0 10px 0;
   align-content: center;
