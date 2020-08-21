@@ -8,7 +8,7 @@
 - [Samples](#samples)
 - [Improvements](#improvements)
 - [Tests](#tests)
-- [Issues](#improvements)
+- [Validations](#validations)
 
 ## Description
 This project was developed within the frame of the Front End Developer Nanodegree program at Udacity.
@@ -52,5 +52,5 @@ In the folder [samples](https://github.com/vibueno/PixelOdrom/tree/master/sample
 * Desktop computer + Developer Tools
 * Uniherz Jelly Pro
 
-## Issues
-* The tool cursors take a little bit to load and in the meantime you can see an empty square instead. I couldn't manage to solve this issue easily, so I left it as it is, since the bug should only appear the first time a user uses the application (if browser cache is activated). It could be this same problem, atlhough I am not sure: https://github.com/jwarby/jquery-awesome-cursor/issues/9
+## Validations
+![Valid CSS!](http://jigsaw.w3.org/css-validator/images/vcss)
