@@ -13,6 +13,10 @@
 ## Description
 This project was developed within the frame of the Front End Developer Nanodegree program at Udacity.
 
+## Live
+
+For a live version of pixelOdrom, visit its [GitHub Pages Link](https://vibueno.github.io/pixelodrom).
+
 ## Libraries
 * [jQuery](https://jquery.com)
 * [jQuery Awesome Cursor](https://jwarby.github.io/jquery-awesome-cursor)

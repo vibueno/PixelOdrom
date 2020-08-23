@@ -51,7 +51,7 @@ function goToHomePage(){
 
 
 function setUpPixelOdrom(){
-	resetValues();
+	resetInputFieldValues();
 	showToolbox(false);
 	showActionbox(false);
 	showCanvas(false);
@@ -183,7 +183,7 @@ function isDialogOpen(){
 */
 
 
-function resetValues(){
+function resetInputFieldValues(){
 	$("#inputWidth").val($("#inputWidth").prop("defaultValue"));
 	$("#inputHeight").val($("#inputHeight").prop("defaultValue"));
 	$("#colorPicker").val($("#colorPicker").prop("defaultValue"));
