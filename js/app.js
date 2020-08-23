@@ -144,7 +144,7 @@ function showHelpDialog(){
 
 function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback, callbackParams){
 
-	$( "#dialog" ).dialog('option', 'title', dialogTitle);
+	$( "#dialog" ).attr('title', dialogTitle);
 
 	if (isHTMLcontent){
 		$( "#dialog" ).first("p").html(dialogContent);
@@ -171,7 +171,7 @@ function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback, 
 
 function showInfoDialog(dialogTitle, dialogContent, isHTMLcontent){
 
-	$( "#dialog" ).dialog('option', 'title', dialogTitle);
+	$( "#dialog" ).attr('title', dialogTitle);
 
 	if (isHTMLcontent){
 		$( "#dialog" ).first("p").html(dialogContent);
@@ -442,6 +442,11 @@ function saveCanvas(){
   saveAs(blob, "canvas.pix");
 
 }
+
+function exportCanvas(){
+	alert("TODO");
+}
+
 
 function isValidCanvas(canvas){
 
@@ -803,6 +808,14 @@ $(function() {
 			showConfirmDialog(dialogConfirmTitle, "Are you sure that you want to save this canvas?", false, saveCanvas);
 		}
 	});
+
+	$("#btnExportCanvas").click( function(){
+		if (isCanvasActive()){
+			showConfirmDialog(dialogConfirmTitle, "Are you sure that you want to export this canvas as an image?", false, exportCanvas);
+		}
+	});
+
+
 
 
 	/*
