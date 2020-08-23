@@ -509,7 +509,7 @@ I decided to change the original CSS classes directly for readability
   border: 1px dotted #d45d79;
 }
 
-.ui-dialog-titlebar-close{
+.no-close .ui-dialog-titlebar-close{
   display: none;
 }
 

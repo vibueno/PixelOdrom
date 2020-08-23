@@ -37,9 +37,10 @@ const createCanvasHTML = '<i class="fa fa-th"></i>';
 const saveCanvasHTML = '<i class="fa fa-floppy-o"></i>';
 const openCanvasHTML = '<i class="fa fa-folder-open"></i>';
 
-const dialogStartUpTitle = 'Welcome to pixelOdrom';
 
-const dialogStartUpText = `<p class = "dialog-text-intro">pixelOdrom is a web tool for drawing pixel art.</p>
+const dialogHelpTitle = 'pixelOdrom help';
+
+const dialogHelpText =  `<p class = "dialog-text-intro">pixelOdrom is a web tool for drawing pixel art.</p>
 <ul class="dialog-list">
 	<li class="dialog-list-element">Create a new canvas &nbsp;${createCanvasHTML} or open an existing one &nbsp;${openCanvasHTML}</li>
 	<li class="dialog-list-element">Choose a color with the picker and use the &nbsp;${toolBrushHTML} for painting pixels.
@@ -47,7 +48,14 @@ const dialogStartUpText = `<p class = "dialog-text-intro">pixelOdrom is a web to
 	<li class="dialog-list-element">By using the &nbsp;${toolEraserHTML}, you can erase pixels.
 	<p class="dialog-list-text-below">If you are using a mouse, you can also erase multiple pixels in one stroke.</p></li>
 	<li class="dialog-list-element">Click on &nbsp;${saveCanvasHTML} to save your canvas to a local pixelOdrom file (*.pix) to continue your work later (note that every time you save the canvas, a new file will be created).</li>
-</ul>
+</ul>`;
+
+const dialogStartUpTitle = 'Welcome to pixelOdrom';
+
+const dialogStartUpText = dialogHelpText + `<p>
+	<input type="checkbox" id="dialogStartUpHide">
+	<label for="dialogStartUpHide">I am already a pixelOdrom master. Don't show this again!</label>
+</p>
 `;
 
 const dialogConfirmTitle = "Confirm";
@@ -116,6 +124,23 @@ function showStartUpDialog(){
   });
 }
 
+function showHelpDialog(){
+
+	$( "#dialog" ).attr('title', dialogHelpTitle);
+
+	$( "#dialog" ).first("p").html(dialogHelpText);
+
+	$( "#dialog" ).dialog({
+		modal: true,
+		buttons: {
+    	"Alright!": function () {
+        $(this).dialog("close");
+      }
+    },
+    resizable: false
+  });
+}
+
 
 function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback, callbackParams){
 
@@ -177,11 +202,22 @@ function showFileDialog(){
 
 
 function isDialogOpen(){
-	if ($('#dialog').dialog('isOpen')){
-		return true;
+
+	/*
+		We check first whether the dialog has been initialized
+		https://stackoverflow.com/questions/15763909/jquery-ui-dialog-check-if-exists-by-instance-method
+	*/
+
+	if ($("#dialog").hasClass('ui-dialog-content')){
+		if ($("#dialog").dialog("isOpen")){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
-	else
-	{
+	else{
 		return false;
 	}
 }
@@ -813,11 +849,23 @@ $(function() {
 		}
 	);
 
-		$( "#dialog" ).on( "dialogclose",
+	$( "#dialog" ).on( "dialogclose",
 		function( event, ui ) {
 			setBtnSidebarVisibility();
 		}
 	);
+
+	$("#dialog").on ("change", "#dialogStartUpHide",
+		function( event, ui ) {
+			if ($("#dialogNotShowAgain").is(":checked")){
+				localStorage.setItem('dialogStartUpHide', true);
+			}
+			else
+			{
+				localStorage.setItem('dialogStartUpHide', false);
+			}
+		}
+	)
 
 
 	/*
@@ -827,7 +875,7 @@ $(function() {
 	*/
 
 	$("#btnHelp").click(function() {
-		showStartUpDialog();
+		showHelpDialog();
 	});
 
 
@@ -837,7 +885,10 @@ $(function() {
 	*
 	*/
 
-	showStartUpDialog();
+	if (!localStorage.dialogStartUpHide) {
+		showStartUpDialog();
+	}
+
 	setUpPixelOdrom();
 
 	const canvasSizeDefault = [$("#inputWidth").prop("defaultValue"), $("#inputHeight").prop("defaultValue")];
