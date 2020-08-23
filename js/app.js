@@ -27,6 +27,34 @@ const column = "<td></td>";
 
 /*
 *
+* Dialog constants
+*
+*/
+
+const toolBrushHTML = '<i class="fa fa-paint-brush"></i>';
+const toolEraserHTML = '<i class="fa fa-eraser"></i>';
+const createCanvasHTML = '<i class="fa fa-th"></i>';
+const saveCanvasHTML = '<i class="fa fa-floppy-o"></i>';
+const openCanvasHTML = '<i class="fa fa-folder-open"></i>';
+
+const dialogStartUpTitle = 'Welcome to pixelOdrom';
+
+const dialogStartUpText = `<p class = "dialog-text-intro">pixelOdrom is a web tool for drawing pixel art.</p>
+<ul class="dialog-list">
+	<li class="dialog-list-element">Create a new canvas &nbsp;${createCanvasHTML} or open an existing one &nbsp;${openCanvasHTML}</li>
+	<li class="dialog-list-element">Choose a color with the picker and use the &nbsp;${toolBrushHTML} for painting pixels.
+	<p class="dialog-list-text-below">If you are using a mouse, you can also draw pixel lines.</p></li>
+	<li class="dialog-list-element">By using the &nbsp;${toolEraserHTML}, you can erase pixels.
+	<p class="dialog-list-text-below">If you are using a mouse, you can also erase multiple pixels in one stroke.</p></li>
+	<li class="dialog-list-element">Click on &nbsp;${saveCanvasHTML} to save your canvas to a local pixelOdrom file (*.pix) to continue your work later (note that every time you save the canvas, a new file will be created).</li>
+</ul>
+`;
+
+const dialogConfirmTitle = "Confirm";
+
+
+/*
+*
 * Globals
 *
 */
@@ -42,7 +70,7 @@ let selectedTool = toolPaintBrush;
 
 function goToHomePage(){
 	if (isCanvasActive()){
-		showConfirmDialog("Confirm", "Leaving the page will reset the canvas. Do you want to proceed?" , false, setUpPixelOdrom);
+		showConfirmDialog(dialogConfirmTitle, "Leaving the page will reset the canvas. Do you want to proceed?" , false, setUpPixelOdrom);
 	}
 	else{
 		setUpPixelOdrom();
@@ -73,28 +101,9 @@ function getMainDivPositionTop(){
 
 function showStartUpDialog(){
 
-	const dialogTitle = 'Welcome to pixelOdrom';
+	$( "#dialog" ).attr('title', dialogStartUpTitle);
 
-	const toolBrushHTML = '<i class="fa fa-paint-brush"></i>';
-	const toolEraserHTML = '<i class="fa fa-eraser"></i>';
-	const createCanvasHTML = '<i class="fa fa-th"></i>';
-	const saveCanvasHTML = '<i class="fa fa-floppy-o"></i>';
-	const openCanvasHTML = '<i class="fa fa-folder-open"></i>';
-
-	const dialogText = `<p class = "dialog-text-intro">pixelOdrom is a tool for creating pixel art.</p>
-	<ul class="dialog-list">
-		<li class="dialog-list-element">Create a new canvas &nbsp;${createCanvasHTML} or open an existing one &nbsp;${openCanvasHTML}</li>
-		<li class="dialog-list-element">Choose a color with the picker and use the &nbsp;${toolBrushHTML} for painting pixels.
-		<p class="dialog-list-text-below">If you are using a mouse, you can also paint pixel lines</p></li>
-		<li class="dialog-list-element">By using the &nbsp;${toolEraserHTML}, you can erase pixels.
-		<p class="dialog-list-text-below">If you are using a mouse, you can also delete multiple pixels in one go</p></li>
-		<li class="dialog-list-element">Click on &nbsp;${saveCanvasHTML} to save your canvas to a local file pixelOdrom file (*.pix) to continue your work later</li>
-	</ul>
-`;
-
-	$( "#dialog" ).attr('title', dialogTitle);
-
-	$( "#dialog" ).first("p").html(dialogText);
+	$( "#dialog" ).first("p").html(dialogStartUpText);
 
 	$( "#dialog" ).dialog({
 		modal: true,
@@ -103,7 +112,7 @@ function showStartUpDialog(){
         $(this).dialog("close");
       }
     },
-    minWidth: "240"
+    resizable: false
   });
 }
 
@@ -128,8 +137,9 @@ function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback, 
       },
       "No": function () {
         $(this).dialog("close");
-      }
-    }
+      },
+    },
+    resizable: false
   });
 }
 
@@ -151,7 +161,8 @@ function showInfoDialog(dialogTitle, dialogContent, isHTMLcontent){
     	"OK": function () {
         $(this).dialog("close");
       }
-    }
+    },
+    resizable: false
   });
 }
 
@@ -668,7 +679,7 @@ $(function() {
 		else
 		{
 			const dialogMsg = `Are you sure that you want to create a new ${canvasWidth}x${canvasHeight} canvas?`;
-			showConfirmDialog("Confirm", dialogMsg, false, createCanvasCheck, canvasSize);
+			showConfirmDialog(dialogConfirmTitle, dialogMsg, false, createCanvasCheck, canvasSize);
 		}
 
 		e.preventDefault();
@@ -678,7 +689,7 @@ $(function() {
 	$("#btnLoadCanvas").click( function(e){
 
 		const dialogMsg = "Are you sure that you want to load a previously saved canvas?";
-		showConfirmDialog("Confirm", dialogMsg, false, showFileDialog);
+		showConfirmDialog(dialogConfirmTitle, dialogMsg, false, showFileDialog);
 
 	});
 
@@ -747,13 +758,13 @@ $(function() {
 
 	$("#btnResetCanvas").click(function() {
 		if (isCanvasActive()){
-			showConfirmDialog("Confirm", "Are you sure that you want to reset this canvas?", false, btnResetCanvasClick);
+			showConfirmDialog(dialogConfirmTitle, "Are you sure that you want to reset this canvas?", false, btnResetCanvasClick);
 		}
 	});
 
 	$("#btnSaveCanvas").click( function(){
 		if (isCanvasActive()){
-			showConfirmDialog("Confirm", "Are you sure that you want to save this canvas?", false, saveCanvas);
+			showConfirmDialog(dialogConfirmTitle, "Are you sure that you want to save this canvas?", false, saveCanvas);
 		}
 	});
 

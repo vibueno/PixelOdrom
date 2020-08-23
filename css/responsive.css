@@ -6,6 +6,18 @@
 	.input-label {
 		font-size: 1.4em;
 	}
+
+	.ui-widget{
+		font-size: 0.9em;
+	}
+
+}
+
+@media screen and (min-width:600px) {
+	.ui-widget{
+		font-size: 1em;
+	}
+
 }
 
 @media screen and (min-width:750px) {
