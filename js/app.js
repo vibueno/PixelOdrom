@@ -59,6 +59,7 @@ const dialogStartUpText = dialogHelpText + `<p>
 `;
 
 const dialogConfirmTitle = "Confirm";
+const dialogErrorTitle = "Error";
 
 
 /*
@@ -90,6 +91,7 @@ function setUpPixelOdrom(){
 	resetInputFieldValues();
 	showToolbox(false);
 	showActionbox(false);
+	setBtnSidebarVisibility();
 	showCanvas(false);
 }
 
@@ -189,6 +191,28 @@ function showInfoDialog(dialogTitle, dialogContent, isHTMLcontent){
     },
     resizable: false
   });
+}
+
+function showErrorDialog(dialogTitle, dialogContent, isHTMLcontent){
+
+	$( "#dialog" ).attr('title', dialogTitle);
+
+	if (isHTMLcontent){
+		$( "#dialog" ).first("p").html(dialogContent);
+	}
+	else{
+		$( "#dialog" ).first("p").text(dialogContent);
+	}
+
+	$( "#dialog" ).dialog({
+		modal: true,
+		buttons: {
+    	"OK": function () {
+        $(this).dialog("close");
+      }
+    },
+    resizable: false
+  }).parent().addClass("ui-state-error");
 }
 
 
@@ -317,9 +341,7 @@ function setUpCanvas(canvasWidth, canvasHeight){
 function maxCanvasSize (){
 
 	const canvas = $ ( pixelCanvasSel );
-
 	const canvasBackup = canvas.clone();
-
 	const availableWidth = parseInt($(".main").width());
 
 	deleteCanvas();
@@ -345,6 +367,7 @@ function maxCanvasSize (){
 	let maxCanvasHeight = maxCanvasWidth*canvasAspectRatio;
 
 	canvas.html(canvasBackup.html());
+	showCanvas(true);
 
 	return [maxCanvasWidth, maxCanvasHeight];
 
@@ -355,8 +378,6 @@ function createCanvasCheck(canvasSize) {
 
 	const canvasWidth = canvasSize [0];
 	const canvasHeight = canvasSize [1];
-
-	let lastRow;
 
 	let maxCanvasPixel = maxCanvasSize();
 
@@ -496,6 +517,7 @@ function loadCanvas(input){
 
 			if (canvasWidth > maxCanvasPixel[0] || canvasHeight >  maxCanvasPixel[1]){
 				showInfoDialog("Canvas too big", "The selected canvas is too big for the available space. If you created this canvas on another device, please make sure you use a similar one to edit it.", false);
+
 			}
 			else
 			{
@@ -510,7 +532,7 @@ function loadCanvas(input){
   };
 
   reader.onerror = function() {
-    showInfoDialog("Error", `There was an error while trying to read the file: ${reader.error}`, false);
+    showErrorDialog(dialogErrorTitle, `There was an error while trying to read the file: ${reader.error}`, false);
   };
 
   /*This call is needed in order to make the even onchange fire every time,
@@ -870,12 +892,18 @@ $(function() {
 
 	$("#dialog").on ("change", "#dialogStartUpHide",
 		function( event, ui ) {
-			if ($("#dialogNotShowAgain").is(":checked")){
-				localStorage.setItem('dialogStartUpHide', true);
+
+			try {
+				if ($("#dialogNotShowAgain").is(":checked")){
+					localStorage.setItem('dialogStartUpHide', true);
+				}
+				else
+				{
+					localStorage.setItem('dialogStartUpHide', false);
+				}
 			}
-			else
-			{
-				localStorage.setItem('dialogStartUpHide', false);
+			catch(e) {
+				showErrorDialog(dialogErrorTitle, `There was an error trying to access the local storage: ${e.message}`, false);
 			}
 		}
 	)
