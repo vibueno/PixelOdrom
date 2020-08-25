@@ -1,0 +1,15 @@
+{
+  "esversion": 6,
+  "undef": true,
+  "unused": true,
+  "globals": {
+    "$": false,
+    "window": false,
+    "document": false,
+    "FileReader": false,
+    "localStorage": false,
+    "scroll": false,
+    "Blob": false,
+    "goToHomePage": false
+	}
+}

@@ -9,21 +9,16 @@ const pixelCanvasSel = "#pixelCanvas";
 const toolPaintBrush = "paint-brush";
 const toolEraser = "eraser";
 
-const canvasWidthThreshold1 = 25;
-const canvasWidthThreshold2 = 50;
-const canvasWidthThreshold3 = 75;
-
 const canvasAspectRatio = 1.5;
 
-const canvasCorrectionFactor = 1/1.2;
+const minPixelSize=10; // in CSS pixels
 
-const smallestPixelClassRow = "tr-s";
-const smallestPixelClassColumn = "td-s";
+const maxCanvasWithPO = 100;
 
 const cursorColor="#888888";
 
 const row = "<tr></tr>";
-const column = "<td></td>";
+const column = '<td class="pixel"></td>';
 
 /*
 *
@@ -68,14 +63,41 @@ const dialogErrorTitle = "Error";
 *
 */
 
-let mouseIsDown = false;
-let selectedTool = toolPaintBrush;
+let gbMouseIsDown = false;
+let gbSelectedTool = toolPaintBrush;
+
+let gbCurrentCanvasMaxWidthPO; //in pixelOdrom pixels
+let gbCurrentCanvasMaxHeightPO; //in pixelOdrom pixels
+
+let gbCurrentCanvasWidthPO; //in pixelOdrom pixels
+let gbCurrentCanvasHeightPO; //in pixelOdrom pixels
+
+let gbMainWidthPx;
+
+let gbCurrentCanvasWidth; //%
+
 
 /*
 *
 * General
 *
 */
+
+function CSSPixelToNumber(CSSValue){
+	 return parseInt(CSSValue.replace("px", ""));
+}
+
+function setGlobals(){
+
+	gbCurrentCanvasWidthPO = parseInt($("#inputWidth").val());
+	gbCurrentCanvasHeightPO = parseInt($("#inputHeight").val());
+
+	gbMainWidthPx = parseInt($(".main").width());
+
+	gbCurrentCanvasMaxWidthPO = Math.min(Math.floor(gbMainWidthPx/minPixelSize), maxCanvasWithPO);
+	gbCurrentCanvasMaxHeightPO = Math.floor(gbCurrentCanvasMaxWidthPO*canvasAspectRatio);
+
+}
 
 function goToHomePage(){
 	if (isCanvasActive()){
@@ -94,14 +116,6 @@ function setUpPixelOdrom(){
 	setBtnSidebarVisibility();
 	showCanvas(false);
 }
-
-/*
-function getMainDivPositionTop(){
-	const mainDivMarginTop = parseInt($(".main").css("marginTop").replace("px", ""));
-	const mainDivPositionTop = $(".main").position().top + mainDivMarginTop;
-	return mainDivPositionTop;
-}
-*/
 
 /*
 *
@@ -272,7 +286,7 @@ function setInputFieldValues(canvasWidth, canvasHeight){
 */
 
 function getToolboxPositionTop(){
-	const toolboxMarginTop = parseInt($("#toolbox").css("marginTop").replace("px", ""));
+	const toolboxMarginTop = CSSPixelToNumber($("#toolbox").css("marginTop"));
 	const toolboxPositionTop = $("#toolbox").position().top + toolboxMarginTop;
 	return toolboxPositionTop;
 }
@@ -300,91 +314,66 @@ function showCanvas(show){
 
 }
 
-
-function getCanvasNumPixelX(canvas){
-	const canvasNumPixX = parseInt(canvas.find("tr:first td").length);
-
-	return canvasNumPixX;
-}
-
-function getCanvasNumPixelY(canvas){
-	const canvasNumPixY = parseInt(canvas.find("tr:first td").length);
-
-	return canvasNumPixY;
-}
-
-function getCanvasNumPixel(canvas){
-	const canvasNumPixX = getCanvasNumPixelX(canvas);
-	const canvasNumPixY = getCanvasNumPixelY(canvas);
-
-	const numpixels = canvasNumPixX*canvasNumPixY;
-
-	return numpixels;
-}
-
-
 function setUpCanvas(canvasWidth, canvasHeight){
 
 	const canvas = $ ( pixelCanvasSel );
+	let canvasCSSWidth;
 
-	addPixelClass(canvas);
+	if (canvasWidth<50){
+		canvasCSSWidth = 60;
+	}
+	else{
+		canvasCSSWidth= 100;
+	}
+
+	canvas.css("width", (canvasCSSWidth+"%"));
+	gbCurrentCanvasWidth = canvasCSSWidth;
+
+	setInputFieldValues(canvasWidth, canvasHeight);
+
+	setUpPixel();
 
 	showToolbox(true);
 	showActionbox(true);
 	selectTool(toolPaintBrush);
 	showCanvas(true);
 
-	setInputFieldValues(canvasWidth, canvasHeight);
 }
 
+function setUpPixel(){
 
-function maxCanvasSize (){
+	setGlobals();
 
 	const canvas = $ ( pixelCanvasSel );
-	const canvasBackup = canvas.clone();
-	const availableWidth = parseInt($(".main").width());
+	const pixelBorderSize = CSSPixelToNumber($ (".pixel").css("border-left-width"));
+	const totalBordersSize = pixelBorderSize * gbCurrentCanvasHeightPO;
+	const maxCanvasWidthPx = gbMainWidthPx-totalBordersSize;
 
-	deleteCanvas();
+	const maxCanvasWidthPercent = (maxCanvasWidthPx/gbMainWidthPx)*100;
 
-	canvas.append(row);
-	lastRow = $(pixelCanvasSel + " tr").last();
+	let pixelWidth = maxCanvasWidthPercent/gbCurrentCanvasWidthPO;
 
-	lastRow.append(column);
+	let padding = pixelWidth;
 
-	$(pixelCanvasSel + " tr").addClass(smallestPixelClassRow);
-	$(pixelCanvasSel + " tr td").addClass(smallestPixelClassColumn);
-
-	const pixelWidth = parseInt(canvas.find('tr:nth-child(1) > td').width());
-
-	let maxCanvasWidth = availableWidth / pixelWidth;
-
-	/*
-	We use this correction factor, because otherwise for some reason,
-	we are creating more pixels than we should for the available width
-	*/
-	maxCanvasWidth = Math.floor(maxCanvasWidth - Math.pow(maxCanvasWidth, canvasCorrectionFactor));
-
-	let maxCanvasHeight = maxCanvasWidth*canvasAspectRatio;
-
-	canvas.html(canvasBackup.html());
-	showCanvas(true);
-
-	return [maxCanvasWidth, maxCanvasHeight];
+	canvas.find(".pixel").width(pixelWidth+"%");
+	canvas.find(".pixel").css("padding-bottom", padding+"%");
 
 }
 
 
 function createCanvasCheck(canvasSize) {
 
+	setGlobals();
+
 	const canvasWidth = canvasSize [0];
 	const canvasHeight = canvasSize [1];
 
-	let maxCanvasPixel = maxCanvasSize();
+	const maxCanvasPixel=[gbCurrentCanvasMaxWidthPO, gbCurrentCanvasMaxHeightPO];
 
-	if (canvasWidth > maxCanvasPixel[0] || canvasHeight >  maxCanvasPixel[1]){
+	if (canvasWidth > gbCurrentCanvasMaxWidthPO || canvasHeight >  gbCurrentCanvasMaxHeightPO){
 		showCanvas(true);
 		showConfirmDialog("Canvas too big", `The dimensions selected exceed the available space.
-			Would you like to create the biggest possible canvas (width: ${maxCanvasPixel[0]}px, height: ${maxCanvasPixel[1]}px)?`,
+			Would you like to create the biggest possible canvas (width: ${gbCurrentCanvasMaxWidthPO}, height: ${gbCurrentCanvasMaxHeightPO})?`,
 			false,
 			createCanvas, maxCanvasPixel);
 	}
@@ -406,7 +395,7 @@ function createCanvas(canvasSize){
 
 	for (let i=1; i<=canvasHeight; i++){
 		canvas.append(row);
-		lastRow = $(pixelCanvasSel + " tr").last();
+		let lastRow = $(pixelCanvasSel + " tr").last();
 
 		for (let j=1; j<=canvasWidth; j++){
 			lastRow.append(column);
@@ -432,7 +421,7 @@ function canvasPropCorrect(width, height){
 }
 
 function deleteCanvas(){
-	const canvas = $ (pixelCanvasSel);
+
 	const canvasRows = $ (pixelCanvasSel + " tr");
 
 	canvasRows.remove();
@@ -442,7 +431,7 @@ function deleteCanvas(){
 
 function resetCanvas(){
 	const canvas = $ (pixelCanvasSel);
-	canvas.find("tr td").removeAttr("style");
+	canvas.find(".pixel").css("background-color", "#fff");
 }
 
 
@@ -452,10 +441,6 @@ function saveCanvas(){
 
 	//We need to clone, so that we don"t modify the DOM
 	const canvasToSave = canvas.clone();
-
-	//removing classes since they are not needed
-	canvasToSave.find("tr").removeAttr("class");
-	canvasToSave.find("tr td").removeAttr("class");
 
 	const canvasContent = canvasToSave.html();
 
@@ -510,24 +495,25 @@ function loadCanvas(input){
   	else
   	{
 
-			const canvasWidth = canvasToImport.first().find("td").length;
+			const canvasWidth = canvasToImport.first().find(".pixel").length;
 			const canvasHeight = canvasToImport.length;
 
-			let maxCanvasPixel = maxCanvasSize();
-
-			if (canvasWidth > maxCanvasPixel[0] || canvasHeight >  maxCanvasPixel[1]){
+			if (canvasWidth > gbCurrentCanvasMaxWidthPO || canvasHeight >  gbCurrentCanvasMaxHeightPO){
 				showInfoDialog("Canvas too big", "The selected canvas is too big for the available space. If you created this canvas on another device, please make sure you use a similar one to edit it.", false);
 
 			}
 			else
 			{
 				canvas.html(reader.result);
-				setUpCanvas(canvasWidth, canvasHeight);
-
 				$("#inputWidth").val(canvasWidth);
 				$("#inputHeight").val(canvasHeight);
+
+				setGlobals();
+				setUpCanvas(canvasWidth, canvasHeight);
+
 			}
 		}
+
 
   };
 
@@ -546,32 +532,8 @@ function isCanvasActive(){
 	return $(pixelCanvasSel + " tr").length;
 }
 
-
-function addPixelClass(canvas){
-
-	canvasWidth = canvas.find ("tr:first td").length;
-
-	switch(true) {
-  case (canvasWidth>=canvasWidthThreshold1 && canvasWidth<=canvasWidthThreshold2):
-  	canvas.find("tr").addClass("tr-l");
-    canvas.find("td").addClass("td-l");
-    break;
-  case (canvasWidth>=canvasWidthThreshold2 && canvasWidth<=canvasWidthThreshold3):
-  	canvas.find("tr").addClass("tr-m");
-    canvas.find("td").addClass("td-m");
-    break;
-  case (canvasWidth>=canvasWidthThreshold3):
-  	canvas.find("tr").addClass("tr-s");
-    canvas.find("td").addClass("td-s");
-    break;
-  default:
-  	canvas.find("tr").addClass("tr-xl");
-    canvas.find("td").addClass("td-xl");
-  }
-}
-
 function paintPixel(pixel){
-	if ((selectedTool) == toolPaintBrush){
+	if ((gbSelectedTool) == toolPaintBrush){
 		$ ( pixel ).css( "background-color", $("#colorPicker").val());
 	}
 	else
@@ -588,9 +550,9 @@ function paintPixel(pixel){
 */
 
 function selectTool(tool){
-	selectedTool = tool;
+	gbSelectedTool = tool;
 
-	switch(selectedTool) {
+	switch(gbSelectedTool) {
 	  case toolPaintBrush:
 	  	$( "#btnToolEraser").removeClass("btn-pressed");
 	    $( "#btnToolPaintBrush").addClass("btn-pressed");
@@ -663,7 +625,7 @@ function setBacktotopVisibility(){
 			$("#btnBacktoTop").removeClass("btn-backtotop-visible");
 			$("#btnBacktoTop").addClass("btn-backtotop-hidden");
 		}, 100);
-	};
+	}
 }
 
 /*
@@ -687,7 +649,7 @@ function setBtnHelpVisibility(){
 			$("#btnHelp").removeClass("btn-help-visible");
 			$("#btnHelp").addClass("btn-help-hidden");
 		}, 100);
-	};
+	}
 }
 
 function setBtnSidebarVisibility(){
@@ -749,7 +711,7 @@ $(function() {
 
 	});
 
-	$("#btnLoadCanvas").click( function(e){
+	$("#btnLoadCanvas").click( function(){
 
 		const dialogMsg = "Are you sure that you want to load a previously saved canvas?";
 		showConfirmDialog(dialogConfirmTitle, dialogMsg, false, showFileDialog);
@@ -757,7 +719,7 @@ $(function() {
 	});
 
 
-	$("#colorPicker").change( function(e){
+	$("#colorPicker").change( function(){
 		selectTool(toolPaintBrush);
 	});
 
@@ -766,19 +728,21 @@ $(function() {
 	Handling canvas events with delegation
 	*/
 	$( pixelCanvasSel ).on("mousedown", "td", function() {
-		mouseIsDown=true;
+		gbMouseIsDown=true;
 		paintPixel(this);
 	});
 
 	$( pixelCanvasSel ).on("mouseover", "td", function() {
-		if (mouseIsDown){
+		if (gbMouseIsDown){
 			paintPixel(this);
 		}
 	});
 
-	$( pixelCanvasSel ).on("mouseover", function(e) {
+	$( pixelCanvasSel ).on("mouseover", function() {
 
-		if (selectedTool==toolPaintBrush)
+		let cursorHotspot;
+
+		if (gbSelectedTool==toolPaintBrush)
 		{
 			cursorHotspot=[2, 15];
 		}
@@ -787,7 +751,7 @@ $(function() {
 			cursorHotspot=[2, 15];
 		}
 
-		$( this ).awesomeCursor(selectedTool, {
+		$( this ).awesomeCursor(gbSelectedTool, {
 			hotspot: cursorHotspot,
 			color: cursorColor
 		});
@@ -800,7 +764,7 @@ $(function() {
 	because the user may release the mouse outside the canvas
 	*/
 	$(document).on("mouseup", function() {
-		mouseIsDown=false;
+		gbMouseIsDown=false;
 	});
 
 
@@ -879,19 +843,19 @@ $(function() {
 	*/
 
 	$( "#dialog" ).on( "dialogopen",
-		function( event, ui ) {
+		function( ) {
 			setBtnSidebarVisibility();
 		}
 	);
 
 	$( "#dialog" ).on( "dialogclose",
-		function( event, ui ) {
+		function( ) {
 			setBtnSidebarVisibility();
 		}
 	);
 
 	$("#dialog").on ("change", "#dialogStartUpHide",
-		function( event, ui ) {
+		function( ) {
 
 			try {
 				if ($("#dialogNotShowAgain").is(":checked")){
@@ -906,7 +870,7 @@ $(function() {
 				showErrorDialog(dialogErrorTitle, `There was an error trying to access the local storage: ${e.message}`, false);
 			}
 		}
-	)
+	);
 
 
 	/*
@@ -929,6 +893,8 @@ $(function() {
 	if (!localStorage.dialogStartUpHide) {
 		showStartUpDialog();
 	}
+
+	setGlobals();
 
 	setUpPixelOdrom();
 
