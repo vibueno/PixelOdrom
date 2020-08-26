@@ -77,6 +77,8 @@ const dialogErrorTitle = "Error";
 let gbMouseIsDown = false;
 let gbSelectedTool = toolPaintBrush;
 
+let gbSelectedColor = "#000"
+
 let gbCanvas;
 
 let gbCurrentCanvasMaxWidthPO; //in pixelOdrom pixels
@@ -287,12 +289,27 @@ function isDialogOpen(){
 function resetInputFieldValues(){
 	$("#inputWidth").val($("#inputWidth").prop("defaultValue"));
 	$("#inputHeight").val($("#inputHeight").prop("defaultValue"));
-	$("#colorPicker").val($("#colorPicker").prop("defaultValue"));
+
+	InitializeColorPicker("#000");
 }
 
 function setInputFieldValues(canvasWidth, canvasHeight){
 	$("#inputWidth").val(canvasWidth);
 	$("#inputHeight").val(canvasHeight);
+}
+
+function InitializeColorPicker(inputColor){
+
+	gbSelectedColor = inputColor;
+
+	$("#colorPicker").spectrum({
+	    color: inputColor,
+	    replacerClassName: "btnColorPicker",
+			change: function(color) {
+        gbSelectedColor = color.toHexString();
+        selectTool(toolPaintBrush);
+    }
+	});
 }
 
 /*
@@ -558,7 +575,7 @@ function isCanvasActive(){
 
 function paintPixel(pixel){
 	if ((gbSelectedTool) == toolPaintBrush){
-		$ ( pixel ).css( "background-color", $("#colorPicker").val());
+		$ ( pixel ).css( "background-color", gbSelectedColor);
 	}
 	else
 	{
@@ -739,11 +756,6 @@ $(function() {
 		const dialogMsg = "Are you sure that you want to load a previously saved canvas?";
 		showConfirmDialog(dialogConfirmTitle, dialogMsg, false, showFileDialog);
 
-	});
-
-
-	$("#colorPicker").change( function(){
-		selectTool(toolPaintBrush);
 	});
 
 

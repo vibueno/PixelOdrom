@@ -21,6 +21,7 @@ For a live version of pixelOdrom, visit its [GitHub Pages Link](https://vibueno.
 * [jQuery](https://jquery.com)
 * [jQuery Awesome Cursor](https://jwarby.github.io/jquery-awesome-cursor)
 * [jQuery UI](https://jqueryui.com)
+* [jQuery Colorpicker](http://bgrins.github.io/spectrum)
 * [Font Awesome](https://fontawesome.com)
 * [FileSaver.js](https://github.com/eligrey/FileSaver.js)
 
