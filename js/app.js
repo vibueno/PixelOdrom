@@ -172,7 +172,7 @@ function showHelpDialog(){
       }
     },
     resizable: false
-  });
+  }).parent().removeClass("ui-state-error");;
 }
 
 
@@ -199,7 +199,7 @@ function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback, 
       },
     },
     resizable: false
-  });
+  }).parent().removeClass("ui-state-error");
 }
 
 
@@ -222,7 +222,7 @@ function showInfoDialog(dialogTitle, dialogContent, isHTMLcontent){
       }
     },
     resizable: false
-  });
+  }).parent().removeClass("ui-state-error");
 }
 
 function showErrorDialog(dialogTitle, dialogContent, isHTMLcontent){
@@ -485,6 +485,10 @@ function saveCanvas(){
 	//We need to clone the canvas, so that we don"t modify the DOM
 	const canvasToSave = gbCanvas.clone();
 
+	//removing styles since they should be calculated when loading
+	canvasToSave.find('tr td').css("width", "");
+	canvasToSave.find('tr td').css("padding-bottom", "");
+
 	const canvasContent = canvasToSave.html();
 
   const blob = new Blob([canvasContent], {type: "text/plain;charset=utf-8"});
@@ -529,37 +533,45 @@ function loadCanvas(input){
   reader.onload = function(){
 
   	let readerResult = reader.result;
-  	let canvasToImport= $(readerResult);
 
-  	if (!isValidCanvas(canvasToImport)){
-  		showInfoDialog("Wrong format", "The selected file does not contain a valid canvas.", false);
-  	}
-  	else
-  	{
+  	try{
+			let canvasToImport= $(readerResult);
 
-			const canvasWidth = canvasToImport.first().find(".pixel").length;
-			const canvasHeight = canvasToImport.length;
+	  	if (!isValidCanvas(canvasToImport)){
+	  		showInfoDialog("Wrong format", "The selected file does not contain a valid canvas.", false);
+	  	}
+	  	else
+	  	{
 
-			if (canvasWidth > gbCurrentCanvasMaxWidthPO || canvasHeight >  gbCurrentCanvasMaxHeightPO){
-				showInfoDialog("Canvas too big", "The selected canvas is too big for the available space. If you created this canvas on another device, please make sure you use a similar one to edit it.", false);
+	  		setGlobals();
 
-			}
-			else
-			{
-				gbCanvas.html(reader.result);
-				$("#inputWidth").val(canvasWidth);
-				$("#inputHeight").val(canvasHeight);
+				const canvasWidth = canvasToImport.first().find(".pixel").length;
+				const canvasHeight = canvasToImport.length;
 
-				setUpCanvas(canvasWidth, canvasHeight);
+				if (canvasWidth > gbCurrentCanvasMaxWidthPO || canvasHeight >  gbCurrentCanvasMaxHeightPO){
+					showInfoDialog("Canvas too big", "The selected canvas is too big for the available space. If you created this canvas on another device, please make sure you use a similar one to edit it.", false);
 
+				}
+				else
+				{
+					gbCanvas.html(reader.result);
+					$("#inputWidth").val(canvasWidth);
+					$("#inputHeight").val(canvasHeight);
+
+					setUpCanvas(canvasWidth, canvasHeight);
+
+				}
 			}
 		}
+		catch(e){
+			let shortErrorMessage = (e.message.length>500)?e.message.substring(0,499)+"...":e.message;
 
-
+			showErrorDialog(dialogErrorTitle, `There was an error while trying to load the canvas: ${shortErrorMessage}`, false);
+		}
   };
 
   reader.onerror = function() {
-    showErrorDialog(dialogErrorTitle, `There was an error while trying to read the file: ${reader.error}`, false);
+    showErrorDialog(dialogErrorTitle, `There was an error while trying to load the canvas: ${reader.error}`, false);
   };
 
   /*This call is needed in order to make the even onchange fire every time,
