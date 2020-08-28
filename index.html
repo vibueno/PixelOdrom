@@ -24,6 +24,7 @@
 
 		<script src="./js/app.js"></script>
 		<script src="./js/FileSaver.js"></script>
+		<script src="./js/html2canvas.js"></script>
 
 	</head>
 	<body>
@@ -31,6 +32,7 @@
 		<a onClick="javascript:goToHomePage()" href="javascript:void(0)"><h1>pixelOdrom</h1></a>
 
 		<div class="main">
+
 			<div class="input-form-container">
 				<form id="sizePicker" class="size-picker-form">
 					<div class="input-field">
@@ -60,7 +62,7 @@
 
 			<div id="toolbox" class= "toolbox">
 				<input type="text" id="colorPicker">
-				<button id="btnToolPaintBrush" class="btn">
+				<button id="btnToolBrush" class="btn">
 					<i class="fa fa-paint-brush fa-2x"></i>
 				</button>
 				<button id="btnToolEraser" class="btn">
@@ -101,7 +103,7 @@
 							<a href="https://jquery.com">jQuery</a>,
 							<a href="https://jqueryui.com">jQuery UI</a>,
 							<a href="https://jwarby.github.io/jquery-awesome-cursor">jQuery Awesome Cursor</a>,
-							<a href="http://bgrins.github.io/spectrum/">jQuery Colorpicker</a>,
+							<a href="http://bgrins.github.io/spectrum">jQuery Colorpicker</a>,
 							<a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>;
 						</li>
 						<li>
@@ -128,19 +130,26 @@
 
 			</footer>
 
-			<button type="button" id="btnHelp" class="btn btn-help-hidden">
-				<i class="fa fa-question-circle fa-2x"></i>
-			</button>
-
 		</div>
-		<!-- This div is used for showing dialogs -->
+
+		<!-- This div is used for showing the spinner when exporting the canvas -->
+		<div id="spinnerContainer" class="spinner-container-hidden">
+			<p class="spinner">P</p>
+		</div>
+
+		<!-- This div is used for showing the dialogs -->
 		<div id="dialog" title="">
 		  <p></p>
 		</div>
 
-			<button type="button" id="btnBacktoTop" class="btn btn-backtotop btn-backtotop-hidden">
-				<i class="fa fa-chevron-up fa-2x"></i>
-			</button>
+		<!-- side bar buttons -->
+		<button type="button" id="btnHelp" class="btn btn-help-hidden">
+			<i class="fa fa-question-circle fa-2x"></i>
+		</button>
+
+		<button type="button" id="btnBacktoTop" class="btn btn-backtotop btn-backtotop-hidden">
+			<i class="fa fa-chevron-up fa-2x"></i>
+		</button>
 
 	</body>
 </html>

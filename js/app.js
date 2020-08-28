@@ -6,7 +6,7 @@
 
 const pixelCanvasSel = "#pixelCanvas";
 
-const toolPaintBrush = "paint-brush";
+const toolBrush = "paint-brush";
 const toolEraser = "eraser";
 
 const BlankPixelColor = "#fff";
@@ -41,8 +41,8 @@ const toolBrushHTML = '<i class="fa fa-paint-brush"></i>';
 const toolEraserHTML = '<i class="fa fa-eraser"></i>';
 const createCanvasHTML = '<i class="fa fa-th"></i>';
 const saveCanvasHTML = '<i class="fa fa-floppy-o"></i>';
+const exportCanvasHTML = '<i class="fa fa-image"></i>';
 const openCanvasHTML = '<i class="fa fa-folder-open"></i>';
-
 
 const dialogHelpTitle = 'pixelOdrom help';
 
@@ -52,8 +52,9 @@ const dialogHelpText =  `<p class = "dialog-text-intro">pixelOdrom is a web tool
 	<li class="dialog-list-element">Choose a color with the picker and use the &nbsp;${toolBrushHTML} for painting pixels.
 	<p class="dialog-list-text-below">If you are using a mouse, you can also draw pixel lines.</p></li>
 	<li class="dialog-list-element">By using the &nbsp;${toolEraserHTML}, you can erase pixels.
-	<p class="dialog-list-text-below">If you are using a mouse, you can also erase multiple pixels in one stroke.</p></li>
-	<li class="dialog-list-element">Click on &nbsp;${saveCanvasHTML} to save your canvas to a local pixelOdrom file (*.pix) to continue your work later (note that every time you save the canvas, a new file will be created).</li>
+	<p class="dialog-list-text-below">If you are using a mouse, you can also erase multiple pixels in one stroke</p></li>
+	<li class="dialog-list-element">Click on &nbsp;${saveCanvasHTML} to save your canvas to a local pixelOdrom file (*.pix) to continue your work later (note that every time you save the canvas, a new file will be created)</li>
+	<li class="dialog-list-element">Click on &nbsp;${exportCanvasHTML} to export your canvas as an image</li>
 </ul>`;
 
 const dialogStartUpTitle = 'Welcome to pixelOdrom';
@@ -63,6 +64,11 @@ const dialogStartUpText = dialogHelpText + `<p>
 	<label for="dialogStartUpHide">I am already a pixelOdrom master. Don't show this again!</label>
 </p>
 `;
+
+const dialogConfirmExportText = `<p class = "dialog-text">You are about to save your pixel art to an image file.</p>
+<p class = "dialog-text">Depending on your browser configuration, the picture may start to download automatically and be saved into your download directory.</p>
+<p class = "dialog-text">If your canvas is big, this process may take a couple of seconds to complete.</p>
+<p class = "dialog-text">Would you like to export this canvas now?</p>`;
 
 const dialogConfirmTitle = "Confirm";
 const dialogErrorTitle = "Error";
@@ -75,9 +81,9 @@ const dialogErrorTitle = "Error";
 */
 
 let gbMouseIsDown = false;
-let gbSelectedTool = toolPaintBrush;
+let gbSelectedTool = toolBrush;
 
-let gbSelectedColor = "#000"
+let gbSelectedColor = "#000";
 
 let gbCanvas;
 
@@ -137,6 +143,45 @@ function setUpPixelOdrom(){
 
 /*
 *
+* Spinner
+*
+*/
+
+function showSpin(){
+	return new Promise((resolve) => {
+
+		$("#spinnerContainer").addClass("spinner-container");
+		$("#spinnerContainer").removeClass("spinner-container-hidden");
+
+		$("body").css("overflow", "hidden");
+
+		setBtnSidebarVisibility();
+
+		resolve("Spin shown");
+	});
+}
+
+function hideSpin(){
+	return new Promise((resolve) => {
+
+		$("#spinnerContainer").addClass("spinner-container-hidden");
+		$("#spinnerContainer").removeClass("spinner-container");
+
+		$("body").css("overflow", "auto");
+
+		setBtnSidebarVisibility();
+
+		resolve("Spin hidden");
+	});
+}
+
+function isSpinnerActive(){
+	return $("#spinnerContainer").hasClass("spinner-container");
+}
+
+
+/*
+*
 * Dialogs
 *
 */
@@ -172,7 +217,7 @@ function showHelpDialog(){
       }
     },
     resizable: false
-  }).parent().removeClass("ui-state-error");;
+  }).parent().removeClass("ui-state-error");
 }
 
 
@@ -307,7 +352,7 @@ function InitializeColorPicker(inputColor){
 	    replacerClassName: "btnColorPicker",
 			change: function(color) {
         gbSelectedColor = color.toHexString();
-        selectTool(toolPaintBrush);
+        selectTool(toolBrush);
     }
 	});
 }
@@ -386,7 +431,7 @@ function setUpCanvas(canvasWidthPO, canvasHeightPO){
 
 	showToolbox(true);
 	showActionbox(true);
-	selectTool(toolPaintBrush);
+	selectTool(toolBrush);
 	showCanvas(true);
 
 }
@@ -497,9 +542,54 @@ function saveCanvas(){
 }
 
 function exportCanvas(){
-	alert("TODO");
+
+	return new Promise((resolve) => {
+
+		const pixelCanvasWidth = $(pixelCanvasSel).width();
+		const pixelCanvasHeight = $(pixelCanvasSel).height();
+
+		let pixelCanvasPrintWidth = pixelCanvasWidth*1.10;
+		let pixelCanvasPrintHeight = pixelCanvasHeight*1.10;
+
+		/*
+		In order to make it easier for html2canvas,
+		we move the pixel table to the left corner of the browser
+		*/
+
+		$(pixelCanvasSel).addClass("pixel-canvas-export");
+		$(pixelCanvasSel).removeClass("pixel-canvas");
+
+		html2canvas(document.querySelector("#pixelCanvas"),
+			{x: $("#pixelCanvas").left,
+			y: $("#pixelCanvas").top,
+			windowWidth: pixelCanvasPrintWidth,
+			windowHeight: pixelCanvasPrintHeight})
+		.then(canvas => {
+
+			//Shows canvas at the bottom of the page
+		  //document.body.appendChild(canvas)
+
+		  //Saves canvas to client
+			saveAs(canvas.toDataURL(), 'pixelOdrom.png');
+
+			/*
+			Moving the pixel table back to its original position
+			*/
+
+			$(pixelCanvasSel).removeClass("pixel-canvas-export");
+			$(pixelCanvasSel).addClass("pixel-canvas");
+
+			resolve ("Exported canvas");
+
+		});
+	});
 }
 
+function exportCanvasWrapper(){
+
+	showSpin().then(exportCanvas).then(hideSpin);
+
+}
 
 function isValidCanvas(canvas){
 	let canvasCheck;
@@ -586,7 +676,7 @@ function isCanvasActive(){
 }
 
 function paintPixel(pixel){
-	if ((gbSelectedTool) == toolPaintBrush){
+	if ((gbSelectedTool) == toolBrush){
 		$ ( pixel ).css( "background-color", gbSelectedColor);
 	}
 	else
@@ -606,12 +696,12 @@ function selectTool(tool){
 	gbSelectedTool = tool;
 
 	switch(gbSelectedTool) {
-	  case toolPaintBrush:
+	  case toolBrush:
 	  	$( "#btnToolEraser").removeClass("btn-pressed");
-	    $( "#btnToolPaintBrush").addClass("btn-pressed");
+	    $( "#btnToolBrush").addClass("btn-pressed");
 	    break;
 	  case toolEraser:
-	  	$( "#btnToolPaintBrush").removeClass("btn-pressed");
+	  	$( "#btnToolBrush").removeClass("btn-pressed");
 	  	$( "#btnToolEraser").addClass("btn-pressed");
 	    break;
 	}
@@ -666,7 +756,7 @@ function setBacktotopVisibility(){
 
 	if ((($( window ).height() + $(window).scrollTop()) >= ($("body").outerHeight()/1.25)) &&
 		(getToolboxPositionTop()<=$(window).scrollTop()) && isCanvasActive() &&
-		(!isDialogOpen())) {
+		(!isDialogOpen() &&(!isSpinnerActive()))) {
 
 		window.setTimeout( function() {
 			$("#btnBacktoTop").removeClass("btn-backtotop-hidden");
@@ -689,7 +779,7 @@ function setBacktotopVisibility(){
 
 function setBtnHelpVisibility(){
 
-	if (!isDialogOpen()) {
+	if (!isDialogOpen() && (!isSpinnerActive())) {
 
 		window.setTimeout( function() {
 			$("#btnHelp").removeClass("btn-help-hidden");
@@ -789,7 +879,7 @@ $(function() {
 
 		let cursorHotspot;
 
-		if (gbSelectedTool==toolPaintBrush)
+		if (gbSelectedTool==toolBrush)
 		{
 			cursorHotspot=[2, 15];
 		}
@@ -844,7 +934,7 @@ $(function() {
 
 	$("#btnExportCanvas").click( function(){
 		if (isCanvasActive()){
-			showConfirmDialog(dialogConfirmTitle, "Are you sure that you want to export this canvas as an image?", false, exportCanvas);
+			showConfirmDialog(dialogConfirmTitle, dialogConfirmExportText, true, exportCanvasWrapper);
 		}
 	});
 
@@ -855,8 +945,8 @@ $(function() {
 	*
 	*/
 
-	$("#btnToolPaintBrush").click(function() {
-		selectTool(toolPaintBrush);
+	$("#btnToolBrush").click(function() {
+		selectTool(toolBrush);
 	});
 
 
@@ -941,5 +1031,4 @@ $(function() {
 
 	setUpPixelOdrom();
 	createCanvas([$("#inputWidth").prop("defaultValue"), $("#inputHeight").prop("defaultValue")], false);
-
 });

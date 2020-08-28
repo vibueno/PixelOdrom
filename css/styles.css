@@ -54,14 +54,6 @@ h1 {
   justify-content: center;
 }
 
-h2 {
-  margin: 1em 0 0.25em;
-}
-
-h2:first-of-type {
-  margin-top: 0.5em;
-}
-
 a {
 	text-decoration: none;
 }
@@ -134,28 +126,45 @@ input[type=color] {
  *
  */
 
-#pixelCanvas {
+.pixel-canvas-hidden{
+	display: none;
+}
+
+.pixel-canvas {
+	display: table;
 	table-layout: fixed;
   margin: auto;
   border-collapse: collapse;
   border: 2px solid #6e5773;
   background-color: #fff;
-  max-width: 100%;
+  max-width: 90%;
   min-width: 200px;
   width: 100%;
 }
 
-.pixel-canvas-hidden{
-	display: none;
-}
-
-.pixel-canvas{
-	display: table;
-}
-
-#pixelCanvas td,
-#pixelCanvas tr {
+.pixel-canvas td,
+.pixel-canvass tr {
   border: 0.5px solid #ffdde2;
+}
+
+.pixel-canvas-export {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: table;
+	table-layout: fixed;
+  margin: auto;
+  border-collapse: collapse;
+  border: 2px solid #6e5773;
+  background-color: #ffe;
+  max-width: 90%;
+  min-width: 200px;
+  width: 100%;
+}
+
+.pixel-canvas-export td,
+.pixel-canvas-export tr {
+  border: 0.5px solid #fff;
 }
 
 
@@ -203,7 +212,7 @@ input[type=color] {
   background-color: white;
 }
 
-#btnToolPaintBrush.btn-pressed,
+#btnToolBrush.btn-pressed,
 #btnToolEraser.btn-pressed {
   color: #d45d79;
   border: 2px dotted #d45d79;
@@ -424,7 +433,7 @@ footer a:hover {
 
 .footer-credits-title,
 .footer-samples-title
- {
+{
   font-weight: 600;
 }
 
@@ -440,31 +449,37 @@ Somehow, I couldn't replace the CSS values by using this way.
 I decided to change the original CSS classes directly for readability
  */
 
-#dialog{
+#dialog {
   display: none;
 }
 
-.ui-widget{
+.ui-widget {
 	font-size: 0.85em;
 }
 
-.dialog-list{
+.dialog-list {
   padding: 0;
   margin: 0 0 0 2em;
   text-align: left;
 }
 
-.dialog-list-element{
+.dialog-list-element {
   margin: 0 0 0.5em 0;
 }
 
-.dialog-text-intro{
+.dialog-text-intro {
 	width: 100%;
 	margin: 0 0 1em 0;
 	text-align: left;
 }
 
-.dialog-list-text-below{
+.dialog-text {
+	width: 100%;
+	margin: 0 0 1em 0;
+	text-align: center;
+}
+
+.dialog-list-text-below {
 	margin: 0;
 }
 
@@ -484,7 +499,7 @@ I decided to change the original CSS classes directly for readability
   width: 100% !important;
 }
 
-.ui-widget-header{
+.ui-widget-header {
 	color: #f98c84;
 	background-color: #6e5773;
 }
@@ -521,11 +536,58 @@ I decided to change the original CSS classes directly for readability
   border: 1px dotted #d45d79;
 }
 
-.no-close .ui-dialog-titlebar-close{
+.no-close .ui-dialog-titlebar-close {
   display: none;
 }
 
-.ui-dialog .ui-dialog-content{
+.ui-dialog .ui-dialog-content {
 	width: 100% !important;
   justify-content: center;
+}
+
+/*
+*
+* Spin
+*
+*/
+
+.spinner-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #6e5773;
+	border: 0.3em dotted #d45d79;
+	justify-content: center;
+	align-items: center;
+}
+
+.spinner-container-hidden {
+	display: none;
+	text-align: center;
+}
+
+.spinner {
+	position: relative;
+  font-family: "Monoton";
+  font-size: 6.5em;
+  font-weight: 500;
+  color: #ea9085;
+  width: 100%;
+  margin: 0;
+	animation-name: spin;
+  animation-duration: 5000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+}@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
 }
