@@ -42,7 +42,7 @@ body {
 
 h1 {
   font-family: "Monoton";
-  font-size: 1.6em;
+  font-size: 1.5em;
   font-weight: 500;
   margin: 0.5em auto auto auto;
   color: #ea9085;
@@ -454,7 +454,7 @@ I decided to change the original CSS classes directly for readability
 }
 
 .ui-widget {
-	font-size: 0.85em;
+	font-size: 0.65em;
 }
 
 .dialog-list {
@@ -547,7 +547,7 @@ I decided to change the original CSS classes directly for readability
 
 /*
 *
-* Spin
+* Spinner
 *
 */
 

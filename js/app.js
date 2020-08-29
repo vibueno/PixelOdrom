@@ -19,12 +19,12 @@ these pixel limits are only used for calculating the % of the main
 div that the canvas will take, so that pixels don't get too big or too small
 */
 
-const minPixelSize = 10; // in CSS pixels
+const minPixelSize = 12; // in CSS pixels
 const maxPixelSize = 15; // in CSS pixels
 
 const maxCanvasWithPO = 100;
 
-const pixelPaddingCorrection = 10/100;
+const pixelPaddingCorrection = 0.1;
 
 const cursorColor = "#888888";
 
