@@ -869,32 +869,42 @@ $(function() {
 		paintPixel(this);
 	});
 
+
+
 	$( pixelCanvasSel ).on("mouseover", "td", function() {
 		if (gbMouseIsDown){
 			paintPixel(this);
 		}
 	});
 
-	$( pixelCanvasSel ).on("mouseover", function() {
 
-		let cursorHotspot;
-
-		if (gbSelectedTool==toolBrush)
-		{
-			cursorHotspot=[2, 15];
-		}
-		else
-		{
-			cursorHotspot=[2, 15];
-		}
+	$( pixelCanvasSel ).on("mouseenter", function() {
 
 		$( this ).awesomeCursor(gbSelectedTool, {
-			hotspot: cursorHotspot,
+			hotspot: [2, 15],
 			color: cursorColor
 		});
 
 	});
 
+	/*
+	Resets the cursor and deletes unneeded divs created by jQuery Awesome Cursor.
+
+	One div is created every time a cursor is shown.
+	By removing the divs, we keep the DOM cleaner and make the application faster
+
+	Beware: since the selector is neither id nor class,
+	this may produce unexpected results if other divs with the same style are used
+	*/
+
+	$( pixelCanvasSel ).on("mouseleave", function() {
+
+		$( this ).css('cursor', '');
+
+		let invisibleViv = $( 'div[style="position: absolute; left: -9999px; top: -9999px;"]' );
+		invisibleViv.remove();
+
+	});
 
 	/*
 	In this case, we must use the document and not the canvas,
