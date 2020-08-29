@@ -7,6 +7,7 @@
 - [Usage](#usage)
 - [Samples](#samples)
 - [Improvements](#improvements)
+- [Issues](#issues)
 - [Tests](#tests)
 - [Validations](#validations)
 
@@ -54,6 +55,10 @@ In the folder [samples](https://github.com/vibueno/PixelOdrom/tree/master/sample
 
 * Create class pixelCanvas
 * Add Unit testing
+
+## Issues
+* Image download on DuckDuckGo Privacy Browser on mobile does not seem to work correctly
+* Sometimes there is a short delay on certain computers when painting pixels, or some pixels dissapear.
 
 ## Tests
 * Desktop computer + Developer Tools

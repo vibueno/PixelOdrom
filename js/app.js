@@ -19,7 +19,7 @@ these pixel limits are only used for calculating the % of the main
 div that the canvas will take, so that pixels don't get too big or too small
 */
 
-const minPixelSize = 12; // in CSS pixels
+const minPixelSize = 10; // in CSS pixels
 const maxPixelSize = 15; // in CSS pixels
 
 const maxCanvasWithPO = 100;
@@ -545,12 +545,6 @@ function exportCanvas(){
 
 	return new Promise((resolve) => {
 
-		const pixelCanvasWidth = $(pixelCanvasSel).width();
-		const pixelCanvasHeight = $(pixelCanvasSel).height();
-
-		let pixelCanvasPrintWidth = pixelCanvasWidth*1.10;
-		let pixelCanvasPrintHeight = pixelCanvasHeight*1.10;
-
 		/*
 		In order to make it easier for html2canvas,
 		we move the pixel table to the left corner of the browser
@@ -561,9 +555,7 @@ function exportCanvas(){
 
 		html2canvas(document.querySelector("#pixelCanvas"),
 			{x: $("#pixelCanvas").left,
-			y: $("#pixelCanvas").top,
-			windowWidth: pixelCanvasPrintWidth,
-			windowHeight: pixelCanvasPrintHeight})
+			y: $("#pixelCanvas").top})
 		.then(canvas => {
 
 			//Shows canvas at the bottom of the page
