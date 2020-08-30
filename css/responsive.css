@@ -1,3 +1,9 @@
+/**
+ *
+ * Size increase
+ *
+ */
+
 @media screen and (min-width:400px) {
 	h1 {
 		font-size: 2.5em;
@@ -17,12 +23,24 @@
 
 }
 
+/**
+ *
+ * Size increase
+ *
+ */
+
 @media screen and (min-width:600px) {
 	.ui-widget{
 		font-size: 1em;
 	}
 
 }
+
+/**
+ *
+ * Size increase
+ *
+ */
 
 @media screen and (min-width:750px) {
 	h1 {
@@ -42,6 +60,12 @@
 		margin: 0 1.5em 0 0;
 	}
 }
+
+/**
+ *
+ * Size increase
+ *
+ */
 
 @media screen and (min-width:900px) {
 	h1 {
