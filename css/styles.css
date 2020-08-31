@@ -142,8 +142,7 @@ input[type=color] {
   width: 100%;
 }
 
-.pixel-canvas td,
-.pixel-canvass tr {
+.pixel-canvas td {
   border: 0.5px solid #ffdde2;
 }
 

@@ -107,6 +107,17 @@ let gbCurrentCanvasWidth; //%
  */
 
 /**
+ * Create a delay that can be used in a promise chain
+ * @param  {[Number]} duration amount of time the delay will run
+ */
+
+function delay(duration) {
+   return new Promise(function(resolve) {
+       setTimeout(resolve, duration)
+   });
+}
+
+/**
  * Converts a css value to Number
  * @param  {[String]} CSSValue value to be converted
  */
@@ -178,8 +189,9 @@ function showSpin(){
 	//a promise is needed to stop async execution
 	return new Promise((resolve) => {
 
-		$("#spinnerContainer").addClass("spinner-container");
 		$("#spinnerContainer").removeClass("spinner-container-hidden");
+
+		$("#spinnerContainer").addClass("spinner-container");
 
 		$("body").css("overflow", "hidden");
 
@@ -570,11 +582,11 @@ function createCanvasCheck(canvasSize) {
 		showConfirmDialog("Canvas too big", `The dimensions selected exceed the available space.
 			Would you like to create the biggest possible canvas (width: ${gbCurrentCanvasMaxWidthPO}, height: ${gbCurrentCanvasMaxHeightPO})?`,
 			false,
-			createCanvas, maxCanvasPixel);
+			createCanvasWrapper, maxCanvasPixel);
 	}
 	else
 	{
-		createCanvas(canvasSize);
+		createCanvasWrapper(canvasSize);
 	}
 }
 
@@ -586,24 +598,54 @@ function createCanvasCheck(canvasSize) {
 
 function createCanvas(canvasSize, scrollToCanvas=true){
 
-	const canvasWidth = canvasSize [0];
-	const canvasHeight = canvasSize [1];
+	return new Promise((resolve) => {
 
-	deleteCanvas();
+		const canvasWidth = canvasSize [0];
+		const canvasHeight = canvasSize [1];
 
-	for (let i=1; i<=canvasHeight; i++){
-		gbCanvas.append(row);
-		let lastRow = $(pixelCanvasSel + " tr").last();
+		deleteCanvas();
 
-		for (let j=1; j<=canvasWidth; j++){
-			lastRow.append(column);
+		for (let i=1; i<=canvasHeight; i++){
+			gbCanvas.append(row);
+			let lastRow = $(pixelCanvasSel + " tr").last();
+
+			for (let j=1; j<=canvasWidth; j++){
+				lastRow.append(column);
+			}
 		}
+
+		setUpCanvas(canvasWidth, canvasHeight);
+
+		if (scrollToCanvas){
+			scroll(0, getToolboxPositionTop());
+		}
+
+		resolve ("Canvas created");
+	});
+}
+
+/**
+ * Wrapper for the create function
+ * @param  {[Array]} canvasSize Width and height of the canvas
+ */
+
+function createCanvasWrapper(canvasSize){
+
+	/*
+  	It calls the functions sequentially by using promises
+  	This is needed for showing the spinner for the amount time
+  	pixelOdrom needs to create the canvas
+
+		We need the delay call, because otherwise the Spin is not shown
+
+  */
+
+  if (canvasSize[0]*canvasSize[1]>1000){
+		showSpin().then(delay.bind(1000)).then(createCanvas.bind(null, canvasSize)).then(hideSpin);
 	}
-
-	setUpCanvas(canvasWidth, canvasHeight);
-
-	if (scrollToCanvas){
-		scroll(0, getToolboxPositionTop());
+	else
+	{
+		createCanvas(canvasSize);
 	}
 }
 
