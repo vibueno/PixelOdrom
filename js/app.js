@@ -468,6 +468,14 @@ function getToolboxPositionTop(){
 }
 
 /**
+ * Scrolls to the top of the toolbox
+ */
+
+function scrollToToolboxTop(){
+	scroll(0, getToolboxPositionTop());
+}
+
+/**
  *
  * Canvas
  *
@@ -503,7 +511,9 @@ function setUpCanvas(canvasWidthPO, canvasHeightPO){
 	let canvasCSSWidth;
 	let pixelSize;
 
-	const pixelBorderSize = CSSPixelToNumber($ (".pixel").css("border-left-width"));
+	const pixelBroderSize = $(".pixel").css("border-left-width");
+	pixelBorderSize = (typeof myVar === 'undefined')? 0: CSSPixelToNumber(pixelBroderSize);
+
 	const totalBordersSize = pixelBorderSize * gbCurrentCanvasHeightPO;
 	const maxCanvasWidthPx = gbMainWidthPx-totalBordersSize;
 
@@ -686,6 +696,7 @@ function deleteCanvas(){
 
 function resetCanvas(){
 	gbCanvas.find(".pixel").css("background-color", blankPixelColor);
+	scrollToToolboxTop();
 }
 
 /**
@@ -698,8 +709,8 @@ function saveCanvas(){
 	const canvasToSave = gbCanvas.clone();
 
 	//removing styles since they should be calculated when loading
-	canvasToSave.find('tr td').css("width", "");
-	canvasToSave.find('tr td').css("padding-bottom", "");
+	canvasToSave.find(".pixel").css("width", "");
+	canvasToSave.find(".pixel").css("padding-bottom", "");
 
 	const canvasContent = canvasToSave.html();
 
@@ -820,8 +831,11 @@ function loadCanvas(input){
 				const canvasHeight = canvasToImport.length;
 
 				if (canvasWidth > gbCurrentCanvasMaxWidthPO || canvasHeight >  gbCurrentCanvasMaxHeightPO){
-					showInfoDialog("Canvas too big", "The selected canvas is too big for the available space. If you created this canvas on another device, please make sure you use a similar one to edit it.", false);
+					let dialogMsg = `The selected canvas is too big for the available space.
+						If you created this canvas on another device, please make sure you use a similar one
+						to edit it.`
 
+					showInfoDialog("Canvas too big", dialogMsg, false);
 				}
 				else
 				{
@@ -830,6 +844,7 @@ function loadCanvas(input){
 					$("#inputHeight").val(canvasHeight);
 
 					setUpCanvas(canvasWidth, canvasHeight);
+					scrollToToolboxTop();
 
 				}
 			}
@@ -1170,7 +1185,7 @@ $(function() {
 
 	$("#btnBacktoTop").click(function() {
 		if (isCanvasActive()){
-			scroll(0, getToolboxPositionTop());
+			scrollToToolboxTop();
 		}
 		else
 		{
