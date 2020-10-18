@@ -428,7 +428,8 @@ footer a:hover {
 	font-size: 1.05em;
 }
 
-.footer-credits
+.footer-credits,
+.footer-samples
  {
  	width: 100%;
   font-size: 0.8em;
