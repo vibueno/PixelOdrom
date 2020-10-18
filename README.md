@@ -2,8 +2,10 @@
 
 ## Table of Contents
 - [Description](#description)
-- [Libraries](#libraries)
+- [Live](#live)
+- [Design](#design)
 - [Programming](#programming)
+- [Libraries](#libraries)
 - [Usage](#usage)
 - [Samples](#samples)
 - [Improvements](#improvements)
@@ -15,7 +17,6 @@
 This project was developed within the frame of the Front End Developer Nanodegree program at Udacity. However, what I ended up developing exceeds greatly the goals of the initial project.
 
 ## Live
-
 For a live version of pixelOdrom, visit [GitHub Pages](https://vibueno.github.io/pixelodrom).
 
 ## Libraries
@@ -25,6 +26,9 @@ For a live version of pixelOdrom, visit [GitHub Pages](https://vibueno.github.io
 * [jQuery Colorpicker](http://bgrins.github.io/spectrum)
 * [Font Awesome](https://fontawesome.com)
 * [FileSaver.js](https://github.com/eligrey/FileSaver.js)
+
+## Design
+* Mobile first
 
 ## Programming
 * Fully responsive (starting at 240px Unihertz Jelly Pro, as fas as I know the smallest Smartphone widely available)
@@ -50,6 +54,7 @@ You can export a canvas as an image file by clicking on the image button at the 
 In the folder [samples](https://github.com/vibueno/PixelOdrom/tree/master/samples), you can find art made with PixelOdrom
 
 ## Improvements
+* Make possible to draw pixel lines on mobile
 * Selectable brush size
 * Replacing colors on canvas (it could be helpful if you have a big surface painted with one color and you decide to change it)
 
