@@ -37,6 +37,7 @@ For a live version of pixelOdrom, visit [GitHub Pages](https://vibueno.github.io
 ### Style Guidelines
 * [HTML](https://validator.w3.org)
 * [CSS](http://udacity.github.io/frontend-nanodegree-styleguide/css.html)
+* [CSS Rule order](https://9elements.com/css-rule-order)
 * [JavaScript](http://udacity.github.io/frontend-nanodegree-styleguide/javascript.html)
 
 ### Validations
@@ -77,8 +78,3 @@ In the folder [samples](https://github.com/vibueno/PixelOdrom/tree/master/sample
 ## Tests
 * Desktop computer + Developer Tools
 * Uniherz Jelly Pro
-
-## Validations
-* [HTML (W3C)](https://validator.w3.org)
-* [CSS (W3C)](https://jigsaw.w3.org/css-validator)
-* [JavaScript (JSHint)](https://jshint.com)
