@@ -86,7 +86,7 @@ a {
 }
 
 .input-field {
-	margin: 0 0.1em 1em 0.1em;
+	margin: 0 .1em 1em .1em;
 	width: 100%;
 	justify-content: center;
 	align-items: center;
@@ -95,8 +95,8 @@ a {
  .input-form-container{
  	width: 100%;
 	border: 2px dotted #d45d79;
-	margin: 1.5em auto 0.5em auto;
-	padding: 0.5em 0 0.5em 0;
+	margin: 1.5em auto .5em auto;
+	padding: 0.5em 0 .5em 0;
 	justify-content: center;
 	background-color: #eadfee;
 	align-items: center;
