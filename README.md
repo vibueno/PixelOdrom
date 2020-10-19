@@ -11,7 +11,6 @@
 - [Improvements](#improvements)
 - [Issues](#issues)
 - [Tests](#tests)
-- [Validations](#validations)
 
 ## Description
 This project was developed within the frame of the Front End Developer Nanodegree program at Udacity. However, what I ended up developing exceeds greatly the goals of the initial project.
@@ -34,6 +33,16 @@ For a live version of pixelOdrom, visit [GitHub Pages](https://vibueno.github.io
 * Fully responsive (starting at 240px Unihertz Jelly Pro, as fas as I know the smallest Smartphone widely available)
 * jQuery Event Delegation
 * JavaScript Promises
+
+### Style Guidelines
+* [HTML](https://validator.w3.org)
+* [CSS](http://udacity.github.io/frontend-nanodegree-styleguide/css.html)
+* [JavaScript](http://udacity.github.io/frontend-nanodegree-styleguide/javascript.html)
+
+### Validations
+* [HTML (W3C)](https://validator.w3.org)
+* [CSS (W3C)](https://jigsaw.w3.org/css-validator)
+* [JavaScript (JSHint)](https://jshint.com)
 
 ## Usage
 * Select the width and height and create a new canvas

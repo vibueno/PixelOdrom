@@ -4,6 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>pixelOdrom</title>
+		<meta
+			name="description"
+			content="Pixel art application developed with jQuery by Víctor Isabel-Bueno">
+
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monoton&display=swap">
 		<link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Monofett&display=swap" rel="stylesheet">
 
@@ -34,54 +38,54 @@
 		<div class="main">
 
 			<div class="input-form-container">
-				<form id="sizePicker" class="size-picker-form">
+				<form id="size-picker" class="size-picker-form">
 					<div class="input-field">
-						<label for="inputWidth" class="input-label">Grid Width:</label>
-						<input type="number" id="inputWidth" name="width" min="2" max="100" value="10">
+						<label for="input-width" class="input-label">Grid Width:</label>
+						<input type="number" id="input-width" name="width" min="2" max="100" value="10">
 					</div>
 
 					<div class="input-field">
-						<label for="inputHeight" class="input-label">Grid Height:</label>
-						<input type="number" id="inputHeight" name="height" min="2" value="10">
+						<label for="input-height" class="input-label">Grid Height:</label>
+						<input type="number" id="input-height" name="height" min="2" value="10">
 					</div>
 					<div>
-						<button type="submit" id="btnCreateCanvas" class="btn">
+						<button type="submit" id="btn-create-canvas" class="btn">
 							<i class="fa fa-th fa-2x"></i>
 						</button>
 
-						<div id="btnLoadCanvasWrapper">
-						  <button type="button" id="btnLoadCanvas" class="btn">
+						<div id="btn-load-canvas-wrapper">
+						  <button type="button" id="btn-load-canvas" class="btn">
 						  	<i class="fa fa-folder-open fa-2x"></i>
 						  </button>
-						  <input type="file" id="btnLoadCanvasInput" class="load-canvas-input-hidden" onchange="loadCanvas(this)">
+						  <input type="file" id="btn-load-canvas-input" class="load-canvas-input-hidden" onchange="loadCanvas(this)">
 						</div>
 					</div>
 				</form>
 			</div>
 
 
-			<div id="toolbox" class= "toolbox">
-				<input type="text" id="colorPicker">
-				<button id="btnToolBrush" class="btn">
+			<div id="tool-box" class= "tool-box">
+				<input type="text" id="color-picker">
+				<button id="btn-tool-brush" class="btn">
 					<i class="fa fa-paint-brush fa-2x"></i>
 				</button>
-				<button id="btnToolEraser" class="btn">
+				<button id="btn-tool-eraser" class="btn">
 					<i class="fa fa-eraser fa-2x"></i>
 				</button>
 			</div>
 
-			<table id="pixelCanvas" class="pixel-canvas-hidden"></table>
+			<table id="pixel-canvas" class="pixel-canvas-hidden"></table>
 
-			<div id="actionbox" class="actionbox">
-				<button id="btnResetCanvas" class="btn btn-reset-canvas">
+			<div id="action-box" class="action-box">
+				<button id="btn-reset-canvas" class="btn btn-reset-canvas">
 					<i class="fa fa-trash fa-2x"></i>
 				</button>
 
-				<button id="btnSaveCanvas" class="btn">
+				<button id="btn-save-canvas" class="btn">
 					<i class="fa fa-floppy-o fa-2x"></i>
 				</button>
 
-				<button id="btnExportCanvas" class="btn">
+				<button id="btn-export-canvas" class="btn">
 					<i class="fa fa-image fa-2x"></i>
 				</button>
 			</div>
@@ -134,7 +138,7 @@
 		</div>
 
 		<!-- This div is used for showing the spinner when exporting the canvas -->
-		<div id="spinnerContainer" class="spinner-container-hidden">
+		<div id="spinner-container" class="spinner-container-hidden">
 			<p class="spinner">P</p>
 		</div>
 
@@ -143,12 +147,13 @@
 		  <p></p>
 		</div>
 
-		<!-- side bar buttons -->
-		<button type="button" id="btnHelp" class="btn btn-help-hidden">
+		<!-- help button -->
+		<button type="button" id="btn-help" class="btn btn-help-hidden">
 			<i class="fa fa-question-circle fa-2x"></i>
 		</button>
 
-		<button type="button" id="btnBacktoTop" class="btn btn-backtotop btn-backtotop-hidden">
+		<!-- back to top button -->
+		<button type="button" id="btn-back-to-top" class="btn btn-backtotop btn-backtotop-hidden">
 			<i class="fa fa-chevron-up fa-2x"></i>
 		</button>
 

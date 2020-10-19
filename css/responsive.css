@@ -17,10 +17,9 @@
 		font-size: 1.4em;
 	}
 
-	.ui-widget{
+	.ui-widget {
 		font-size: 0.9em;
 	}
-
 }
 
 /**
@@ -30,10 +29,9 @@
  */
 
 @media screen and (min-width:600px) {
-	.ui-widget{
+	.ui-widget {
 		font-size: 1em;
 	}
-
 }
 
 /**
