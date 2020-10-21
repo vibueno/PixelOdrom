@@ -13,7 +13,7 @@
 - [Tests](#tests)
 
 ## Description
-This project was developed within the frame of the Front End Developer Nanodegree program at Udacity. However, what I ended up developing exceeds greatly the goals of the initial project.
+pixelOdrom is a web tool for creating pixel art. This project was developed within the frame of the Front End Developer Nanodegree program at Udacity and greatly improved afterwards.
 
 ## Live
 For a live version of pixelOdrom, visit [GitHub Pages](https://vibueno.github.io/pixelodrom).
@@ -27,10 +27,10 @@ For a live version of pixelOdrom, visit [GitHub Pages](https://vibueno.github.io
 * [FileSaver.js](https://github.com/eligrey/FileSaver.js)
 
 ## Design
-* Mobile first
+* Mobile first: the styles included in the file styles.css are optimized for a minimum width of 240px. The file responsiveness.css builds on styles.css by providing additional styles which make the site work correctly on bigger viewports.
 
 ## Programming
-* Fully responsive (starting at 240px Unihertz Jelly Pro, as fas as I know the smallest Smartphone widely available)
+* Fully responsive (starting at 240px of *Unihertz Jelly Pro*, as fas as I know the smallest Smartphone widely available)
 * jQuery Event Delegation
 * JavaScript Promises
 
@@ -61,7 +61,7 @@ You can load a canvas file by clicking on the folder icon in the main toolbar.
 You can export a canvas as an image file by clicking on the image button at the bottom of your canvas.
 
 ## Samples
-In the folder [samples](https://github.com/vibueno/PixelOdrom/tree/master/samples), you can find art made with PixelOdrom
+In the folder [samples](https://github.com/vibueno/PixelOdrom/tree/master/pixelart/img), you can find art made with PixelOdrom
 
 ## Improvements
 * Make possible to draw pixel lines on mobile
@@ -72,7 +72,7 @@ In the folder [samples](https://github.com/vibueno/PixelOdrom/tree/master/sample
 * Add Unit testing
 
 ## Issues
-* Image download on DuckDuckGo Privacy Browser on mobile does not seem to work correctly
+* Image download on *DuckDuckGo Privacy Browser* on mobile does not seem to work correctly
 * Sometimes there is a short delay on certain computers when painting pixels, or some pixels dissapear.
 
 ## Tests
