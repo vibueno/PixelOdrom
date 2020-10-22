@@ -1,7 +1,5 @@
-/*
-	In this file we use the expression pixelOdrom pixels to refer of the squares in the table (canvas).
-	We do so to avoid confusion with CSS pixels
-*/
+/* In this file we use the expression pixelOdrom pixels to refer of the squares in the table (canvas).
+We do so to avoid confusion with CSS pixels */
 
 /**
  *
@@ -19,11 +17,9 @@ const DEFAULT_PICKER_COLOR = "#000";
 
 const CANVAS_ASPECT_RATIO = 1.5;
 
-/*
-	Since canvas can be resized and we are using % for the sizes,
-	these pixel limits are only used for calculating the % of the main
-	div that the canvas will take, so that pixels don't get too big or too small
-*/
+/* Since canvas can be resized and we are using % for the sizes,
+these pixel limits are only used for calculating the % of the main
+div that the canvas will take, so that pixels don't get too big or too small */
 
 const MIN_PIXEL_SIZE = 10; //in CSS pixels
 const MAX_PIXEL_SIZE = 15; //in CSS pixels
@@ -38,7 +34,9 @@ const ROW = "<tr></tr>";
 const COLUMN = '<td class="pixel"></td>';
 
 /**
+ *
  * Dialog constants
+ *
  */
 
 const TOOL_BRUSH_HTML = '<i class="fa fa-paint-brush"></i>';
@@ -112,7 +110,6 @@ let gbCurrentCanvasWidth; //%
  *
  * @returns {Object} Promise
  */
-
 function delay(duration) {
    return new Promise(function(resolve) {
        setTimeout(resolve, duration);
@@ -125,7 +122,6 @@ function delay(duration) {
  *
  * @returns {Number} converted value
  */
-
 function CSSPixelToNumber(CSSValue) {
 	 return parseInt(CSSValue.replace("px", ""));
 }
@@ -133,7 +129,6 @@ function CSSPixelToNumber(CSSValue) {
 /**
  * @description Sets value of global variables
  */
-
 function setGlobals() {
 
 	gbCurrentCanvasWidthPO = parseInt($("#input-width").val());
@@ -151,7 +146,6 @@ function setGlobals() {
 /**
  * @description Navigates to an empty page with no canvas.
  */
-
 function goToHomePage() {
 	if (isCanvasActive()) {
 		showConfirmDialog(DIALOG_CONFIRM_TITLE, "Leaving the page will reset the canvas. Do you want to proceed?" , false, setUpPixelOdrom);
@@ -164,7 +158,6 @@ function goToHomePage() {
 /**
  * @description Sets up the application.
  */
-
 function setUpPixelOdrom() {
 	resetInputFieldValues();
 	setGlobals();
@@ -177,17 +170,17 @@ function setUpPixelOdrom() {
 /**
  *
  * Spinner
- * It is used to tell the user the system is working on something
- * It is a full screen div, since we need to move the canvas
- * to the top-left corner before exporting it to an image
- * and we want to hide this to the user
  *
  */
+
+ /* It is used to tell the user the system is working on something
+ It is a full screen div, since we need to move the canvas
+ to the top-left corner before exporting it to an image
+ and we want to hide this to the user */
 
 /**
  * @description Shows the spinner.
  */
-
 function showSpin() {
 
 	//a promise is needed to stop async execution
@@ -208,7 +201,6 @@ function showSpin() {
 /**
  * @description Hides the spinner.
  */
-
 function hideSpin() {
 
 	//a promise is needed to stop async execution
@@ -228,7 +220,6 @@ function hideSpin() {
 /**
  * description Checks whether the spinner is being used.
  */
-
 function isSpinnerActive() {
 	return $("#spinner-container").hasClass("spinner-container");
 }
@@ -243,7 +234,6 @@ function isSpinnerActive() {
  * @description Shows the start-up dialog
  *
  */
-
 function showStartUpDialog() {
 
 	$( "#dialog" ).attr('title', DIALOG_START_UP_TITLE);
@@ -264,7 +254,6 @@ function showStartUpDialog() {
 /**
  * @description Opens the help dialog.
  */
-
 function showHelpDialog() {
 
 	$( "#dialog" ).attr('title', DIALOG_HELP_TITLE);
@@ -291,7 +280,6 @@ function showHelpDialog() {
  * @param  {String} callback       Callback function.
  * @param  {Array} callbackParams  Parameters for the callback function.
  */
-
 function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback, callbackParams) {
 
 	$( "#dialog" ).attr('title', dialogTitle);
@@ -325,7 +313,6 @@ function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback, 
  * @param  {String} dialogContent  Text for the content of the dialog.
  * @param  {Boolean} isHTMLcontent Tells whether the content of the dialog is HTML.
  */
-
 function showInfoDialog(dialogTitle, dialogContent, isHTMLcontent) {
 
 	$( "#dialog" ).attr('title', dialogTitle);
@@ -355,7 +342,6 @@ function showInfoDialog(dialogTitle, dialogContent, isHTMLcontent) {
  * @param  {String} dialogContent  Text for the content of the dialog.
  * @param  {Boolean} isHTMLcontent Tells whether the content of the dialog is HTML.
  */
-
 function showErrorDialog(dialogTitle, dialogContent, isHTMLcontent) {
 
 	$( "#dialog" ).attr('title', dialogTitle);
@@ -381,12 +367,11 @@ function showErrorDialog(dialogTitle, dialogContent, isHTMLcontent) {
 /**
  * @description Opens the open file dialog (not a jQuery UI Dialog).
  */
-
 function showFileDialog() {
-	/*
-	 We need to trigger this event manually, since we are using
-	 a button to activate a hidden input file field
-	*/
+
+	/* We need to trigger this event manually, since we are using
+	a button to activate a hidden input file field */
+
 	$("#btn-load-canvas-input").trigger("click");
 }
 
@@ -395,13 +380,10 @@ function showFileDialog() {
  *
  * @returns {Boolean}
  */
-
 function isDialogOpen() {
 
-	/*
-	 We check first whether the dialog has been initialized
-	 https://stackoverflow.com/questions/15763909/jquery-ui-dialog-check-if-exists-by-instance-method
-	*/
+	/* We check first whether the dialog has been initialized
+	https://stackoverflow.com/questions/15763909/jquery-ui-dialog-check-if-exists-by-instance-method */
 
 	if ($("#dialog").hasClass('ui-dialog-content')) {
 		if ($("#dialog").dialog("isOpen")) {
@@ -425,7 +407,6 @@ function isDialogOpen() {
 /**
  * @description Resets the input fields to their default values.
  */
-
 function resetInputFieldValues() {
 	$("#inputWidth").val($("#input-width").prop("defaultValue"));
 	$("#inputHeight").val($("#input-height").prop("defaultValue"));
@@ -439,7 +420,6 @@ function resetInputFieldValues() {
  * @param  {Number} canvasWidth canvas width to be set to the input field.
  * @param  {Number} canvasHeight canvas height to be set to the input field.
  */
-
 function setInputFieldValues(canvasWidth, canvasHeight) {
 	$("#input-width").val(canvasWidth);
 	$("#input-height").val(canvasHeight);
@@ -450,7 +430,6 @@ function setInputFieldValues(canvasWidth, canvasHeight) {
  *
  * @param  {String} inputColor Hexadecimal value of the color to be set.
  */
-
 function InitializeColorPicker(inputColor) {
 
 	gbSelectedColor = inputColor;
@@ -476,7 +455,6 @@ function InitializeColorPicker(inputColor) {
  *
  * @returns {Number} top position of the tool box.
  */
-
 function getToolboxPositionTop() {
 	const TOOL_BOX_MARGIN_TOP = CSSPixelToNumber($("#tool-box").css("marginTop"));
 	const TOOL_BOX_POSITION_TOP = $("#tool-box").position().top + TOOL_BOX_MARGIN_TOP;
@@ -486,7 +464,6 @@ function getToolboxPositionTop() {
 /**
  * @description Scrolls to the top of the toolbox
  */
-
 function scrollToToolboxTop() {
 	scroll(0, getToolboxPositionTop());
 }
@@ -502,7 +479,6 @@ function scrollToToolboxTop() {
  *
  * @param  {Boolean} show tells whether the canvas should be shown.
  */
-
 function showCanvas(show) {
 
 	if (show){
@@ -522,7 +498,6 @@ function showCanvas(show) {
  * @param  {Number} canvasWidthPO canvas width in pixelOdrom pixels.
  * @param  {Number} canvasHeightPO canvas height in pixelOdrom pixels.
  */
-
 function setUpCanvas(canvasWidthPO, canvasHeightPO) {
 
 	let canvasCSSWidth;
@@ -536,13 +511,11 @@ function setUpCanvas(canvasWidthPO, canvasHeightPO) {
 
 	setGlobals();
 
-	/*
-		Here we calculate the % of the space available that we will use for the canvas,
-	 	so that the pixels have a reasonable size.
-	 	The side effects of not doing so would be:
-	 	A too wide canvas and small amount of pixels results in too large pixels
-	 	A too small canvas a large amount of pixels would result in too small pixels
-	*/
+	/* Here we calculate the % of the space available that we will use for the canvas,
+	so that the pixels have a reasonable size.
+	The side effects of not doing so would be:
+	A too wide canvas and small amount of pixels results in too large pixels
+	A too small canvas a large amount of pixels would result in too small pixels */
 
 	for (let i=100;i>=1;i-=1) {
 
@@ -576,7 +549,6 @@ function setUpCanvas(canvasWidthPO, canvasHeightPO) {
  *
  * @param  {Number} maxCanvasWidthPx maximal width of the canvas in CSS pixels.
  */
-
 function setUpPixel(maxCanvasWidthPx) {
 
 	const MAX_CANVAS_WIDTH_PERCENT = (maxCanvasWidthPx/gbMainWidthPx)*100;
@@ -596,7 +568,6 @@ function setUpPixel(maxCanvasWidthPx) {
  *
  * @param  {Array} canvasSize Width and height of the canvas.
  */
-
 function createCanvasCheck(canvasSize) {
 
 	setGlobals();
@@ -625,7 +596,6 @@ function createCanvasCheck(canvasSize) {
  * @param  {Array} canvasSize Width and height of the canvas.
  * @param  {Boolean} scrollToCanvas tells whether to navigate to the canvas after creation.
  */
-
 function createCanvas(canvasSize, scrollToCanvas=true){
 
 	return new Promise((resolve) => {
@@ -659,16 +629,13 @@ function createCanvas(canvasSize, scrollToCanvas=true){
  *
  * @param  {Array} canvasSize Width and height of the canvas.
  */
-
 function createCanvasWrapper(canvasSize) {
 
-	/*
-  	It calls the functions sequentially by using promises
-  	This is needed for showing the spinner for the amount time
-  	pixelOdrom needs to create the canvas
+	/* It calls the functions sequentially by using promises
+  This is needed for showing the spinner for the amount time
+  pixelOdrom needs to create the canvas
 
-		We need the delay call, because otherwise the Spin is not shown
-  */
+	We need the delay call, because otherwise the Spin is not shown */
 
   if (canvasSize[0]*canvasSize[1]>1000) {
 		showSpin().then(delay.bind(1000)).then(createCanvas.bind(null, canvasSize)).then(hideSpin);
@@ -684,7 +651,6 @@ function createCanvasWrapper(canvasSize) {
  * @param  {Number} widthPO width of the canvas in pixelOdrom pixels.
  * @param  {Number} heightPO height of the canvas in pixelOdrom pixels.
  */
-
 function canvasPropCorrect(widthPO, heightPO) {
 
 	const PROPORTION = widthPO/heightPO;
@@ -701,7 +667,6 @@ function canvasPropCorrect(widthPO, heightPO) {
 /**
  * @description Deletes the canvas from the DOM.
  */
-
 function deleteCanvas() {
 
 	const CANVAS_ROWS = $ (PIXEL_CANVAS_SEL + " tr");
@@ -713,7 +678,6 @@ function deleteCanvas() {
 /**
  * @description Resets all pixels to their initial color.
  */
-
 function resetCanvas() {
 	gbCanvas.find(".pixel").css("background-color", BLANK_PIXEL_COLOR);
 	scrollToToolboxTop();
@@ -722,7 +686,6 @@ function resetCanvas() {
 /**
  * @description Saves the canvas to a .*pix file.
  */
-
 function saveCanvas() {
 
 	//We need to clone the canvas, so that we don"t modify the DOM
@@ -744,7 +707,6 @@ function saveCanvas() {
  *
  * @returns {Object} Promise
  */
-
 function exportCanvas() {
 
 	return new Promise((resolve) => {
@@ -762,16 +724,10 @@ function exportCanvas() {
 			y: $("#pixel-canvas").top})
 		.then(canvas => {
 
-			//Shows canvas at the bottom of the page
-		  //document.body.appendChild(canvas)
-
 		  //Saves canvas to client
 			saveAs(canvas.toDataURL(), 'pixelOdrom.png');
 
-			/*
-			Moving the pixel table back to its original position
-			*/
-
+			//Moving the pixel table back to its original position
 			$(PIXEL_CANVAS_SEL).removeClass("pixel-canvas-export");
 			$(PIXEL_CANVAS_SEL).addClass("pixel-canvas");
 
@@ -784,14 +740,11 @@ function exportCanvas() {
 /**
  * @description Wrapper for the export function.
  */
-
 function exportCanvasWrapper() {
 
-	/*
-  	It calls the functions sequentially by using promises
-  	This is needed for showing the spinner for the amount time
-  	pixelOdrom needs to export the canvas
-  */
+	/* It calls the functions sequentially by using promises
+  This is needed for showing the spinner for the amount time
+  pixelOdrom needs to export the canvas */
 
 	showSpin().then(exportCanvas).then(hideSpin);
 }
@@ -801,7 +754,6 @@ function exportCanvasWrapper() {
  *
  * @returns {Boolean}
  */
-
 function isValidCanvas(canvas) {
 	let canvasCheck;
 
@@ -825,7 +777,6 @@ function isValidCanvas(canvas) {
  *
  * @param  {Object} file object containing the canvas to be imported.
  */
-
 function loadCanvas(input) {
 
 	const FILE = input.files[0];
@@ -878,10 +829,9 @@ function loadCanvas(input) {
     showErrorDialog(DIALOG_ERROR_TITLE, `There was an error while trying to load the canvas: ${reader.error}`, false);
   };
 
-  /*
-  	This call is needed in order to make the even onchange fire every time,
-  	even if the users selects the same file again
-  */
+  /* This call is needed in order to make the even onchange fire every time,
+  even if the users selects the same file again */
+
   $("#btn-load-canvas-input").prop("value", "");
 
 }
@@ -889,7 +839,6 @@ function loadCanvas(input) {
 /**
  * @description Checks whether there is an active canvas.
  */
-
 function isCanvasActive() {
 	return $(PIXEL_CANVAS_SEL + " tr").length;
 }
@@ -899,7 +848,6 @@ function isCanvasActive() {
  *
  * @param  {[jQuery Selector]} pixel pixelOdrom pixel to be painted or erased.
  */
-
 function paintPixel(pixel) {
 	if ((gbSelectedTool) == TOOL_BRUSH) {
 		$ ( pixel ).css( "background-color", gbSelectedColor);
@@ -920,7 +868,6 @@ function paintPixel(pixel) {
  *
  * @param  {String} tool tool to be set as active.
  */
-
 function selectTool(tool){
 	gbSelectedTool = tool;
 
@@ -942,7 +889,6 @@ function selectTool(tool){
  *
  * @param  {Boolean} show tells whether the tool box should be shown or hidden.
  */
-
 function showToolbox(show) {
 	if (show) {
 		$("#tool-box").removeClass("tool-box-hidden");
@@ -963,7 +909,6 @@ function showToolbox(show) {
  *
  * @param {Boolean} show tells whether the action box should be shown or hidden.
  */
-
 function showActionbox(show) {
 	if (show) {
 		$("#action-box").removeClass("action-box-hidden");
@@ -976,7 +921,6 @@ function showActionbox(show) {
 /**
  * @description Functionality of the reset canvas button.
  */
-
 function btnResetCanvasClick(){
 	resetCanvas();
 }
@@ -988,13 +932,14 @@ function btnResetCanvasClick(){
  */
 
 /**
+ *
  * Back to top
+ *
  */
 
 /**
  * @description Sets the visibility of the back to top button.
  */
-
 function setBacktotopVisibility() {
 
 	if ((($( window ).height() + $(window).scrollTop()) >= ($("body").outerHeight()/1.25)) &&
@@ -1015,13 +960,14 @@ function setBacktotopVisibility() {
 }
 
 /**
+ *
  * Help
+ *
  */
 
 /**
  * @description Sets the visibility of the help button.
  */
-
 function setBtnHelpVisibility() {
 	if (!isDialogOpen() && (!isSpinnerActive())) {
 
@@ -1041,7 +987,6 @@ function setBtnHelpVisibility() {
 /**
  * @description Sets the visibility of the side bar buttons.
  */
-
 function setBtnSidebarVisibility() {
 	setBtnHelpVisibility();
 	setBacktotopVisibility();
@@ -1050,7 +995,6 @@ function setBtnSidebarVisibility() {
 /**
  * @description document.ready
  */
-
 $(function() {
 
 	/**
@@ -1060,21 +1004,34 @@ $(function() {
 	 */
 
 	/**
+	 *
 	 * General events
+	 *
 	 */
 
+	/**
+	 * @description Sets the visibility of the sidebar on each scroll
+	 */
 	$(document).scroll(function() {
 		setBtnSidebarVisibility();
 	});
 
+	/**
+	 * @description Sets the visibility of the sidebar on each resize
+	 */
 	$(window).resize(function() {
 		setBtnSidebarVisibility();
 	});
 
 	/**
+	 *
 	 * Canvas events
+	 *
 	 */
 
+	/**
+	 * @description Creates a canvas if requirements satisfied
+	 */
 	$("#size-picker").submit( function(e) {
 
 		const CANVAS_WIDTH = parseInt($("#input-width").val());
@@ -1094,6 +1051,9 @@ $(function() {
 
 	});
 
+	/**
+	 * @description Shows the load canvas dialog
+	 */
 	$("#btn-load-canvas").click( function() {
 
 		const DIALOG_MSG = "Are you sure that you want to load a previously saved canvas?";
@@ -1102,20 +1062,31 @@ $(function() {
 	});
 
 	/*
-	 Event delegation
-	*/
+	 *
+	 * Event delegation
+	 *
+	 */
 
+	/**
+	 * @description Paints or erases pixels
+	 */
 	$( PIXEL_CANVAS_SEL ).on("mousedown", "td", function() {
 		gbMouseIsDown=true;
 		paintPixel(this);
 	});
 
+	/**
+	 * @description Paints or erases pixels
+	 */
 	$( PIXEL_CANVAS_SEL ).on("mouseover", "td", function() {
 		if (gbMouseIsDown){
 			paintPixel(this);
 		}
 	});
 
+	/**
+	 * @description Paints or erases pixels
+	 */
 	$( PIXEL_CANVAS_SEL ).on("mouseenter", function() {
 
 		$( this ).awesomeCursor(gbSelectedTool, {
@@ -1126,14 +1097,14 @@ $(function() {
 	});
 
 	/**
-	 * Resets the cursor and deletes unneeded divs created by jQuery Awesome Cursor.
-   *
-   * One div is created every time a cursor is shown.
-   * By removing the divs, we keep the DOM cleaner and make the application faster
-   * Beware: since the selector is neither id nor class,
-   * this may produce unexpected results if other divs with the same style are used
-   */
+	 * @description Resets the cursor and deletes unneeded divs created by jQuery Awesome Cursor.
+	 */
 
+	/* One div is created every time a cursor is shown.
+	By removing the divs, we keep the DOM cleaner and make the application faster
+	Beware: since the selector is neither id nor class,
+	this may produce unexpected results if other divs with the same style are used
+	*/
 	$( PIXEL_CANVAS_SEL ).on("mouseleave", function() {
 
 		$( this ).css('cursor', '');
@@ -1143,27 +1114,28 @@ $(function() {
 
 	});
 
-	/**
-	 * In this case, we must use the document and not the canvas,
-	 * because the user may release the mouse outside the canvas
+  /**
+	 * @description Updates global when mouse button released
 	 */
 
+	/* In this case, we must use the document and not the canvas,
+	because the user may release the mouse outside the canvas */
 	$(document).on("mouseup", function() {
 		gbMouseIsDown=false;
 	});
 
-
-	/**
-	 * Prevents dragging on already painted pixels,
+  /**
+	 * @description Prevents dragging on painted pixels,
 	 * which otherwise may behave together like an image
 	 */
-
 	$( PIXEL_CANVAS_SEL ).on("dragstart", function (e) {
 		e.preventDefault();
 	});
 
 	/**
+	 *
 	 * Action box events
+	 *
 	 */
 
 	$("#btn-reset-canvas").click(function() {
@@ -1185,7 +1157,9 @@ $(function() {
 	});
 
 	/**
+	 *
 	 * Toolbox events
+	 *
 	 */
 
 	$("#btn-tool-brush").click(function() {
@@ -1197,7 +1171,9 @@ $(function() {
 	});
 
 	/**
+	 *
 	 * Back to top events
+	 *
 	 */
 
 	$("#btn-back-to-top").click(function() {
@@ -1210,7 +1186,9 @@ $(function() {
 	});
 
 	/**
+	 *
 	 * Dialog events
+	 *
 	 */
 
 	$( "#dialog" ).on( "dialogopen",
@@ -1243,7 +1221,9 @@ $(function() {
 	);
 
 	/**
+	 *
 	 * Help events
+	 *
 	 */
 
 	$("#btn-help").click(function() {
