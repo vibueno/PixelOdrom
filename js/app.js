@@ -28,7 +28,7 @@ $(function() {
 	window.mainDivWidthPx = parseInt($(".main").width());
 
 	functions.setUpPixelOdrom();
-	window.canvas.create([$("#input-width").prop("defaultValue"), $("#input-height").prop("defaultValue")], false);
+	window.canvas.create($("#input-width").prop("defaultValue"), $("#input-height").prop("defaultValue"), false);
 
 	/**
 	 *
