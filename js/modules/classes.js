@@ -3,7 +3,7 @@
  */
 
 import { functions } from './functions.js';
-import { PIXEL_CANVAS_SEL, MODAL_CONTENT, TOOL_BRUSH, DEFAULT_PICKER_COLOR } from './constants.js';
+import { PIXEL_CANVAS_SEL, MODAL_CONTENT, TOOL_BRUSH, TOOL_ERASER, DEFAULT_PICKER_COLOR } from './constants.js';
 
 /**
  * @constructor
@@ -139,6 +139,15 @@ DrawingTool.prototype.set = function(tool) {
 	  	$( "#btn-tool-eraser").addClass("btn-pressed");
 	    break;
 	}
+}
+
+/**
+ * @description Paints or erases a pixel.
+ *
+ * @param {String} color hexadecimal value of the color to be used
+ */
+DrawingTool.prototype.paintPixel = function (pixel) {
+	$ (pixel).css( "background-color", this.color);
 }
 
 /**

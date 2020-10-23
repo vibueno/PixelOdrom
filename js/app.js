@@ -1,7 +1,7 @@
 import { TOOL_BRUSH, TOOL_ERASER, DEFAULT_PICKER_COLOR, MIN_PIXEL_SIZE,
 	       MAX_CANVAS_WIDTH_PO, CANVAS_ASPECT_RATIO, PIXEL_CANVAS_SEL,
-	       MODAL_CONTENT, ROW, COLUMN, MAX_PIXEL_SIZE, PIXEL_PADDING_CORRECTION
-	        } from './modules/constants.js';
+	       MODAL_CONTENT, ROW, COLUMN, MAX_PIXEL_SIZE, PIXEL_PADDING_CORRECTION,
+	       CURSOR_COLOR } from './modules/constants.js';
 
 import { Canvas, Modal, Spinner, DrawingTool } from './modules/classes.js';
 
@@ -638,7 +638,7 @@ $(function() {
 	 */
 	window.canvas.DOMNode.on("mousedown", "td", function() {
 		gbMouseIsDown=true;
-		paintPixel(this);
+		window.drawingTool.paintPixel(this);
 	});
 
 	/**
@@ -646,7 +646,7 @@ $(function() {
 	 */
 	window.canvas.DOMNode.on("mouseover", "td", function() {
 		if (gbMouseIsDown){
-			paintPixel(this);
+			window.drawingTool.paintPixel(this);
 		}
 	});
 
@@ -655,7 +655,7 @@ $(function() {
 	 */
 	window.canvas.DOMNode.on("mouseenter", function() {
 
-		$( this ).awesomeCursor(window.DrawingTool.color, {
+		$( this ).awesomeCursor(window.drawingTool.color, {
 			hotspot: [2, 15],
 			color: CURSOR_COLOR
 		});
