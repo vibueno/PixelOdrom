@@ -467,6 +467,17 @@ Modal.prototype.open = function (modalType, args) {
 	  case 'startUp':
 			this.buttons = {"Get started!": function () { window.modal.DOMNode.dialog("close");}}
 	    break;
+	  case 'pageLeave':
+	  	this.buttons = {
+	  		"Yes": function () {
+	  					   functions.setUpPixelOdrom();
+	  						 window.modal.DOMNode.dialog("close");
+      				 },
+      	"No":  function () {
+        			 	 window.modal.DOMNode.dialog("close");
+      				 }
+    	}
+	    break;
 	  case 'canvasCreate':
 	  	this.buttons = {
 	  		"Yes": function () {

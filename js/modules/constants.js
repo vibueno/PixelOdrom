@@ -57,6 +57,8 @@ const MODAL_START_UP_TEXT = MODAL_HELP_TEXT + `<p>
 	<label for="dialog-start-up-hide">I am already a pixelOdrom master. Don't show this again!</label>
 	</p>`;
 
+const MODAL_PAGE_LEAVE_TEXT = 'Leaving the page will reset the canvas. Do you want to proceed?';
+
 const MODAL_CANVAS_SAVE_TEXT  = 'Are you sure that you want to save this canvas?';
 const MODAL_CANVAS_RESET_TEXT  = 'Are you sure that you want to reset this canvas?';
 
@@ -81,6 +83,9 @@ const MODAL_CONTENT = {
 	startUp: {
 		"title": 'Welcome to pixelOdrom',
 		"text": MODAL_START_UP_TEXT},
+	pageLeave: {
+		"title": MODAL_CONFIRM_TITLE,
+		"text": MODAL_PAGE_LEAVE_TEXT},
 	canvasCreate: {
 		"title": MODAL_CONFIRM_TITLE},
 	canvasProportions: {

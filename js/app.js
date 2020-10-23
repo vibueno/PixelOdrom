@@ -57,6 +57,13 @@ $(function() {
 	});
 
 	/**
+	 * @description Sets the visibility of the sidebar on each resize
+	 */
+	$( "#header" ).click(function() {
+		functions.goToHomePage();
+	});
+
+	/**
 	 *
 	 * Canvas events
 	 *
@@ -88,7 +95,6 @@ $(function() {
 	 */
 	$("#btn-load-canvas").click( function() {
 		window.modal.open('canvasLoad', {});
-
 	});
 
 	/*
@@ -118,12 +124,10 @@ $(function() {
 	 * @description Paints or erases pixels
 	 */
 	window.canvas.DOMNode.on("mouseenter", function() {
-
 		$( this ).awesomeCursor(window.drawingTool.tool, {
 			hotspot: [2, 15],
 			color: CURSOR_COLOR
 		});
-
 	});
 
 	/**
@@ -136,12 +140,10 @@ $(function() {
 	this may produce unexpected results if other divs with the same style are used
 	*/
 	window.canvas.DOMNode.on("mouseleave", function() {
-
 		$( this ).css('cursor', '');
 
 		let invisibleDiv = $( 'div[style="position: absolute; left: -9999px; top: -9999px;"]' );
 		invisibleDiv.remove();
-
 	});
 
   /**
@@ -235,7 +237,6 @@ $(function() {
 
 	$("#dialog").on ("change", "#dialog-start-up-hide",
 		function( ) {
-
 			try {
 				if ($("#dialog-not-show-again").is(":checked")){
 					localStorage.setItem('dialogStartUpHide', true);

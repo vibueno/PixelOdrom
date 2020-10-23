@@ -43,11 +43,11 @@ let functions = {
    * @description Navigates to an empty page with no canvas.
    */
  	goToHomePage: function () {
-		if (isCanvasActive()) {
-			showConfirmDialog(DIALOG_CONFIRM_TITLE, "Leaving the page will reset the canvas. Do you want to proceed?" , false, setUpPixelOdrom);
+		if (window.canvas.isActive) {
+			window.modal.open('pageLeave', {});
 		}
 		else{
-			setUpPixelOdrom();
+			functions.setUpPixelOdrom();
 		}
 	},
 
