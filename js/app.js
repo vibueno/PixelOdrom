@@ -1,8 +1,11 @@
 import { TOOL_BRUSH, TOOL_ERASER, DEFAULT_PICKER_COLOR, MIN_PIXEL_SIZE,
 	       MAX_CANVAS_WIDTH_PO, CANVAS_ASPECT_RATIO, PIXEL_CANVAS_SEL,
-	       DIALOG_CONFIRM_TITLE, DIALOG_START_UP_TITLE, DIALOG_START_UP_TEXT,
-	       DIALOG_HELP_TITLE, DIALOG_HELP_TEXT, DIALOG_CONFIRM_TITLE,
-	       DIALOG_CONFIRM_EXPORT_TEXT, DIALOG_ERROR_TITLE } from './constants.js';
+	       MODAL_CONTENT, ROW, COLUMN, MAX_PIXEL_SIZE, PIXEL_PADDING_CORRECTION
+	        } from './modules/constants.js';
+
+import { Canvas, Modal, Spinner, DrawingTool } from './modules/classes.js';
+
+import { functions } from './modules/functions.js';
 
 /* In this file we use the expression pixelOdrom pixels to refer of the squares in the table (canvas).
 We do so to avoid confusion with CSS pixels */
@@ -14,11 +17,6 @@ We do so to avoid confusion with CSS pixels */
  */
 
 let gbMouseIsDown = false;
-let gbSelectedTool = TOOL_BRUSH;
-
-let gbSelectedColor = DEFAULT_PICKER_COLOR;
-
-let gbCanvas;
 
 let gbCurrentCanvasMaxWidthPO; //in pixelOdrom pixels
 let gbCurrentCanvasMaxHeightPO; //in pixelOdrom pixels
@@ -37,28 +35,6 @@ let gbCurrentCanvasWidth; //%
  */
 
 /**
- * @description Creates a delay that can be used in a promise chain.
- * @param  {Number} duration amount of time the delay will run.
- *
- * @returns {Object} Promise
- */
-function delay(duration) {
-   return new Promise(function(resolve) {
-       setTimeout(resolve, duration);
-   });
-}
-
-/**
- * @description Converts a css value to Number.
- * @param  {String} CSSValue value to be converted.
- *
- * @returns {Number} converted value
- */
-function CSSPixelToNumber(CSSValue) {
-	 return parseInt(CSSValue.replace("px", ""));
-}
-
-/**
  * @description Sets value of global variables
  */
 function setGlobals() {
@@ -71,20 +47,6 @@ function setGlobals() {
 	gbCurrentCanvasMaxWidthPO = Math.min(Math.floor(gbMainWidthPx/MIN_PIXEL_SIZE), MAX_CANVAS_WIDTH_PO);
 	gbCurrentCanvasMaxHeightPO = Math.floor(gbCurrentCanvasMaxWidthPO*CANVAS_ASPECT_RATIO);
 
-	gbCanvas = $ ( PIXEL_CANVAS_SEL );
-
-}
-
-/**
- * @description Navigates to an empty page with no canvas.
- */
-function goToHomePage() {
-	if (isCanvasActive()) {
-		showConfirmDialog(DIALOG_CONFIRM_TITLE, "Leaving the page will reset the canvas. Do you want to proceed?" , false, setUpPixelOdrom);
-	}
-	else{
-		setUpPixelOdrom();
-	}
 }
 
 /**
@@ -96,204 +58,8 @@ function setUpPixelOdrom() {
 	showToolbox(false);
 	showActionbox(false);
 	setBtnSidebarVisibility();
-	showCanvas(false);
-}
+	window.canvas.setVisibility(false);
 
-/**
- *
- * Spinner
- *
- */
-
- /* It is used to tell the user the system is working on something
- It is a full screen div, since we need to move the canvas
- to the top-left corner before exporting it to an image
- and we want to hide this to the user */
-
-/**
- * @description Shows the spinner.
- */
-function showSpin() {
-
-	//a promise is needed to stop async execution
-	return new Promise((resolve) => {
-
-		$("#spinner-container").removeClass("spinner-container-hidden");
-
-		$("#spinner-container").addClass("spinner-container");
-
-		$("body").css("overflow", "hidden");
-
-		setBtnSidebarVisibility();
-
-		resolve("Spin shown");
-	});
-}
-
-/**
- * @description Hides the spinner.
- */
-function hideSpin() {
-
-	//a promise is needed to stop async execution
-	return new Promise((resolve) => {
-
-		$("#spinner-container").addClass("spinner-container-hidden");
-		$("#spinner-container").removeClass("spinner-container");
-
-		$("body").css("overflow", "auto");
-
-		setBtnSidebarVisibility();
-
-		resolve("Spin hidden");
-	});
-}
-
-/**
- * description Checks whether the spinner is being used.
- */
-function isSpinnerActive() {
-	return $("#spinner-container").hasClass("spinner-container");
-}
-
-/**
- *
- * Dialogs
- *
- */
-
-/**
- * @description Shows the start-up dialog
- *
- */
-function showStartUpDialog() {
-
-	$( "#dialog" ).attr('title', DIALOG_START_UP_TITLE);
-
-	$( "#dialog" ).first("p").html(DIALOG_START_UP_TEXT);
-
-	$( "#dialog" ).dialog({
-		modal: true,
-		buttons: {
-    	"Get started!": function () {
-        $(this).dialog("close");
-      }
-    },
-    resizable: false
-  });
-}
-
-/**
- * @description Opens the help dialog.
- */
-function showHelpDialog() {
-
-	$( "#dialog" ).attr('title', DIALOG_HELP_TITLE);
-
-	$( "#dialog" ).first("p").html(DIALOG_HELP_TEXT);
-
-	$( "#dialog" ).dialog({
-		modal: true,
-		buttons: {
-    	"Alright!": function () {
-        $(this).dialog("close");
-      }
-    },
-    resizable: false
-  }).parent().removeClass("ui-state-error");
-}
-
-/**
- * @description Opens the confirm dialog.
- *
- * @param  {String} dialogTitle    Text for the title of the dialog.
- * @param  {String} dialogContent  Text for the content of the dialog.
- * @param  {Boolean} isHTMLcontent Tells whether the content of the dialog is HTML.
- * @param  {String} callback       Callback function.
- * @param  {Array} callbackParams  Parameters for the callback function.
- */
-function showConfirmDialog(dialogTitle, dialogContent, isHTMLcontent, callback, callbackParams) {
-
-	$( "#dialog" ).attr('title', dialogTitle);
-
-	if (isHTMLcontent){
-		$( "#dialog" ).first("p").html(dialogContent);
-	}
-	else{
-		$( "#dialog" ).first("p").text(dialogContent);
-	}
-
-	$( "#dialog" ).dialog({
-		modal: true,
-		buttons: {
-    	"Yes": function () {
-        $(this).dialog("close");
-        callback(callbackParams);
-      },
-      "No": function () {
-        $(this).dialog("close");
-      },
-    },
-    resizable: false
-  }).parent().removeClass("ui-state-error");
-}
-
-/**
- * @description Opens the information dialog.
- *
- * @param  {String} dialogTitle    Text for the title of the dialog.
- * @param  {String} dialogContent  Text for the content of the dialog.
- * @param  {Boolean} isHTMLcontent Tells whether the content of the dialog is HTML.
- */
-function showInfoDialog(dialogTitle, dialogContent, isHTMLcontent) {
-
-	$( "#dialog" ).attr('title', dialogTitle);
-
-	if (isHTMLcontent){
-		$( "#dialog" ).first("p").html(dialogContent);
-	}
-	else{
-		$( "#dialog" ).first("p").text(dialogContent);
-	}
-
-	$( "#dialog" ).dialog({
-		modal: true,
-		buttons: {
-    	"OK": function () {
-        $(this).dialog("close");
-      }
-    },
-    resizable: false
-  }).parent().removeClass("ui-state-error");
-}
-
-/**
- * @description Opens the error dialog.
- *
- * @param  {String} dialogTitle    Text for the title of the dialog.
- * @param  {String} dialogContent  Text for the content of the dialog.
- * @param  {Boolean} isHTMLcontent Tells whether the content of the dialog is HTML.
- */
-function showErrorDialog(dialogTitle, dialogContent, isHTMLcontent) {
-
-	$( "#dialog" ).attr('title', dialogTitle);
-
-	if (isHTMLcontent){
-		$( "#dialog" ).first("p").html(dialogContent);
-	}
-	else{
-		$( "#dialog" ).first("p").text(dialogContent);
-	}
-
-	$( "#dialog" ).dialog({
-		modal: true,
-		buttons: {
-    	"OK": function () {
-        $(this).dialog("close");
-      }
-    },
-    resizable: false
-  }).parent().addClass("ui-state-error");
 }
 
 /**
@@ -305,29 +71,6 @@ function showFileDialog() {
 	a button to activate a hidden input file field */
 
 	$("#btn-load-canvas-input").trigger("click");
-}
-
-/**
- * @description Checks whether the jQuery UI Dialog is open.
- *
- * @returns {Boolean}
- */
-function isDialogOpen() {
-
-	/* We check first whether the dialog has been initialized
-	https://stackoverflow.com/questions/15763909/jquery-ui-dialog-check-if-exists-by-instance-method */
-
-	if ($("#dialog").hasClass('ui-dialog-content')) {
-		if ($("#dialog").dialog("isOpen")) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	else {
-		return false;
-	}
 }
 
 /**
@@ -364,14 +107,14 @@ function setInputFieldValues(canvasWidth, canvasHeight) {
  */
 function InitializeColorPicker(inputColor) {
 
-	gbSelectedColor = inputColor;
+	window.drawingTool.color = inputColor;
 
 	$("#color-picker").spectrum({
 	    color: inputColor,
 	    replacerClassName: "btn-color-picker",
 			change: function(color) {
-        gbSelectedColor = color.toHexString();
-        selectTool(TOOL_BRUSH);
+        window.drawingTool.color = color.toHexString();
+        window.drawingTool.set(TOOL_BRUSH);
     }
 	});
 }
@@ -388,16 +131,9 @@ function InitializeColorPicker(inputColor) {
  * @returns {Number} top position of the tool box.
  */
 function getToolboxPositionTop() {
-	const TOOL_BOX_MARGIN_TOP = CSSPixelToNumber($("#tool-box").css("marginTop"));
+	const TOOL_BOX_MARGIN_TOP = functions.CSSPixelToNumber($("#tool-box").css("marginTop"));
 	const TOOL_BOX_POSITION_TOP = $("#tool-box").position().top + TOOL_BOX_MARGIN_TOP;
 	return TOOL_BOX_POSITION_TOP;
-}
-
-/**
- * @description Scrolls to the top of the toolbox
- */
-function scrollToToolboxTop() {
-	scroll(0, getToolboxPositionTop());
 }
 
 /**
@@ -405,25 +141,6 @@ function scrollToToolboxTop() {
  * Canvas
  *
  */
-
- /**
- * @description Toggles the canvas.
- *
- * @param  {Boolean} show tells whether the canvas should be shown.
- */
-function showCanvas(show) {
-
-	if (show){
-		gbCanvas.removeClass("pixel-canvas-hidden");
-		gbCanvas.addClass("pixel-canvas");
-	}
-	else
-	{
-		gbCanvas.addClass("pixel-canvas-hidden");
-		gbCanvas.removeClass("pixel-canvas");
-	}
-
-}
 
 /**
  * @description Prepares the canvas.
@@ -436,7 +153,7 @@ function setUpCanvas(canvasWidthPO, canvasHeightPO) {
 	let pixelSize;
 
 	let pixelBorderSize = $(".pixel").css("border-left-width");
-	pixelBorderSize = (typeof myVar === 'undefined')? 0: CSSPixelToNumber(pixelBorderSize);
+	pixelBorderSize = (typeof myVar === 'undefined')? 0: functions.CSSPixelToNumber(pixelBorderSize);
 
 	const TOTAL_BORDER_SIZE = pixelBorderSize * gbCurrentCanvasHeightPO;
 	const MAX_CANVAS_WIDTH_PX = gbMainWidthPx-TOTAL_BORDER_SIZE;
@@ -460,7 +177,7 @@ function setUpCanvas(canvasWidthPO, canvasHeightPO) {
 
 	}
 
-	gbCanvas.css("width", (canvasCSSWidth+"%"));
+	window.canvas.DOMNode.css("width", (canvasCSSWidth+"%"));
 	gbCurrentCanvasWidth = canvasCSSWidth;
 
 	setInputFieldValues(canvasWidthPO, canvasHeightPO);
@@ -471,8 +188,8 @@ function setUpCanvas(canvasWidthPO, canvasHeightPO) {
 
 	showToolbox(true);
 	showActionbox(true);
-	selectTool(TOOL_BRUSH);
-	showCanvas(true);
+	window.drawingTool.set(TOOL_BRUSH);
+	window.canvas.setVisibility(true);
 
 }
 
@@ -490,8 +207,8 @@ function setUpPixel(maxCanvasWidthPx) {
 	let padding = pixelWidth;
 	padding = padding - padding*PIXEL_PADDING_CORRECTION;
 
-	gbCanvas.find(".pixel").width(pixelWidth+"%");
-	gbCanvas.find(".pixel").css("padding-bottom", padding+"%");
+	window.canvas.DOMNode.find(".pixel").width(pixelWidth+"%");
+	window.canvas.DOMNode.find(".pixel").css("padding-bottom", padding+"%");
 
 }
 
@@ -535,10 +252,10 @@ function createCanvas(canvasSize, scrollToCanvas=true){
 		const CANVAS_WIDTH = canvasSize [0];
 		const CANVAS_HEIGHT = canvasSize [1];
 
-		deleteCanvas();
+		window.canvas.delete();
 
 		for (let i=1; i<=CANVAS_HEIGHT; i++){
-			gbCanvas.append(ROW);
+			window.canvas.DOMNode.append(ROW);
 			let lastRow = $(PIXEL_CANVAS_SEL + " tr").last();
 
 			for (let j=1; j<=CANVAS_WIDTH; j++){
@@ -597,21 +314,10 @@ function canvasPropCorrect(widthPO, heightPO) {
 }
 
 /**
- * @description Deletes the canvas from the DOM.
- */
-function deleteCanvas() {
-
-	const CANVAS_ROWS = $ (PIXEL_CANVAS_SEL + " tr");
-
-	CANVAS_ROWS.remove();
-	showCanvas(false);
-}
-
-/**
  * @description Resets all pixels to their initial color.
  */
 function resetCanvas() {
-	gbCanvas.find(".pixel").css("background-color", BLANK_PIXEL_COLOR);
+	window.canvas.DOMNode.find(".pixel").css("background-color", BLANK_PIXEL_COLOR);
 	scrollToToolboxTop();
 }
 
@@ -621,7 +327,7 @@ function resetCanvas() {
 function saveCanvas() {
 
 	//We need to clone the canvas, so that we don"t modify the DOM
-	const CANVAS_TO_SAVE = gbCanvas.clone();
+	const CANVAS_TO_SAVE = window.canvas.DOMNode.clone();
 
 	//removing styles since they should be calculated when loading
 	CANVAS_TO_SAVE.find(".pixel").css("width", "");
@@ -632,41 +338,6 @@ function saveCanvas() {
   const blob = new Blob([canvasContent], {type: "text/plain;charset=utf-8"});
   saveAs(blob, "canvas.pix");
 
-}
-
-/**
- * @description Exports the canvas to an image file.
- *
- * @returns {Object} Promise
- */
-function exportCanvas() {
-
-	return new Promise((resolve) => {
-
-		/*
-		 In order to make it easier for html2canvas,
-		 we move the pixel table to the left corner of the browser
-		*/
-
-		$(PIXEL_CANVAS_SEL).addClass("pixel-canvas-export");
-		$(PIXEL_CANVAS_SEL).removeClass("pixel-canvas");
-
-		html2canvas(document.querySelector("#pixel-canvas"),
-			{x: $("#pixel-canvas").left,
-			y: $("#pixel-canvas").top})
-		.then(canvas => {
-
-		  //Saves canvas to client
-			saveAs(canvas.toDataURL(), 'pixelOdrom.png');
-
-			//Moving the pixel table back to its original position
-			$(PIXEL_CANVAS_SEL).removeClass("pixel-canvas-export");
-			$(PIXEL_CANVAS_SEL).addClass("pixel-canvas");
-
-			resolve ("Exported canvas");
-
-		});
-	});
 }
 
 /**
@@ -741,7 +412,7 @@ function loadCanvas(input) {
 					showInfoDialog("Canvas too big", DIALOG_MSG, false);
 				}
 				else {
-					gbCanvas.html(reader.result);
+					window.canvas.DOMNode.html(reader.result);
 					$("#input-width").val(CANVAS_WIDTH);
 					$("#input-height").val(CANVAS_HEIGHT);
 
@@ -769,52 +440,10 @@ function loadCanvas(input) {
 }
 
 /**
- * @description Checks whether there is an active canvas.
- */
-function isCanvasActive() {
-	return $(PIXEL_CANVAS_SEL + " tr").length;
-}
-
-/**
- * @description Paints or erases a pixel.
- *
- * @param  {[jQuery Selector]} pixel pixelOdrom pixel to be painted or erased.
- */
-function paintPixel(pixel) {
-	if ((gbSelectedTool) == TOOL_BRUSH) {
-		$ ( pixel ).css( "background-color", gbSelectedColor);
-	}
-	else {
-		$ ( pixel ).css( "background-color", BLANK_PIXEL_COLOR);
-	}
-}
-
-/**
  *
  * Toolbox
  *
  */
-
-/**
- * @description Changes the active tool.
- *
- * @param  {String} tool tool to be set as active.
- */
-function selectTool(tool){
-	gbSelectedTool = tool;
-
-	switch(gbSelectedTool) {
-	  case TOOL_BRUSH:
-	  	$( "#btn-tool-eraser").removeClass("btn-pressed");
-	    $( "#btn-tool-brush").addClass("btn-pressed");
-	    break;
-	  case TOOL_ERASER:
-	  	$( "#btn-tool-brush").removeClass("btn-pressed");
-	  	$( "#btn-tool-eraser").addClass("btn-pressed");
-	    break;
-	}
-
-}
 
 /**
  * @description Toggles the tool box.
@@ -875,7 +504,7 @@ function btnResetCanvasClick(){
 function setBacktotopVisibility() {
 
 	if ((($( window ).height() + $(window).scrollTop()) >= ($("body").outerHeight()/1.25)) &&
-		(getToolboxPositionTop()<=$(window).scrollTop()) && isCanvasActive() &&
+		(getToolboxPositionTop()<=$(window).scrollTop()) && canvas.isActive &&
 		(!isDialogOpen() &&(!isSpinnerActive()))) {
 
 		window.setTimeout( function() {
@@ -901,7 +530,7 @@ function setBacktotopVisibility() {
  * @description Sets the visibility of the help button.
  */
 function setBtnHelpVisibility() {
-	if (!isDialogOpen() && (!isSpinnerActive())) {
+	if (!window.modal.isOpen() && (!window.spinner.isActive)) {
 
 		window.setTimeout( function() {
 			$("#btn-help").removeClass("btn-help-hidden");
@@ -928,6 +557,11 @@ function setBtnSidebarVisibility() {
  * @description document.ready
  */
 $(function() {
+
+	window.canvas = new Canvas();
+	window.modal = new Modal();
+	window.spinner = new Spinner();
+	window.drawingTool = new DrawingTool();
 
 	/**
 	 *
@@ -1002,7 +636,7 @@ $(function() {
 	/**
 	 * @description Paints or erases pixels
 	 */
-	$( PIXEL_CANVAS_SEL ).on("mousedown", "td", function() {
+	window.canvas.DOMNode.on("mousedown", "td", function() {
 		gbMouseIsDown=true;
 		paintPixel(this);
 	});
@@ -1010,7 +644,7 @@ $(function() {
 	/**
 	 * @description Paints or erases pixels
 	 */
-	$( PIXEL_CANVAS_SEL ).on("mouseover", "td", function() {
+	window.canvas.DOMNode.on("mouseover", "td", function() {
 		if (gbMouseIsDown){
 			paintPixel(this);
 		}
@@ -1019,9 +653,9 @@ $(function() {
 	/**
 	 * @description Paints or erases pixels
 	 */
-	$( PIXEL_CANVAS_SEL ).on("mouseenter", function() {
+	window.canvas.DOMNode.on("mouseenter", function() {
 
-		$( this ).awesomeCursor(gbSelectedTool, {
+		$( this ).awesomeCursor(window.DrawingTool.color, {
 			hotspot: [2, 15],
 			color: CURSOR_COLOR
 		});
@@ -1037,7 +671,7 @@ $(function() {
 	Beware: since the selector is neither id nor class,
 	this may produce unexpected results if other divs with the same style are used
 	*/
-	$( PIXEL_CANVAS_SEL ).on("mouseleave", function() {
+	window.canvas.DOMNode.on("mouseleave", function() {
 
 		$( this ).css('cursor', '');
 
@@ -1060,7 +694,7 @@ $(function() {
 	 * @description Prevents dragging on painted pixels,
 	 * which otherwise may behave together like an image
 	 */
-	$( PIXEL_CANVAS_SEL ).on("dragstart", function (e) {
+	window.canvas.DOMNode.on("dragstart", function (e) {
 		e.preventDefault();
 	});
 
@@ -1095,11 +729,11 @@ $(function() {
 	 */
 
 	$("#btn-tool-brush").click(function() {
-		selectTool(TOOL_BRUSH);
+		window.drawingTool.set(TOOL_BRUSH);
 	});
 
 	$("#btn-tool-eraser").click(function() {
-		selectTool(TOOL_ERASER);
+		window.drawingTool.set(TOOL_ERASER);
 	});
 
 	/**
@@ -1169,7 +803,7 @@ $(function() {
 	 */
 
 	if (!localStorage.dialogStartUpHide) {
-		showStartUpDialog();
+		modal.open("startUp");
 	}
 
 	setUpPixelOdrom();
