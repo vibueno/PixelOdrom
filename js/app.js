@@ -121,23 +121,6 @@ function InitializeColorPicker(inputColor) {
 
 /**
  *
- * Toolbox
- *
- */
-
-/**
- * @description Calculates the top position of the Tool box.
- *
- * @returns {Number} top position of the tool box.
- */
-function getToolboxPositionTop() {
-	const TOOL_BOX_MARGIN_TOP = functions.CSSPixelToNumber($("#tool-box").css("marginTop"));
-	const TOOL_BOX_POSITION_TOP = $("#tool-box").position().top + TOOL_BOX_MARGIN_TOP;
-	return TOOL_BOX_POSITION_TOP;
-}
-
-/**
- *
  * Canvas
  *
  */
@@ -504,8 +487,8 @@ function btnResetCanvasClick(){
 function setBacktotopVisibility() {
 
 	if ((($( window ).height() + $(window).scrollTop()) >= ($("body").outerHeight()/1.25)) &&
-		(getToolboxPositionTop()<=$(window).scrollTop()) && canvas.isActive &&
-		(!isDialogOpen() &&(!isSpinnerActive()))) {
+		(functions.getToolboxPositionTop()<=$(window).scrollTop()) && canvas.isActive &&
+		(!window.modal.isOpen() &&(!window.spinner.isActive))) {
 
 		window.setTimeout( function() {
 			$("#btn-back-to-top").removeClass("btn-back-to-top-hidden");
@@ -743,8 +726,8 @@ $(function() {
 	 */
 
 	$("#btn-back-to-top").click(function() {
-		if (isCanvasActive()){
-			scrollToToolboxTop();
+		if (window.canvas.isActive){
+			scroll(0, functions.getToolboxPositionTop());
 		}
 		else {
 			scroll(0,0);

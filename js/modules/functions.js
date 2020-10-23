@@ -27,10 +27,14 @@ let functions = {
 	},
 
 	/**
-	 * @description Scrolls to the set position
-	 */
-	scrollTo: function (position) {
-		scroll(0, position);
+ 	 * @description Calculates the top position of the Tool box.
+   *
+   * @returns {Number} top position of the tool box.
+ 	 */
+  getToolboxPositionTop: function () {
+	  const TOOL_BOX_MARGIN_TOP = functions.CSSPixelToNumber($("#tool-box").css("marginTop"));
+	  const TOOL_BOX_POSITION_TOP = $("#tool-box").position().top + TOOL_BOX_MARGIN_TOP;
+	  return TOOL_BOX_POSITION_TOP;
 	},
 
 	/**

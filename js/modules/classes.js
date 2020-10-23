@@ -201,13 +201,6 @@ Spinner.prototype.hideSpin = function () {
 }
 
 /**
- * description Checks whether the spinner is being used.
- */
-Spinner.prototype.isActive = function () {
-	return $("#spinner-container").hasClass("spinner-container");
-}
-
-/**
  * @constructor
  * @description Creates a new Modal object.
  *
