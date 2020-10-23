@@ -71,8 +71,6 @@ const MODAL_CANVAS_IMPORT_TEXT = `The selected canvas is too big for the availab
 	If you created this canvas on another device, please make sure you use a similar one
 	to edit it.`;
 
-
-
 const MODAL_CONFIRM_TITLE = "Confirm";
 const MODAL_ERROR_TITLE = "Error";
 
@@ -84,12 +82,10 @@ const MODAL_CONTENT = {
 		"title": 'Welcome to pixelOdrom',
 		"text": MODAL_START_UP_TEXT},
 	canvasCreate: {
-		"title": MODAL_CONFIRM_TITLE,
-		"text": null },
+		"title": MODAL_CONFIRM_TITLE},
 	canvasProportions: {
 		"title": `The proportions selected are not allowed:
-							the max. allowed aspect ratio is 1:${CANVAS_ASPECT_RATIO}.`,
-		"text": null },
+							the max. allowed aspect ratio is 1:${CANVAS_ASPECT_RATIO}.`},
 	canvasLoad: {
 		"title": MODAL_CONFIRM_TITLE,
 		"text": "Are you sure that you want to load a previously saved canvas?"},
@@ -105,12 +101,9 @@ const MODAL_CONTENT = {
 	canvasImport: {
 		"title": MODAL_CANVAS_IMPORT_TITLE,
 		"text": MODAL_CANVAS_IMPORT_TEXT},
-	info: {
-		"title": null,
-		"text": null},
+	info: {},
 	error: {
-		"title": MODAL_ERROR_TITLE,
-		"text": null}
+		"title": MODAL_ERROR_TITLE}
 	};
 
 export { PIXEL_CANVAS_SEL, TOOL_BRUSH, TOOL_ERASER, BLANK_PIXEL_COLOR, DEFAULT_PICKER_COLOR,

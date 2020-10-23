@@ -27,8 +27,7 @@ let Canvas = function(width, height){
 
 /**
  * @description Prepares the canvas.
- * @param  {Number} canvasWidthPO canvas width in pixelOdrom pixels.
- * @param  {Number} canvasHeightPO canvas height in pixelOdrom pixels.
+ *
  */
 Canvas.prototype.setUp = function() {
 
@@ -99,8 +98,8 @@ Canvas.prototype.isCanvas = function() {
 /**
  * @description Checks if the canvas width/height relation is allowed.
  *
- * @param  {Number} widthPO width of the canvas in pixelOdrom pixels.
- * @param  {Number} heightPO height of the canvas in pixelOdrom pixels.
+ * @param  {Number} width  width of the canvas in pixelOdrom pixels.
+ * @param  {Number} height height of the canvas in pixelOdrom pixels.
  */
 Canvas.prototype.validProportions = function(width, height) {
 
@@ -137,7 +136,7 @@ Canvas.prototype.checkCreate = function (width, height) {
 /**
  * @description Creates the canvas.
  *
- * @param  {Array} canvasSize Width and height of the canvas.
+ * @param  {Array}   canvasSize Width and height of the canvas.
  * @param  {Boolean} scrollToCanvas tells whether to navigate to the canvas after creation.
  */
 Canvas.prototype.create = function(canvasSize, scrollToCanvas=true){
@@ -244,6 +243,7 @@ Canvas.prototype.load = function (input) {
 					window.canvas.setUp(CANVAS_WIDTH, CANVAS_HEIGHT);
 					functions.setInputFieldValues(window.canvas.width, window.canvas.height);
 					functions.scrollToolboxTop();
+					throw new Error('Whoops!');
 				}
 			}
 		}
@@ -422,8 +422,8 @@ Spinner.prototype.hide = function () {
  */
 let Modal = function(){
 	this.DOMNode = $( "#dialog" );
-	this.DOMNode.dialog;
 	this.DOMNodeText = $( "#dialog" ).first("p");
+	this.title;
 	this.buttons = null;
 }
 
@@ -432,8 +432,8 @@ let Modal = function(){
  *
  * @param {String} text text to be shown on the modal title bar.
  */
-Modal.prototype.setTitle = function (text) {
-	this.DOMNode.attr('title', text );
+Modal.prototype.setTitle = function (title) {
+	this.title = title;
 };
 
 /**
@@ -453,17 +453,17 @@ Modal.prototype.setText = function (text, isHTML) {
  */
 Modal.prototype.open = function (modalType, args) {
 
-	console.log(MODAL_CONTENT[modalType].title);
+	if (args.title===undefined){
+		this.setTitle(MODAL_CONTENT[modalType].title);
+	}
 
 	args.title===undefined?
-		this.setTitle(MODAL_CONTENT[modalType].title, true):
+		this.setTitle(MODAL_CONTENT[modalType].title):
 		this.setTitle(args.title);
 
 	args.text===undefined?
 		this.setText(MODAL_CONTENT[modalType].text, true):
 		this.setText(args.text);
-
-	console.log(this.DOMNodeText);
 
 	switch(modalType) {
 	  case 'help':
@@ -539,6 +539,7 @@ Modal.prototype.open = function (modalType, args) {
 
 	this.DOMNode.dialog({
 		modal: true,
+		title: this.title,
 		buttons: this.buttons,
     resizable: false
   }).parent().removeClass("ui-state-error");
