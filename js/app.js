@@ -8,7 +8,10 @@ import { TOOL_BRUSH, TOOL_ERASER, DEFAULT_PICKER_COLOR, MIN_PIXEL_SIZE,
 	       ROW, COLUMN, MAX_PIXEL_SIZE, PIXEL_PADDING_CORRECTION,
 	       CURSOR_COLOR } from './modules/constants.js';
 
-import { Canvas, Modal, Spinner, DrawingTool } from './modules/classes.js';
+import { Canvas } from './modules/components/Canvas.js';
+import { Modal } from './modules/components/Modal.js';
+import { Spinner } from './modules/components/Spinner.js';
+import { DrawingTool } from './modules/components/DrawingTool.js';
 
 import { functions } from './modules/functions.js';
 
