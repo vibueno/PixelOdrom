@@ -238,6 +238,7 @@ Modal.prototype.setText = function (text, isHTML) {
  */
 Modal.prototype.open = function (modalType) {
 	this.setText(MODAL_CONTENT[modalType].text, true);
+	this.setTitle(MODAL_CONTENT[modalType].title, true);
 
 
 	switch(modalType) {
@@ -247,11 +248,30 @@ Modal.prototype.open = function (modalType) {
 	  case 'startUp':
 			this.buttons = {"Get started!": function () { window.modal.DOMNode.dialog("close");}}
 	    break;
+	  case 'save':
+	  	this.buttons = {
+	  		"Yes": function () {
+	  						 saveCanvas();
+      				 },
+      	"No":  function () {
+        				 window.modal.DOMNode.dialog("close");
+      				 }
+    	}
+	    break;
+	   case 'reset':
+	  	this.buttons = {
+	  		"Yes": function () {
+	  					   btnResetCanvasClick();
+      				 },
+      	"No":  function () {
+        				 window.modal.DOMNode.dialog("close");
+      				 }
+    	}
+	    break;
 	  case 'export':
 	  	this.buttons = {
 	  		"Yes": function () {
-        				 window.modal.DOMNode.dialog("close");
-        				 callback(callbackParams);
+        				 exportCanvasWrapper();
       				 },
       	"No":  function () {
         				 window.modal.DOMNode.dialog("close");

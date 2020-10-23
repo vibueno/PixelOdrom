@@ -638,7 +638,7 @@ $(function() {
 	 */
 	window.canvas.DOMNode.on("mouseenter", function() {
 
-		$( this ).awesomeCursor(window.drawingTool.color, {
+		$( this ).awesomeCursor(window.drawingTool.tool, {
 			hotspot: [2, 15],
 			color: CURSOR_COLOR
 		});
@@ -658,8 +658,8 @@ $(function() {
 
 		$( this ).css('cursor', '');
 
-		let invisibleViv = $( 'div[style="position: absolute; left: -9999px; top: -9999px;"]' );
-		invisibleViv.remove();
+		let invisibleDiv = $( 'div[style="position: absolute; left: -9999px; top: -9999px;"]' );
+		invisibleDiv.remove();
 
 	});
 
@@ -688,20 +688,20 @@ $(function() {
 	 */
 
 	$("#btn-reset-canvas").click(function() {
-		if (isCanvasActive()){
-			showConfirmDialog(DIALOG_CONFIRM_TITLE, "Are you sure that you want to reset this canvas?", false, btnResetCanvasClick);
+		if (window.canvas.isActive){
+			modal.open("reset");
 		}
 	});
 
 	$("#btn-save-canvas").click( function(){
-		if (isCanvasActive()){
-			showConfirmDialog(DIALOG_CONFIRM_TITLE, "Are you sure that you want to save this canvas?", false, saveCanvas);
+		if (window.canvas.isActive){
+			modal.open("save");
 		}
 	});
 
 	$("#btn-export-canvas").click( function(){
-		if (isCanvasActive()){
-			showConfirmDialog(DIALOG_CONFIRM_TITLE, DIALOG_CONFIRM_EXPORT_TEXT, true, exportCanvasWrapper);
+		if (window.canvas.isActive){
+			modal.open("export");
 		}
 	});
 

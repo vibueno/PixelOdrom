@@ -57,10 +57,15 @@ const MODAL_START_UP_TEXT = MODAL_HELP_TEXT + `<p>
 	<label for="dialog-start-up-hide">I am already a pixelOdrom master. Don't show this again!</label>
 	</p>`;
 
-const MODAL_CONFIRM_EXPORT_TEXT = `<p class = "dialog-text">You are about to save your pixel art to an image file.</p>
+const MODAL_CANVAS_SAVE_TEXT  = 'Are you sure that you want to save this canvas?';
+const MODAL_CANVAS_RESET_TEXT  = 'Are you sure that you want to reset this canvas?';
+
+const MODAL_CANVAS_EXPORT_TEXT = `<p class = "dialog-text">You are about to save your pixel art to an image file.</p>
 <p class = "dialog-text">Depending on your browser configuration, the picture may start to download automatically and be saved into your download directory.</p>
 <p class = "dialog-text">If your canvas is big, this process may take a couple of seconds to complete.</p>
 <p class = "dialog-text">Would you like to export this canvas now?</p>`;
+
+
 
 const MODAL_CONFIRM_TITLE = "Confirm";
 const MODAL_ERROR_TITLE = "Error";
@@ -70,8 +75,12 @@ const MODAL_CONTENT = {
 					"text": MODAL_HELP_TEXT},
 	startUp: { "title": 'Welcome to pixelOdrom',
 						 "text": MODAL_START_UP_TEXT},
+	save: {	"title": MODAL_CONFIRM_TITLE,
+						"text": MODAL_CANVAS_SAVE_TEXT},
+	reset: { "title": MODAL_CONFIRM_TITLE,
+						"text": MODAL_CANVAS_RESET_TEXT},
 	export: {	"title": MODAL_CONFIRM_TITLE,
-						"text": MODAL_CONFIRM_EXPORT_TEXT},
+						"text": MODAL_CANVAS_EXPORT_TEXT},
 	info: {	"title": "",
 					"text": ""},
 	error: { "title": MODAL_ERROR_TITLE,
@@ -81,6 +90,4 @@ const MODAL_CONTENT = {
 export { PIXEL_CANVAS_SEL, TOOL_BRUSH, TOOL_ERASER, BLANK_PIXEL_COLOR, DEFAULT_PICKER_COLOR,
 CANVAS_ASPECT_RATIO, MIN_PIXEL_SIZE, MAX_PIXEL_SIZE, MAX_CANVAS_WIDTH_PO,
 PIXEL_PADDING_CORRECTION, CURSOR_COLOR, ROW, COLUMN, TOOL_BRUSH_HTML, TOOL_ERASER_HTML,
-CREATE_CANVAS_HTML, SAVE_CANVAS_HTML, EXPORT_CANVAS_HTML, OPEN_CANVAS_HTML,
-MODAL_HELP_TEXT, MODAL_START_UP_TEXT, MODAL_CONFIRM_EXPORT_TEXT, MODAL_CONFIRM_TITLE,
-MODAL_ERROR_TITLE, MODAL_CONTENT };
+CREATE_CANVAS_HTML, SAVE_CANVAS_HTML, EXPORT_CANVAS_HTML, OPEN_CANVAS_HTML, MODAL_START_UP_TEXT, MODAL_CONTENT };
