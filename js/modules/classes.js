@@ -3,7 +3,8 @@
  */
 
 import { functions } from './functions.js';
-import { PIXEL_CANVAS_SEL, MODAL_CONTENT, TOOL_BRUSH, TOOL_ERASER, DEFAULT_PICKER_COLOR } from './constants.js';
+import { PIXEL_CANVAS_SEL, MODAL_CONTENT, TOOL_BRUSH, TOOL_ERASER, DEFAULT_PICKER_COLOR,
+         BLANK_PIXEL_COLOR } from './constants.js';
 
 /**
  * @constructor
@@ -11,16 +12,7 @@ import { PIXEL_CANVAS_SEL, MODAL_CONTENT, TOOL_BRUSH, TOOL_ERASER, DEFAULT_PICKE
  *
  */
 let Pixel = function(){
-	this.color = '#fff';
-}
-
-/**
- * @description Paints or erases a pixel.
- *
- * @param {String} color hexadecimal value of the color to be used
- */
-Pixel.prototype.paintPixel = function (color) {
-	this.DOMNode.css( "background-color", color);
+	this.color = BLANK_PIXEL_COLOR;
 }
 
 /**
@@ -119,7 +111,7 @@ Canvas.prototype.export = function() {
  *
  */
 let DrawingTool = function(){
-	this.selectedTool = TOOL_BRUSH;
+	this.tool = TOOL_BRUSH;
 	this.color = DEFAULT_PICKER_COLOR;
 }
 
@@ -129,6 +121,9 @@ let DrawingTool = function(){
  * @param  {String} tool drawing tool to be set as active.
  */
 DrawingTool.prototype.set = function(tool) {
+
+	this.tool = tool;
+
 	switch(tool) {
 	  case TOOL_BRUSH:
 	  	$( "#btn-tool-eraser").removeClass("btn-pressed");
@@ -147,7 +142,12 @@ DrawingTool.prototype.set = function(tool) {
  * @param {String} color hexadecimal value of the color to be used
  */
 DrawingTool.prototype.paintPixel = function (pixel) {
-	$ (pixel).css( "background-color", this.color);
+	if (this.tool === TOOL_BRUSH){
+		$ (pixel).css( "background-color", this.color);
+	}
+	else 	if (this.tool === TOOL_ERASER){
+		$ (pixel).css( "background-color", BLANK_PIXEL_COLOR);
+	}
 }
 
 /**
