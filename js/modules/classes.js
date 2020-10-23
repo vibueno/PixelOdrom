@@ -241,7 +241,7 @@ Modal.prototype.open = function (modalType) {
 
 
 	switch(modalType) {
-	  case 'helpDialog':
+	  case 'help':
 	  	this.buttons = { "Alright!": function () { window.modal.DOMNode.dialog("close");}}
 	    break;
 	  case 'startUp':

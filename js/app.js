@@ -776,7 +776,7 @@ $(function() {
 	 */
 
 	$("#btn-help").click(function() {
-		showHelpDialog();
+		modal.open("help");
 	});
 
 	/**

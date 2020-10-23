@@ -66,17 +66,16 @@ const MODAL_CONFIRM_TITLE = "Confirm";
 const MODAL_ERROR_TITLE = "Error";
 
 const MODAL_CONTENT = {
-	helpDialog: {	"title": 'pixelOdrom help',
-							 	"text": MODAL_HELP_TEXT},
-	startUp: {	 	"title": 'Welcome to pixelOdrom',
-							 	"text": MODAL_START_UP_TEXT},
-	export: {		 	"title": MODAL_CONFIRM_TITLE,
-								"text": MODAL_CONFIRM_EXPORT_TEXT},
-	info: {		 	  "title": "",
-								"text": ""},
-	error: {
-		            "title": MODAL_ERROR_TITLE,
-		          	"text": ""}
+	help: {	"title": 'pixelOdrom help',
+					"text": MODAL_HELP_TEXT},
+	startUp: { "title": 'Welcome to pixelOdrom',
+						 "text": MODAL_START_UP_TEXT},
+	export: {	"title": MODAL_CONFIRM_TITLE,
+						"text": MODAL_CONFIRM_EXPORT_TEXT},
+	info: {	"title": "",
+					"text": ""},
+	error: { "title": MODAL_ERROR_TITLE,
+		       "text": ""}
 	};
 
 export { PIXEL_CANVAS_SEL, TOOL_BRUSH, TOOL_ERASER, BLANK_PIXEL_COLOR, DEFAULT_PICKER_COLOR,
