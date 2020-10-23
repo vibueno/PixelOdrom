@@ -69,7 +69,6 @@ $(function() {
 
 		const CANVAS_WIDTH = parseInt($("#input-width").val());
 		const CANVAS_HEIGHT = parseInt($("#input-height").val());
-		const CANVAS_SIZE =[CANVAS_WIDTH, CANVAS_HEIGHT];
 
 		if (!window.canvas.validProportions(CANVAS_HEIGHT, CANVAS_WIDTH)) {
 			window.modal.open('canvasProportions', {});
@@ -77,7 +76,7 @@ $(function() {
 		else
 		{
 			const DIALOG_MSG = `Are you sure that you want to create a new ${CANVAS_WIDTH}x${CANVAS_HEIGHT} canvas?`;
-			window.modal.open('canvasCreate', {"text": DIALOG_MSG, "callBackArgs": {"width": CANVAS_WIDTH, "height": CANVAS_HEIGHT}});
+			window.modal.open('canvasCreate', {"text": DIALOG_MSG, "callbackArgs": {"width": CANVAS_WIDTH, "height": CANVAS_HEIGHT}});
 		}
 
 		e.preventDefault();

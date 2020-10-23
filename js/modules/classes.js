@@ -118,18 +118,16 @@ Canvas.prototype.validProportions = function(width, height) {
  */
 Canvas.prototype.checkCreate = function (width, height) {
 
-	const MAX_CANVAS_PIXEL=[this.maxWidth, this.maxHeight];
-
-	if (width > maxWidth || height >  maxHeight){
-		showCanvas(true);
+	if (width > this.maxWidth || height >  this.maxHeight){
+		window.canvas.setVisibility(true);
 		showConfirmDialog("Canvas too big", `The dimensions selected exceed the available space.
 			Would you like to create the biggest possible canvas (width: ${this.maxWidth}, height: ${this.maxHeight})?`,
 			false,
-			createCanvasWrapper, MAX_CANVAS_PIXEL);
+			functions.createCanvasWrapper, MAX_CANVAS_PIXEL);
 	}
 	else
 	{
-		createCanvasWrapper(canvasSize);
+		functions.createCanvasWrapper(width, height);
 	}
 }
 
@@ -139,28 +137,25 @@ Canvas.prototype.checkCreate = function (width, height) {
  * @param  {Array}   canvasSize Width and height of the canvas.
  * @param  {Boolean} scrollToCanvas tells whether to navigate to the canvas after creation.
  */
-Canvas.prototype.create = function(canvasSize, scrollToCanvas=true){
+Canvas.prototype.create = function(width, height, scrollToCanvas=true){
 
 	return new Promise((resolve) => {
 
-		const CANVAS_WIDTH = canvasSize [0];
-		const CANVAS_HEIGHT = canvasSize [1];
-
 		window.canvas.delete();
 
-		for (let i=1; i<=CANVAS_HEIGHT; i++){
+		for (let i=1; i<=height; i++){
 			window.canvas.DOMNode.append(ROW);
 			let lastRow = $(PIXEL_CANVAS_SEL + " tr").last();
 
-			for (let j=1; j<=CANVAS_WIDTH; j++){
+			for (let j=1; j<=width; j++){
 				lastRow.append(COLUMN);
 			}
 		}
 
-		this.setUp(CANVAS_WIDTH, CANVAS_HEIGHT);
+		this.setUp(height, height);
 
 		if (scrollToCanvas){
-			scrollToolBoxTop();
+			functions.scrollToolboxTop();
 		}
 
 		resolve ("Canvas created");

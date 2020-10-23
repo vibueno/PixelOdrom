@@ -211,7 +211,7 @@ let functions = {
    *
    * @param  {Array} canvasSize Width and height of the canvas.
    */
-  createCanvasWrapper: function (canvasSize) {
+  createCanvasWrapper: function (width, height) {
 
 		/* It calls the functions sequentially by using promises
 	  This is needed for showing the spinner for the amount time
@@ -219,14 +219,14 @@ let functions = {
 
 		We need the delay call, because otherwise the Spin is not shown */
 
-	  if (canvasSize[0]*canvasSize[1]>1000) {
+	  if (width*height>1000) {
 			window.spinner.show().
 				then(delay.bind(1000)).
-				then(window.canvas.create.bind(null, canvasSize)).
+				then(window.canvas.create.bind(null, {width, height})).
 				then(window.spinner.hide());
 		}
 		else {
-			window.canvas.create(canvasSize);
+			window.canvas.create(width, height);
 		}
 	},
 
