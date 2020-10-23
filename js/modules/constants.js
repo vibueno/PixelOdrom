@@ -61,9 +61,15 @@ const MODAL_CANVAS_SAVE_TEXT  = 'Are you sure that you want to save this canvas?
 const MODAL_CANVAS_RESET_TEXT  = 'Are you sure that you want to reset this canvas?';
 
 const MODAL_CANVAS_EXPORT_TEXT = `<p class = "dialog-text">You are about to save your pixel art to an image file.</p>
-<p class = "dialog-text">Depending on your browser configuration, the picture may start to download automatically and be saved into your download directory.</p>
-<p class = "dialog-text">If your canvas is big, this process may take a couple of seconds to complete.</p>
-<p class = "dialog-text">Would you like to export this canvas now?</p>`;
+	<p class = "dialog-text">Depending on your browser configuration, the picture may start to download automatically and be saved into your download directory.</p>
+	<p class = "dialog-text">If your canvas is big, this process may take a couple of seconds to complete.</p>
+	<p class = "dialog-text">Would you like to export this canvas now?</p>`;
+
+const MODAL_CANVAS_IMPORT_TITLE = 'Canvas too big';
+
+const MODAL_CANVAS_IMPORT_TEXT = `The selected canvas is too big for the available space.
+	If you created this canvas on another device, please make sure you use a similar one
+	to edit it.`;
 
 
 
@@ -71,27 +77,40 @@ const MODAL_CONFIRM_TITLE = "Confirm";
 const MODAL_ERROR_TITLE = "Error";
 
 const MODAL_CONTENT = {
-	help: {	"title": 'pixelOdrom help',
-					"text": MODAL_HELP_TEXT},
-	startUp: { "title": 'Welcome to pixelOdrom',
-						 "text": MODAL_START_UP_TEXT},
-	canvasCreate: {	"title": MODAL_CONFIRM_TITLE,
-						"text": null },
-	canvasProportions: {"title":
-	`The proportions selected are not allowed: the max. allowed aspect ratio is 1:${CANVAS_ASPECT_RATIO}.`,
-	"text": null },
-	canvasLoad: {	"title": MODAL_CONFIRM_TITLE,
-						"text": "Are you sure that you want to load a previously saved canvas?"},
-	canvasSave: {	"title": MODAL_CONFIRM_TITLE,
-						"text": MODAL_CANVAS_SAVE_TEXT},
-	canvasReset: { "title": MODAL_CONFIRM_TITLE,
-						"text": MODAL_CANVAS_RESET_TEXT},
-	canvasExport: {	"title": MODAL_CONFIRM_TITLE,
-						"text": MODAL_CANVAS_EXPORT_TEXT},
-	info: {	"title": "",
-					"text": ""},
-	error: { "title": MODAL_ERROR_TITLE,
-		       "text": ""}
+	help: {
+		"title": 'pixelOdrom help',
+		"text": MODAL_HELP_TEXT},
+	startUp: {
+		"title": 'Welcome to pixelOdrom',
+		"text": MODAL_START_UP_TEXT},
+	canvasCreate: {
+		"title": MODAL_CONFIRM_TITLE,
+		"text": null },
+	canvasProportions: {
+		"title": `The proportions selected are not allowed:
+							the max. allowed aspect ratio is 1:${CANVAS_ASPECT_RATIO}.`,
+		"text": null },
+	canvasLoad: {
+		"title": MODAL_CONFIRM_TITLE,
+		"text": "Are you sure that you want to load a previously saved canvas?"},
+	canvasSave: {
+		"title": MODAL_CONFIRM_TITLE,
+		"text": MODAL_CANVAS_SAVE_TEXT},
+	canvasReset: {
+		"title": MODAL_CONFIRM_TITLE,
+		"text": MODAL_CANVAS_RESET_TEXT},
+	canvasExport: {
+		"title": MODAL_CONFIRM_TITLE,
+		"text": MODAL_CANVAS_EXPORT_TEXT},
+	canvasImport: {
+		"title": MODAL_CANVAS_IMPORT_TITLE,
+		"text": MODAL_CANVAS_IMPORT_TEXT},
+	info: {
+		"title": null,
+		"text": null},
+	error: {
+		"title": MODAL_ERROR_TITLE,
+		"text": null}
 	};
 
 export { PIXEL_CANVAS_SEL, TOOL_BRUSH, TOOL_ERASER, BLANK_PIXEL_COLOR, DEFAULT_PICKER_COLOR,

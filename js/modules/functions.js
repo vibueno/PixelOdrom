@@ -242,6 +242,29 @@ let functions = {
 		window.spinner.show().
 			then(window.canvas.export()).
 			then(window.spinner.hide());
+	},
+
+	/**
+   * @description Checks if the file to be imported contains a valid canvas.
+   *
+   * @returns {Boolean}
+   */
+	isValidCanvas: function (canvas) {
+		let canvasCheck;
+
+		if (canvas.length>0) {
+			canvasCheck = canvas.filter("tr").get(0);
+
+			if (canvasCheck === canvas.get(0)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
 	}
 
 };

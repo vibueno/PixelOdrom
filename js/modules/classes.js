@@ -225,22 +225,16 @@ Canvas.prototype.load = function (input) {
   	try {
 			let canvasToImport= $(readerResult);
 
-	  	if (!isValidCanvas(canvasToImport)){
+	  	if (!functions.isValidCanvas(canvasToImport)){
 	  		showInfoDialog("Wrong format", "The selected file does not contain a valid canvas.", false);
 	  	}
 	  	else {
 
-	  		setGlobals();
-
 				const CANVAS_WIDTH = canvasToImport.first().find(".pixel").length;
 				const CANVAS_HEIGHT = canvasToImport.length;
 
-				if (CANVAS_WIDTH > gbCurrentCanvasMaxWidthPO || CANVAS_HEIGHT >  gbCurrentCanvasMaxHeightPO) {
-					const DIALOG_MSG = `The selected canvas is too big for the available space.
-						If you created this canvas on another device, please make sure you use a similar one
-						to edit it.`;
-
-					showInfoDialog("Canvas too big", DIALOG_MSG, false);
+				if (CANVAS_WIDTH > window.canvas.maxWidth || CANVAS_HEIGHT >  window.canvas.maxHeight) {
+					window.modal.open("canvasImport");
 				}
 				else {
 					window.canvas.DOMNode.html(reader.result);
@@ -248,20 +242,20 @@ Canvas.prototype.load = function (input) {
 					$("#input-height").val(CANVAS_HEIGHT);
 
 					window.canvas.setUp(CANVAS_WIDTH, CANVAS_HEIGHT);
-					setInputFieldValues(canvasWidthPO, canvasHeightPO);
-					scrollToToolboxTop();
+					functions.setInputFieldValues(window.canvas.width, window.canvas.height);
+					functions.scrollToolboxTop();
 				}
 			}
 		}
 		catch(e) {
 			let shortErrorMessage = (e.message.length>500)?e.message.substring(0,499)+"...":e.message;
 
-			showErrorDialog(DIALOG_ERROR_TITLE, `There was an error while trying to load the canvas: ${shortErrorMessage}`, false);
+			window.modal.open("error", {"text": `There was an error while trying to load the canvas: ${shortErrorMessage}`});
 		}
   };
 
   reader.onerror = function() {
-    showErrorDialog(DIALOG_ERROR_TITLE, `There was an error while trying to load the canvas: ${reader.error}`, false);
+  	window.modal.open("error", {"text": `There was an error while trying to load the canvas: ${reader.error}`});
   };
 
   /* This call is needed in order to make the even onchange fire every time,
@@ -458,13 +452,18 @@ Modal.prototype.setText = function (text, isHTML) {
  * @param {String} modalType indicates the type of modal to be shown.
  */
 Modal.prototype.open = function (modalType, args) {
+
+	console.log(MODAL_CONTENT[modalType].title);
+
 	args.title===undefined?
 		this.setTitle(MODAL_CONTENT[modalType].title, true):
-		this.setText(Title);
+		this.setTitle(args.title);
 
 	args.text===undefined?
 		this.setText(MODAL_CONTENT[modalType].text, true):
-		this.setText(Text);
+		this.setText(args.text);
+
+	console.log(this.DOMNodeText);
 
 	switch(modalType) {
 	  case 'help':
@@ -530,7 +529,11 @@ Modal.prototype.open = function (modalType, args) {
 	    break;
 	  case 'info':
 	  case 'error':
-	  	this.buttons = { "OK": function () { window.modal.DOMNode.dialog("close"); }}
+	  	this.buttons = {
+	  		"OK": function () {
+	  			window.modal.DOMNode.dialog("close");
+	  		}
+	  	}
 	    break;
 	}
 

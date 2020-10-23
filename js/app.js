@@ -16,35 +16,6 @@ import { functions } from './modules/functions.js';
 We do so to avoid confusion with CSS pixels */
 
 /**
- *
- * Canvas
- *
- */
-
-/**
- * @description Checks if the file to be imported contains a valid canvas.
- *
- * @returns {Boolean}
- */
-function isValidCanvas(canvas) {
-	let canvasCheck;
-
-	if (canvas.length>0) {
-		canvasCheck = canvas.filter("tr").get(0);
-
-		if (canvasCheck === canvas.get(0)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	else {
-		return false;
-	}
-}
-
-/**
  * @description document.ready
  */
 $(function() {
@@ -100,7 +71,7 @@ $(function() {
 		const CANVAS_HEIGHT = parseInt($("#input-height").val());
 		const CANVAS_SIZE =[CANVAS_WIDTH, CANVAS_HEIGHT];
 
-		if (!canvasPropCorrect(CANVAS_HEIGHT, CANVAS_WIDTH)) {
+		if (!window.canvas.validProportions(CANVAS_HEIGHT, CANVAS_WIDTH)) {
 			window.modal.open('canvasProportions', {});
 		}
 		else
