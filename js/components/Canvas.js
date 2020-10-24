@@ -1,7 +1,7 @@
-import { TOOL_BRUSH, TOOL_ERASER, DEFAULT_PICKER_COLOR, MIN_PIXEL_SIZE,
+import { TOOL_BRUSH, MIN_PIXEL_SIZE,
 	       MAX_CANVAS_WIDTH_PO, CANVAS_ASPECT_RATIO, PIXEL_CANVAS_SEL,
 	       ROW, COLUMN, MAX_PIXEL_SIZE, PIXEL_PADDING_CORRECTION,
-	       CURSOR_COLOR } from '../constants.js';
+	       BLANK_PIXEL_COLOR } from '../constants.js';
 
 import { functions } from '../functions.js';
 
@@ -20,7 +20,7 @@ let Canvas = function(width, height){
 	this.maxWidthPx = Math.min(Math.floor(window.mainDivWidthPx/MIN_PIXEL_SIZE), MAX_CANVAS_WIDTH_PO);
 	this.maxHeightPx = Math.floor(this.maxWidth*CANVAS_ASPECT_RATIO);
 	this.isActive = false;
-}
+};
 
 /**
  * @description Prepares the canvas.
@@ -31,7 +31,7 @@ Canvas.prototype.setUp = function() {
 	let canvasCSSWidth;
 	let pixelSize;
 
-	let pixelBorderSize = $(".pixel").css("border-left-width");
+	let pixelBorderSize = $('.pixel').css('border-left-width');
 	pixelBorderSize = (typeof myVar === 'undefined')? 0: functions.CSSPixelToNumber(pixelBorderSize);
 
 	const TOTAL_BORDER_SIZE = pixelBorderSize * this.height;
@@ -54,7 +54,7 @@ Canvas.prototype.setUp = function() {
 
 	}
 
-	window.canvas.DOMNode.css("width", (canvasCSSWidth+"%"));
+	window.canvas.DOMNode.css('width', (canvasCSSWidth+'%'));
 	window.canvas.width = canvasCSSWidth;
 
 	this.pixelSetUp(MAX_CANVAS_WIDTH_PX);
@@ -64,7 +64,7 @@ Canvas.prototype.setUp = function() {
 	window.drawingTool.set(TOOL_BRUSH);
 	window.canvas.setVisibility(true);
 
-}
+};
 
 /**
  * @description Sets canvas visibility.
@@ -73,24 +73,24 @@ Canvas.prototype.setUp = function() {
  */
 Canvas.prototype.setVisibility = function (show) {
 	if (show){
-		this.DOMNode.removeClass("pixel-canvas-hidden");
-		this.DOMNode.addClass("pixel-canvas");
+		this.DOMNode.removeClass('pixel-canvas-hidden');
+		this.DOMNode.addClass('pixel-canvas');
 		this.isActive = true;
 	}
 	else
 	{
-		this.DOMNode.addClass("pixel-canvas-hidden");
-		this.DOMNode.removeClass("pixel-canvas");
+		this.DOMNode.addClass('pixel-canvas-hidden');
+		this.DOMNode.removeClass('pixel-canvas');
 		this.isActive = false;
 	}
-}
+};
 
 /**
  * @description Checks whether there is an active canvas.
  */
 Canvas.prototype.isCanvas = function() {
-	return this.DOMNode.find(" tr ").length;
-}
+	return this.DOMNode.find(' tr ').length;
+};
 
 /**
  * @description Checks if the canvas width/height relation is allowed.
@@ -108,7 +108,7 @@ Canvas.prototype.validProportions = function(width, height) {
 	else{
 		return false;
 	}
-},
+};
 
 /**
  * @description Checks whether the canvas with the given dimensions can be created.
@@ -117,16 +117,16 @@ Canvas.prototype.checkCreate = function (width, height) {
 
 	if (width > this.maxWidth || height >  this.maxHeight){
 		window.canvas.setVisibility(true);
-		showConfirmDialog("Canvas too big", `The dimensions selected exceed the available space.
-			Would you like to create the biggest possible canvas (width: ${this.maxWidth}, height: ${this.maxHeight})?`,
-			false,
-			functions.createCanvasWrapper, MAX_CANVAS_PIXEL);
+
+		window.modal.open('canvasCreateNoSpace', {
+			'text': `The dimensions selected exceed the available space.
+			Would you like to create the biggest possible canvas (width: ${this.maxWidth}, height: ${this.maxHeight})?`});
 	}
 	else
 	{
 		functions.createCanvasWrapper(width, height);
 	}
-}
+};
 
 /**
  * @description Creates the canvas.
@@ -142,7 +142,7 @@ Canvas.prototype.create = function(width, height, scrollToCanvas=true){
 
 		for (let i=1; i<=height; i++){
 			window.canvas.DOMNode.append(ROW);
-			let lastRow = $(PIXEL_CANVAS_SEL + " tr").last();
+			let lastRow = $(PIXEL_CANVAS_SEL + ' tr').last();
 
 			for (let j=1; j<=width; j++){
 				lastRow.append(COLUMN);
@@ -155,9 +155,9 @@ Canvas.prototype.create = function(width, height, scrollToCanvas=true){
 			functions.scrollToolboxTop();
 		}
 
-		resolve ("Canvas created");
+		resolve ('Canvas created');
 	});
-}
+};
 
 /**
  * @description Set ups the pixelOdrom pixels in the canvas.
@@ -173,29 +173,29 @@ Canvas.prototype.pixelSetUp = function() {
 	let padding = pixelWidth;
 	padding = padding - padding*PIXEL_PADDING_CORRECTION;
 
-	window.canvas.DOMNode.find(".pixel").width(pixelWidth+"%");
-	window.canvas.DOMNode.find(".pixel").css("padding-bottom", padding+"%");
+	window.canvas.DOMNode.find('.pixel').width(pixelWidth+'%');
+	window.canvas.DOMNode.find('.pixel').css('padding-bottom', padding+'%');
 
-}
+};
 
 /**
  * @description Deletes the canvas from the DOM.
  */
 Canvas.prototype.delete = function() {
 
-	const CANVAS_ROWS = this.DOMNode.find(" tr ");
+	const CANVAS_ROWS = this.DOMNode.find(' tr ');
 
 	CANVAS_ROWS.remove();
 	this.setVisibility(false);
-}
+};
 
 /**
  * @description Resets all pixels to their initial color.
  */
 Canvas.prototype.reset = function() {
-	this.DOMNode.find(".pixel").css("background-color", BLANK_PIXEL_COLOR);
+	this.DOMNode.find('.pixel').css('background-color', BLANK_PIXEL_COLOR);
 	functions.scrollToolboxTop();
-}
+};
 
 /**
  * @description Loads a canvas.
@@ -217,63 +217,62 @@ Canvas.prototype.load = function (input) {
 			let canvasToImport= $(readerResult);
 
 	  	if (!functions.isValidCanvas(canvasToImport)){
-	  		showInfoDialog("Wrong format", "The selected file does not contain a valid canvas.", false);
+	  		window.modal.open('canvasInvalid');
 	  	}
 	  	else {
 
-				const CANVAS_WIDTH = canvasToImport.first().find(".pixel").length;
+				const CANVAS_WIDTH = canvasToImport.first().find('.pixel').length;
 				const CANVAS_HEIGHT = canvasToImport.length;
 
 				if (CANVAS_WIDTH > window.canvas.maxWidth || CANVAS_HEIGHT >  window.canvas.maxHeight) {
-					window.modal.open("canvasImport");
+					window.modal.open('canvasImport');
 				}
 				else {
 					window.canvas.DOMNode.html(reader.result);
-					$("#input-width").val(CANVAS_WIDTH);
-					$("#input-height").val(CANVAS_HEIGHT);
+					$('#input-width').val(CANVAS_WIDTH);
+					$('#input-height').val(CANVAS_HEIGHT);
 
 					window.canvas.setUp(CANVAS_WIDTH, CANVAS_HEIGHT);
 					functions.setInputFieldValues(window.canvas.width, window.canvas.height);
 					functions.scrollToolboxTop();
-					throw new Error('Whoops!');
 				}
 			}
 		}
 		catch(e) {
-			let shortErrorMessage = (e.message.length>500)?e.message.substring(0,499)+"...":e.message;
+			let shortErrorMessage = (e.message.length>500)?e.message.substring(0,499)+'...':e.message;
 
-			window.modal.open("error", {"text": `There was an error while trying to load the canvas: ${shortErrorMessage}`});
+			window.modal.open('error', {'text': `There was an error while trying to load the canvas: ${shortErrorMessage}`});
 		}
   };
 
   reader.onerror = function() {
-  	window.modal.open("error", {"text": `There was an error while trying to load the canvas: ${reader.error}`});
+  	window.modal.open('error', {'text': `There was an error while trying to load the canvas: ${reader.error}`});
   };
 
   /* This call is needed in order to make the even onchange fire every time,
   even if the users selects the same file again */
 
-  $("#btn-load-canvas-input").prop("value", "");
+  $('#btn-load-canvas-input').prop('value', '');
 
-}
+};
 
 /**
  * @description Saves the canvas to a .*pix file.
  */
 Canvas.prototype.save = function() {
 
-	//We need to clone the canvas, so that we don"t modify the DOM
+	//We need to clone the canvas, so that we don't modify the DOM
 	const CANVAS_TO_SAVE = window.canvas.DOMNode.clone();
 
 	//removing styles since they should be calculated when loading
-	CANVAS_TO_SAVE.find(".pixel").css("width", "");
-	CANVAS_TO_SAVE.find(".pixel").css("padding-bottom", "");
+	CANVAS_TO_SAVE.find('.pixel').css('width', '');
+	CANVAS_TO_SAVE.find('.pixel').css('padding-bottom', '');
 
 	const canvasContent = CANVAS_TO_SAVE.html();
 
-  const blob = new Blob([canvasContent], {type: "text/plain;charset=utf-8"});
-  saveAs(blob, "canvas.pix");
-}
+  const blob = new Blob([canvasContent], {type: 'text/plain;charset=utf-8'});
+  saveAs(blob, 'canvas.pix');
+};
 
 /**
  * @description Exports the canvas to an image file.
@@ -288,8 +287,8 @@ Canvas.prototype.export = function() {
 		 In order to make it easier for html2canvas,
 		 we move the pixel table to the left corner of the browser
 		*/
-		this.DOMNode.addClass("pixel-canvas-export");
-		this.DOMNode.removeClass("pixel-canvas");
+		this.DOMNode.addClass('pixel-canvas-export');
+		this.DOMNode.removeClass('pixel-canvas');
 
 		html2canvas(this.DOMNode[0],
 			{x: this.DOMNode.left,
@@ -300,13 +299,13 @@ Canvas.prototype.export = function() {
 			saveAs(canvas.toDataURL(), 'pixelOdrom.png');
 
 			//Moving the pixel table back to its original position
-			this.DOMNode.removeClass("pixel-canvas-export");
-			this.DOMNode.addClass("pixel-canvas");
+			this.DOMNode.removeClass('pixel-canvas-export');
+			this.DOMNode.addClass('pixel-canvas');
 
-			resolve ("Exported canvas");
+			resolve ('Exported canvas');
 
 		});
 	});
-}
+};
 
 export { Canvas };

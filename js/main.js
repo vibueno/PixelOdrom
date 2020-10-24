@@ -3,17 +3,14 @@ parseInt($("#input-width").val());
 parseInt($("#input-height").val());
 */
 
-import { TOOL_BRUSH, TOOL_ERASER, DEFAULT_PICKER_COLOR, MIN_PIXEL_SIZE,
-	       MAX_CANVAS_WIDTH_PO, CANVAS_ASPECT_RATIO, PIXEL_CANVAS_SEL,
-	       ROW, COLUMN, MAX_PIXEL_SIZE, PIXEL_PADDING_CORRECTION,
-	       CURSOR_COLOR } from './modules/constants.js';
+import { TOOL_BRUSH, TOOL_ERASER, CURSOR_COLOR } from './constants.js';
 
-import { Canvas } from './modules/components/Canvas.js';
-import { Modal } from './modules/components/Modal.js';
-import { Spinner } from './modules/components/Spinner.js';
-import { DrawingTool } from './modules/components/DrawingTool.js';
+import { functions } from './functions.js';
 
-import { functions } from './modules/functions.js';
+import { Canvas } from './components/Canvas.js';
+import { Modal } from './components/Modal.js';
+import { Spinner } from './components/Spinner.js';
+import { DrawingTool } from './components/DrawingTool.js';
 
 /* In this file we use the expression pixelOdrom pixels to refer of the squares in the table (canvas).
 We do so to avoid confusion with CSS pixels */
@@ -213,10 +210,10 @@ $(function() {
 
 	$("#btn-back-to-top").click(function() {
 		if (window.canvas.isActive){
-			scrollToolboxTop();
+			functions.scrollToolboxTop();
 		}
 		else {
-			scrollTop();
+			functions.scrollTop();
 		}
 	});
 
@@ -249,7 +246,7 @@ $(function() {
 				}
 			}
 			catch(e) {
-				modal.open('error', {"title": "error", "text": `There was an error trying to access the local storage: ${e.message}`});
+				window.modal.open('error', {"title": "error", "text": `There was an error trying to access the local storage: ${e.message}`});
 			}
 		}
 	);
@@ -261,10 +258,10 @@ $(function() {
 	 */
 
 	$("#btn-help").click(function() {
-		modal.open("help", {});
+		window.modal.open("help", {});
 	});
 
 	if (!localStorage.dialogStartUpHide) {
-		modal.open("startUp", {});
+		window.modal.open("startUp", {});
 	}
 });

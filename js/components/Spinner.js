@@ -1,3 +1,5 @@
+import { functions } from '../functions.js';
+
 /**
  * @constructor
  * @description Creates a new Spinner object.
@@ -5,7 +7,7 @@
  */
 let Spinner = function(){
 	this.isActive = false;
-}
+};
 
 /**
  * @description Shows the spinner.
@@ -26,7 +28,7 @@ Spinner.prototype.show = function () {
 
 		resolve("Spin shown");
 	});
-}
+};
 
 /**
  * @description Hides the spinner.
@@ -46,6 +48,6 @@ Spinner.prototype.hide = function () {
 
 		resolve("Spin hidden");
 	});
-}
+};
 
 export { Spinner };

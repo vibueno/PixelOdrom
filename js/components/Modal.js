@@ -1,4 +1,5 @@
 import { MODAL_CONTENT } from '../constants.js';
+import { functions } from '../functions.js';
 
 /**
  * @constructor
@@ -8,9 +9,9 @@ import { MODAL_CONTENT } from '../constants.js';
 let Modal = function(){
 	this.DOMNode = $( "#dialog" );
 	this.DOMNodeText = $( "#dialog" ).first("p");
-	this.title;
+	this.title = null;
 	this.buttons = null;
-}
+};
 
 /**
  * @description Sets title text.
@@ -28,7 +29,12 @@ Modal.prototype.setTitle = function (title) {
  * @param {String} isHTML indicates whether the text should be treated as HTML.
  */
 Modal.prototype.setText = function (text, isHTML) {
-	isHTML? this.DOMNodeText.html( text ): this.DOMNodeText.text( text );
+	if (isHTML) {
+		this.DOMNodeText.html( text );
+	}
+	else {
+		this.DOMNodeText.text( text );
+	}
 };
 
 /**
@@ -38,24 +44,30 @@ Modal.prototype.setText = function (text, isHTML) {
  */
 Modal.prototype.open = function (modalType, args) {
 
-	if (args.title===undefined){
+	if (args.title===undefined) {
 		this.setTitle(MODAL_CONTENT[modalType].title);
 	}
 
-	args.title===undefined?
-		this.setTitle(MODAL_CONTENT[modalType].title):
+	if (args.title===undefined) {
+		this.setTitle(MODAL_CONTENT[modalType].title);
+	}
+	else {
 		this.setTitle(args.title);
+	}
 
-	args.text===undefined?
-		this.setText(MODAL_CONTENT[modalType].text, true):
+	if (args.text===undefined){
+		this.setText(MODAL_CONTENT[modalType].text, true);
+	}
+	else {
 		this.setText(args.text);
+	}
 
 	switch(modalType) {
 	  case 'help':
-	  	this.buttons = { "Alright!": function () { window.modal.DOMNode.dialog("close");}}
+	  	this.buttons = { "Alright!": function () { window.modal.DOMNode.dialog("close");}};
 	    break;
 	  case 'startUp':
-			this.buttons = {"Get started!": function () { window.modal.DOMNode.dialog("close");}}
+			this.buttons = {"Get started!": function () { window.modal.DOMNode.dialog("close");}};
 	    break;
 	  case 'pageLeave':
 	  	this.buttons = {
@@ -66,7 +78,7 @@ Modal.prototype.open = function (modalType, args) {
       	"No":  function () {
         			 	 window.modal.DOMNode.dialog("close");
       				 }
-    	}
+    	};
 	    break;
 	  case 'canvasCreate':
 	  	this.buttons = {
@@ -77,7 +89,18 @@ Modal.prototype.open = function (modalType, args) {
       	"No":  function () {
         				 window.modal.DOMNode.dialog("close");
       				 }
-    	}
+    	};
+	    break;
+	  case 'canvasCreateNoSpace':
+	  	this.buttons = {
+	  		"Yes": function () {
+	  						 functions.createCanvasWrapper(window.canvas.maxWidth, window.canvas.maxHeight);
+	  						 window.modal.DOMNode.dialog("close");
+      				 },
+      	"No":  function () {
+        				 window.modal.DOMNode.dialog("close");
+      				 }
+    	};
 	    break;
 	  case 'canvasLoad':
 	  	this.buttons = {
@@ -88,7 +111,7 @@ Modal.prototype.open = function (modalType, args) {
       	"No":  function () {
         				 window.modal.DOMNode.dialog("close");
       				 }
-    	}
+    	};
 	    break;
 	  case 'canvasSave':
 	  	this.buttons = {
@@ -99,7 +122,7 @@ Modal.prototype.open = function (modalType, args) {
       	"No":  function () {
         				 window.modal.DOMNode.dialog("close");
       				 }
-    	}
+    	};
 	    break;
 	   case 'canvasReset':
 	  	this.buttons = {
@@ -110,7 +133,7 @@ Modal.prototype.open = function (modalType, args) {
       	"No":  function () {
         				 window.modal.DOMNode.dialog("close");
       				 }
-    	}
+    	};
 	    break;
 	  case 'canvasExport':
 	  	this.buttons = {
@@ -121,7 +144,7 @@ Modal.prototype.open = function (modalType, args) {
       	"No":  function () {
         				 window.modal.DOMNode.dialog("close");
       				 }
-    	}
+    	};
 	    break;
 	  case 'info':
 	  case 'error':
@@ -129,7 +152,7 @@ Modal.prototype.open = function (modalType, args) {
 	  		"OK": function () {
 	  			window.modal.DOMNode.dialog("close");
 	  		}
-	  	}
+	  	};
 	    break;
 	}
 
@@ -162,6 +185,6 @@ Modal.prototype.isOpen = function () {
 	else {
 		return false;
 	}
-}
+};
 
 export { Modal };

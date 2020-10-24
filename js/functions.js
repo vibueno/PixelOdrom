@@ -1,4 +1,4 @@
-import { DEFAULT_PICKER_COLOR } from './constants.js';
+import { DEFAULT_PICKER_COLOR, TOOL_BRUSH } from './constants.js';
 
 /**
   * @module functions
@@ -104,7 +104,7 @@ let functions = {
 	setBacktotopVisibility: function () {
 
 		if ((($( window ).height() + $(window).scrollTop()) >= ($("body").outerHeight()/1.25)) &&
-			(functions.getToolboxPositionTop()<=$(window).scrollTop()) && canvas.isActive &&
+			(functions.getToolboxPositionTop()<=$(window).scrollTop()) && window.canvas.isActive &&
 			(!window.modal.isOpen() &&(!window.spinner.isActive))) {
 
 			window.setTimeout( function() {
@@ -221,7 +221,7 @@ let functions = {
 
 	  if (width*height>1000) {
 			window.spinner.show().
-				then(delay.bind(1000)).
+				then(functions.delay.bind(1000)).
 				then(window.canvas.create.bind(null, {width, height})).
 				then(window.spinner.hide());
 		}

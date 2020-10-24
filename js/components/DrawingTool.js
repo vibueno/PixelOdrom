@@ -1,8 +1,6 @@
-import { functions } from '../functions.js';
-import { PIXEL_CANVAS_SEL, MODAL_CONTENT, TOOL_BRUSH,
-	       TOOL_ERASER, DEFAULT_PICKER_COLOR, BLANK_PIXEL_COLOR,
-	       MIN_PIXEL_SIZE, MAX_CANVAS_WIDTH_PO, CANVAS_ASPECT_RATIO,
-	       ROW, COLUMN, MAX_PIXEL_SIZE, PIXEL_PADDING_CORRECTION } from '../constants.js';
+
+import { TOOL_BRUSH, TOOL_ERASER,
+				 DEFAULT_PICKER_COLOR, BLANK_PIXEL_COLOR } from '../constants.js';
 
 /**
  * @constructor
@@ -15,7 +13,7 @@ import { PIXEL_CANVAS_SEL, MODAL_CONTENT, TOOL_BRUSH,
 let DrawingTool = function(){
 	this.tool = TOOL_BRUSH;
 	this.color = DEFAULT_PICKER_COLOR;
-}
+};
 
 /**
  * @description Changes the active tool.
@@ -36,7 +34,7 @@ DrawingTool.prototype.set = function(tool) {
 	  	$( "#btn-tool-eraser").addClass("btn-pressed");
 	    break;
 	}
-}
+};
 
 /**
  * @description Paints or erases a pixel.
@@ -50,6 +48,6 @@ DrawingTool.prototype.paintPixel = function (pixel) {
 	else 	if (this.tool === TOOL_ERASER){
 		$ (pixel).css( "background-color", BLANK_PIXEL_COLOR);
 	}
-}
+};
 
 export { DrawingTool };
