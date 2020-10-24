@@ -1,5 +1,3 @@
-import { functions } from '../functions.js';
-
 /**
  * @constructor
  * @description Creates a new SideBar object.
@@ -14,8 +12,8 @@ let SideBar = function(){
 /**
  * @description Sets the visibility of the help button.
  */
-SideBar.prototype.setBtnHelpVisibility = function () {
-	if (!window.modal.isOpen() && (!window.spinner.isActive)) {
+SideBar.prototype.setHelpVisibility = function (visible) {
+	if (visible) {
 
 		/* We use the parameter self in order not to lose 'this'
 		in the function call inside window.setTimeout */
@@ -32,16 +30,14 @@ SideBar.prototype.setBtnHelpVisibility = function () {
 			self.DOMNodeBtnHelp.addClass('btn-help-hidden');
 		}, 100, this);
 	}
-}
+};
 
 /**
  * @description Sets the visibility of the back to top button.
  */
-SideBar.prototype.setBacktotopVisibility = function () {
+SideBar.prototype.setBacktotopVisibility = function (visible) {
 
-	if ((($( window ).height() + $(window).scrollTop()) >= ($('body').outerHeight()/1.25)) &&
-		(window.canvasToolBox.getPositionTop()<=$(window).scrollTop()) && window.canvas.isActive &&
-		(!window.modal.isOpen() &&(!window.spinner.isActive))) {
+	if (visible) {
 
 		/* We use the parameter self in order not to lose 'this'
 		in the function call inside window.setTimeout */
@@ -58,15 +54,6 @@ SideBar.prototype.setBacktotopVisibility = function () {
 			self.DOMNodeBtnBackToTop.addClass('btn-back-to-top-hidden');
 		}, 100, this);
 	}
-}
-
-/**
- * @description Sets the visibility of the side bar buttons.
- */
-SideBar.prototype.setVisibility = function () {
-
-	this.setBtnHelpVisibility();
-	this.setBacktotopVisibility();
-}
+};
 
 export { SideBar };

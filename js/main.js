@@ -25,7 +25,7 @@ $(function() {
 
 	let canvasMenu = new CanvasMenu();
 	let canvasActionBox = new CanvasActionBox();
-	window.sideBar = new SideBar();
+	let sideBar = new SideBar();
 
 	window.modal = new Modal();
 	window.spinner = new Spinner();
@@ -33,26 +33,63 @@ $(function() {
 	window.canvasToolBox = new CanvasToolBox();
 	window.canvas = new Canvas();
 
-	/******************************************/
-	/*
-	This code may needed in some other places,
-	since it was the function pixelOdrom setup
-
-	Once places where needed, remove from here
-	*/
-	canvasMenu.resetInputFields();
-	window.canvasToolBox.setVisibility(false);
-	canvasActionBox.setVisibility(false);
-	window.sideBar.setVisibility();
-	window.canvas.setVisibility();
-	/******************************************/
-
-
-	window.mainDivWidthPx = parseInt($('.main').width());
-
 	window.canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
 	window.canvasToolBox.setVisibility(true);
 	canvasActionBox.setVisibility(true);
+
+	window.mainDivWidthPx = parseInt($('.main').width());
+
+	/**
+	 *
+	 * Functions
+	 *
+	 */
+
+	/**
+   * @description Sets up application
+   */
+	let setUpPixelOdrom = function (){
+		canvasMenu.resetInputFields();
+		window.canvasToolBox.setVisibility(false);
+		canvasActionBox.setVisibility(false);
+		sideBar.setVisibility();
+		window.canvas.setVisibility();
+	};
+
+	/**
+   * @description Navigates to an empty page with no canvas.
+   */
+ 	let goToHomePage = function () {
+		if (window.canvas.isActive) {
+			window.modal.open('pageLeave');
+		}
+		else{
+			setUpPixelOdrom();
+		}
+	};
+
+	/**
+	 * @description Sets the visibility of the sidebar
+	 */
+	let setSideBarVisibility = function () {
+		if (!window.modal.isOpen()){
+			sideBar.setHelpVisibility(true);
+		}
+		else {
+			sideBar.setHelpVisibility(false);
+		}
+
+		if (((($( window ).height() + $(window).scrollTop()) >= ($('body').outerHeight()/1.25)) &&
+			(window.canvasToolBox.getPositionTop()<=$(window).scrollTop())) &&
+			window.canvas.isActive &&
+			!window.modal.isOpen()) {
+			sideBar.setBacktotopVisibility(true);
+		}
+		else {
+			sideBar.setBacktotopVisibility(false);
+		}
+	};
+
 
 	/**
 	 *
@@ -70,21 +107,21 @@ $(function() {
 	 * @description Sets the visibility of the sidebar on each scroll
 	 */
 	$(document).scroll(function() {
-		window.sideBar.setVisibility();
+		setSideBarVisibility();
 	});
 
 	/**
 	 * @description Sets the visibility of the sidebar on each resize
 	 */
 	$(window).resize(function() {
-		window.sideBar.setVisibility();
+		setSideBarVisibility();
 	});
 
 	/**
 	 * @description Sets the visibility of the sidebar on each resize
 	 */
 	$( '#header' ).click(function() {
-		functions.goToHomePage();
+		goToHomePage();
 	});
 
 	/**
@@ -102,12 +139,12 @@ $(function() {
 		const CANVAS_HEIGHT = parseInt($('#input-height').val());
 
 		if (!window.canvas.validProportions(CANVAS_HEIGHT, CANVAS_WIDTH)) {
-			window.modal.open('canvasProportions');
+			window.modal.open('canvasProportions', {'canvas': window.canvas});
 		}
 		else
 		{
 			const DIALOG_MSG = `Are you sure that you want to create a new ${CANVAS_WIDTH}x${CANVAS_HEIGHT} canvas?`;
-			window.modal.open('canvasCreate', {'text': DIALOG_MSG, 'callbackArgs': {'width': CANVAS_WIDTH, 'height': CANVAS_HEIGHT}});
+			window.modal.open('canvasCreate', {'text': DIALOG_MSG, 'canvas': window.canvas, 'callbackArgs': {'width': CANVAS_WIDTH, 'height': CANVAS_HEIGHT}});
 		}
 
 		e.preventDefault();
@@ -118,7 +155,7 @@ $(function() {
 	 * @description Shows the load canvas dialog
 	 */
 	canvasMenu.DOMNodeBtnCanvasLoad.click( function() {
-		window.modal.open('canvasLoad');
+		window.modal.open('canvasLoad', {'canvas': window.canvas});
 
 		/*
 		If load successfull run:
@@ -209,19 +246,19 @@ $(function() {
 
 	canvasActionBox.DOMNodeCanvasReset.click(function() {
 		if (window.canvas.isActive){
-			window.modal.open('canvasReset');
+			window.modal.open('canvasReset', {'canvas': window.canvas});
 		}
 	});
 
 	canvasActionBox.DOMNodeCanvasSave.click( function(){
 		if (window.canvas.isActive){
-			window.modal.open('canvasSave');
+			window.modal.open('canvasSave', {'canvas': window.canvas});
 		}
 	});
 
 	canvasActionBox.DOMNodeCanvasExport.click( function(){
 		if (window.canvas.isActive){
-			window.modal.open('canvasExport');
+			window.modal.open('canvasExport', {'canvas': window.canvas});
 		}
 	});
 
@@ -245,9 +282,9 @@ $(function() {
 	 *
 	 */
 
-	window.sideBar.DOMNodeBtnBackToTop.click(function() {
+	sideBar.DOMNodeBtnBackToTop.click(function() {
 		if (window.canvas.isActive){
-			functions.scrollToolboxTop();
+			window.canvasToolBox.scrollTo();
 		}
 		else {
 			functions.scrollTop();
@@ -262,13 +299,13 @@ $(function() {
 
 	window.modal.DOMNode.on( 'dialogopen',
 		function( ) {
-			window.sideBar.setVisibility();
+			setSideBarVisibility();
 		}
 	);
 
 	window.modal.DOMNode.on( 'dialogclose',
 		function( ) {
-			window.sideBar.setVisibility();
+			setSideBarVisibility();
 		}
 	);
 
@@ -294,7 +331,7 @@ $(function() {
 	 *
 	 */
 
-	window.sideBar.DOMNodeBtnHelp.click(function() {
+	sideBar.DOMNodeBtnHelp.click(function() {
 		window.modal.open('help');
 	});
 

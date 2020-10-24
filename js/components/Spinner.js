@@ -22,8 +22,6 @@ Spinner.prototype.show = function () {
 
 		$("body").css("overflow", "hidden");
 
-		window.sideBar.setVisibility();
-
 		this.isActive = true;
 
 		resolve("Spin shown");
@@ -41,8 +39,6 @@ Spinner.prototype.hide = function () {
 		$("#spinner-container").removeClass("spinner-container");
 
 		$("body").css("overflow", "auto");
-
-		window.sideBar.setVisibility();
 
 		this.isActive = false;
 

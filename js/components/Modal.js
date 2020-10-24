@@ -87,7 +87,7 @@ Modal.prototype.open = function (modalType, args) {
 	  case 'canvasCreate':
 	  	this.buttons = {
 	  		'Yes': function () {
-	  						 window.canvas.checkCreate(args.callbackArgs.width, args.callbackArgs.height);
+	  						 args.canvas.checkCreate(args.callbackArgs.width, args.callbackArgs.height);
 	  						 this.DOMNode.dialog('close');
       				 }.bind(this),
       	'No':  function () {
@@ -98,7 +98,7 @@ Modal.prototype.open = function (modalType, args) {
 	  case 'canvasCreateNoSpace':
 	  	this.buttons = {
 	  		'Yes': function () {
-	  						 window.canvas.createCanvasWrapper(window.canvas.maxWidth, window.canvas.maxHeight);
+	  						 args.canvas.createCanvasWrapper(args.canvas.maxWidth, args.canvas.maxHeight);
 	  						 this.DOMNode.dialog('close');
       				 }.bind(this),
       	'No':  function () {
@@ -120,7 +120,7 @@ Modal.prototype.open = function (modalType, args) {
 	  case 'canvasSave':
 	  	this.buttons = {
 	  		'Yes': function () {
-	  						 window.canvas.save();
+	  						 args.canvas.save();
 	  						 this.DOMNode.dialog('close');
       				 }.bind(this),
       	'No':  function () {
@@ -131,7 +131,7 @@ Modal.prototype.open = function (modalType, args) {
 	   case 'canvasReset':
 	  	this.buttons = {
 	  		'Yes': function () {
-	  					   window.canvas.reset();
+	  					   args.canvas.reset();
 	  					   this.DOMNode.dialog('close');
       				 }.bind(this),
       	'No':  function () {
@@ -142,7 +142,7 @@ Modal.prototype.open = function (modalType, args) {
 	  case 'canvasExport':
 	  	this.buttons = {
 	  		'Yes': function () {
-        				 window.canvas.exportCanvasWrapper();
+        				 args.canvas.exportCanvasWrapper();
         				 this.DOMNode.dialog('close');
       				 }.bind(this),
       	'No':  function () {

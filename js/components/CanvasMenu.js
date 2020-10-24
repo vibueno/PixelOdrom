@@ -23,8 +23,8 @@ let CanvasMenu = function(){
  * @param  {Number} canvasHeight canvas height to be set to the input field.
  */
 CanvasMenu.prototype.setInputFields = function (width, height) {
-	$('#input-width').val(width);
-	$('#input-height').val(height);
+	this.DOMNodeGridWidth.val(width);
+	this.DOMNodeGridHeight.val(height);
 };
 
 /**

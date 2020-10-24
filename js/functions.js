@@ -27,18 +27,6 @@ let functions = {
 	},
 
 	/**
-   * @description Navigates to an empty page with no canvas.
-   */
- 	goToHomePage: function () {
-		if (window.canvas.isActive) {
-			window.modal.open('pageLeave');
-		}
-		else{
-			functions.setUpPixelOdrom();
-		}
-	},
-
-	/**
 	 * @description Opens the open file dialog (not a jQuery UI Dialog).
 	 */
 	showFileDialog: function () {
@@ -55,14 +43,6 @@ let functions = {
 	 */
 	scrollTop: function () {
 		scroll(0, 0);
-	},
-
-	/**
-	 * @description Scrolls to top of toolbox
-	 *
-	 */
-	scrollToolboxTop: function () {
-		scroll(0, window.canvasToolBox.getPositionTop());
 	},
 
 	/**

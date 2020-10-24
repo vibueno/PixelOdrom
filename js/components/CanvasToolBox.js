@@ -62,4 +62,12 @@ CanvasToolBox.prototype.getPositionTop = function () {
   return TOOL_BOX_POSITION_TOP;
 };
 
+/**
+ * @description Scrolls to top of toolbox
+ *
+ */
+CanvasToolBox.prototype.scrollTo = function () {
+	window.scroll(0, window.canvasToolBox.getPositionTop());
+};
+
 export { CanvasToolBox };

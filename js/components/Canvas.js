@@ -151,7 +151,7 @@ Canvas.prototype.create = function(width, height, scrollToCanvas=true){
 		this.setUp(height, height);
 
 		if (scrollToCanvas){
-			functions.scrollToolboxTop();
+			window.canvasToolBox.scrollTo();
 		}
 
 		resolve ('Canvas created');
@@ -174,7 +174,7 @@ Canvas.prototype.createCanvasWrapper = function (width, height) {
   if (width*height>1000) {
 		window.spinner.show().
 			then(functions.delay.bind(1000)).
-			then(window.canvas.create.bind(null, {width, height})).
+			then(this.create.bind(null, {width, height})).
 			then(window.spinner.hide());
 	}
 	else {
@@ -217,7 +217,7 @@ Canvas.prototype.delete = function() {
  */
 Canvas.prototype.reset = function() {
 	this.DOMNode.find('.pixel').css('background-color', BLANK_PIXEL_COLOR);
-	functions.scrollToolboxTop();
+	window.canvasToolBox.scrollTo();
 };
 
 /**
