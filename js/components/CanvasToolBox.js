@@ -51,23 +51,4 @@ CanvasToolBox.prototype.initColorPicker = function (inputColor) {
 	});
 };
 
-/**
- * @description Calculates the top position of the Tool box.
- *
- * @returns {Number} top position of the tool box.
- */
-CanvasToolBox.prototype.getPositionTop = function () {
-  const TOOL_BOX_MARGIN_TOP = functions.CSSPixelToNumber(this.DOMNode.css('marginTop'));
-  const TOOL_BOX_POSITION_TOP = this.DOMNode.position().top + TOOL_BOX_MARGIN_TOP;
-  return TOOL_BOX_POSITION_TOP;
-};
-
-/**
- * @description Scrolls to top of toolbox
- *
- */
-CanvasToolBox.prototype.scrollTo = function () {
-	window.scroll(0, window.canvasToolBox.getPositionTop());
-};
-
 export { CanvasToolBox };

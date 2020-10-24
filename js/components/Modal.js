@@ -1,4 +1,4 @@
-import { MODAL_CONTENT } from '../constants.js';
+import { MODAL_CONTENT, CANVAS_TOOLBOX_SELECTOR } from '../constants.js';
 import { functions } from '../functions.js';
 
 /**
@@ -88,6 +88,12 @@ Modal.prototype.open = function (modalType, args) {
 	  	this.buttons = {
 	  		'Yes': function () {
 	  						 args.canvas.checkCreate(args.callbackArgs.width, args.callbackArgs.height);
+
+	  						 //if it can be created, we scroll to the canvas.
+	  						 //but the 3 functions to create a canvas must be rechecked so that they
+	  						 //don't have dependencies.
+	  						 functions.scrollTo(functions.getNodePositionTop(CANVAS_TOOLBOX_SELECTOR));
+
 	  						 this.DOMNode.dialog('close');
       				 }.bind(this),
       	'No':  function () {

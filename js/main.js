@@ -3,7 +3,7 @@ parseInt($('#input-width').val());
 parseInt($('#input-height').val());
 */
 
-import { TOOL_BRUSH, TOOL_ERASER, CURSOR_COLOR, CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT  } from './constants.js';
+import { CANVAS_TOOLBOX_SELECTOR, TOOL_BRUSH, TOOL_ERASER, CURSOR_COLOR, CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT  } from './constants.js';
 
 import { functions } from './functions.js';
 
@@ -24,17 +24,17 @@ We do so to avoid confusion with CSS pixels */
 $(function() {
 
 	let canvasMenu = new CanvasMenu();
+	let canvasToolBox = new CanvasToolBox();
 	let canvasActionBox = new CanvasActionBox();
 	let sideBar = new SideBar();
 
 	window.modal = new Modal();
 	window.spinner = new Spinner();
 
-	window.canvasToolBox = new CanvasToolBox();
 	window.canvas = new Canvas();
 
 	window.canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
-	window.canvasToolBox.setVisibility(true);
+	canvasToolBox.setVisibility(true);
 	canvasActionBox.setVisibility(true);
 
 	window.mainDivWidthPx = parseInt($('.main').width());
@@ -50,7 +50,7 @@ $(function() {
    */
 	let setUpPixelOdrom = function (){
 		canvasMenu.resetInputFields();
-		window.canvasToolBox.setVisibility(false);
+		canvasToolBox.setVisibility(false);
 		canvasActionBox.setVisibility(false);
 		sideBar.setVisibility();
 		window.canvas.setVisibility();
@@ -80,7 +80,7 @@ $(function() {
 		}
 
 		if (((($( window ).height() + $(window).scrollTop()) >= ($('body').outerHeight()/1.25)) &&
-			(window.canvasToolBox.getPositionTop()<=$(window).scrollTop())) &&
+			(functions.getNodePositionTop(CANVAS_TOOLBOX_SELECTOR)<=$(window).scrollTop())) &&
 			window.canvas.isActive &&
 			!window.modal.isOpen()) {
 			sideBar.setBacktotopVisibility(true);
@@ -89,7 +89,6 @@ $(function() {
 			sideBar.setBacktotopVisibility(false);
 		}
 	};
-
 
 	/**
 	 *
@@ -182,7 +181,7 @@ $(function() {
 	 */
 	window.canvas.DOMNode.on('mousedown', 'td', function() {
 		window.mouseDown=true;
-		window.canvasToolBox.drawingTool.paintPixel(this);
+		canvasToolBox.drawingTool.paintPixel(this);
 	});
 
 	/**
@@ -190,7 +189,7 @@ $(function() {
 	 */
 	window.canvas.DOMNode.on('mouseover', 'td', function() {
 		if (window.mouseDown){
-			window.canvasToolBox.drawingTool.paintPixel(this);
+			canvasToolBox.drawingTool.paintPixel(this);
 		}
 	});
 
@@ -198,7 +197,7 @@ $(function() {
 	 * @description Paints or erases pixels
 	 */
 	window.canvas.DOMNode.on('mouseenter', function() {
-		$( this ).awesomeCursor(window.canvasToolBox.drawingTool.tool, {
+		$( this ).awesomeCursor(canvasToolBox.drawingTool.tool, {
 			hotspot: [2, 15],
 			color: CURSOR_COLOR
 		});
@@ -268,12 +267,12 @@ $(function() {
 	 *
 	 */
 
-	window.canvasToolBox.DOMNodeBrush.click(function() {
-		window.canvasToolBox.drawingTool.set(TOOL_BRUSH);
+	canvasToolBox.DOMNodeBrush.click(function() {
+		canvasToolBox.drawingTool.set(TOOL_BRUSH);
 	});
 
-	window.canvasToolBox.DOMNodeEraser.click(function() {
-		window.canvasToolBox.drawingTool.set(TOOL_ERASER);
+	canvasToolBox.DOMNodeEraser.click(function() {
+		canvasToolBox.drawingTool.set(TOOL_ERASER);
 	});
 
 	/**
@@ -284,7 +283,7 @@ $(function() {
 
 	sideBar.DOMNodeBtnBackToTop.click(function() {
 		if (window.canvas.isActive){
-			window.canvasToolBox.scrollTo();
+			functions.scrollTo(functions.getNodePositionTop(CANVAS_TOOLBOX_SELECTOR));
 		}
 		else {
 			functions.scrollTop();

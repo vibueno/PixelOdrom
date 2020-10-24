@@ -1,5 +1,5 @@
 import { TOOL_BRUSH, MIN_PIXEL_SIZE,
-	       MAX_CANVAS_WIDTH_PO, CANVAS_ASPECT_RATIO, PIXEL_CANVAS_SEL,
+	       MAX_CANVAS_WIDTH_PO, CANVAS_ASPECT_RATIO, CANVAS_SELECTOR, CANVAS_TOOLBOX_SELECTOR,
 	       ROW, COLUMN, MAX_PIXEL_SIZE, PIXEL_PADDING_CORRECTION,
 	       BLANK_PIXEL_COLOR } from '../constants.js';
 
@@ -14,7 +14,7 @@ import { functions } from '../functions.js';
  * @property {Number} canvas height.
  */
 let Canvas = function(width, height){
-	this.DOMNode = $ ( PIXEL_CANVAS_SEL );
+	this.DOMNode = $ ( CANVAS_SELECTOR );
 	this.width = width;
 	this.height = height;
 	this.maxWidthPx = Math.min(Math.floor(window.mainDivWidthPx/MIN_PIXEL_SIZE), MAX_CANVAS_WIDTH_PO);
@@ -59,8 +59,6 @@ Canvas.prototype.setUp = function() {
 
 	this.pixelSetUp(MAX_CANVAS_WIDTH_PX);
 
-	//remove
-	window.canvasToolBox.drawingTool.set(TOOL_BRUSH);
 	this.setVisibility(true);
 
 };
@@ -133,7 +131,7 @@ Canvas.prototype.checkCreate = function (width, height) {
  * @param  {Array}   canvasSize Width and height of the canvas.
  * @param  {Boolean} scrollToCanvas tells whether to navigate to the canvas after creation.
  */
-Canvas.prototype.create = function(width, height, scrollToCanvas=true){
+Canvas.prototype.create = function(width, height){
 
 	return new Promise((resolve) => {
 
@@ -141,7 +139,7 @@ Canvas.prototype.create = function(width, height, scrollToCanvas=true){
 
 		for (let i=1; i<=height; i++){
 			this.DOMNode.append(ROW);
-			let lastRow = $(PIXEL_CANVAS_SEL + ' tr').last();
+			let lastRow = $(CANVAS_SELECTOR + ' tr').last();
 
 			for (let j=1; j<=width; j++){
 				lastRow.append(COLUMN);
@@ -149,10 +147,6 @@ Canvas.prototype.create = function(width, height, scrollToCanvas=true){
 		}
 
 		this.setUp(height, height);
-
-		if (scrollToCanvas){
-			window.canvasToolBox.scrollTo();
-		}
 
 		resolve ('Canvas created');
 	});
@@ -217,7 +211,6 @@ Canvas.prototype.delete = function() {
  */
 Canvas.prototype.reset = function() {
 	this.DOMNode.find('.pixel').css('background-color', BLANK_PIXEL_COLOR);
-	window.canvasToolBox.scrollTo();
 };
 
 /**

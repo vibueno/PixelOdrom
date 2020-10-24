@@ -66,8 +66,27 @@ let functions = {
 		else {
 			return false;
 		}
-	}
+	},
 
+	/**
+	 * @description Calculates the top position of an HTML node.
+	 *
+	 * @returns {Number} top position of the node.
+	 */
+	getNodePositionTop: function (id) {
+	  const TOOL_BOX_MARGIN_TOP = functions.CSSPixelToNumber($(id).css('marginTop'));
+	  const TOOL_BOX_POSITION_TOP = $(id).position().top + TOOL_BOX_MARGIN_TOP;
+	  return TOOL_BOX_POSITION_TOP;
+	},
+
+	/**
+	 * @description Scrolls to the set position
+	 *
+	 * @returns {Number} top position of the node.
+	 */
+	scrollTo: function (position) {
+			window.scroll(0, position);
+	}
 };
 
 export { functions };
