@@ -1,6 +1,6 @@
 /*
-parseInt($('#input-width').val());
-parseInt($('#input-height').val());
+window.modal.open('error', {'text': `There was an error while trying to load the canvas: ${shortErrorMessage}`});
+window.modal.open('error', {'text': `There was an error while trying to load the canvas: ${reader.error}`});
 */
 
 import {
@@ -30,38 +30,11 @@ We do so to avoid confusion with CSS pixels */
  */
 $(function() {
 
-	let canvasMenu = new CanvasMenu();
-	let canvasToolBox = new CanvasToolBox();
-	let canvasActionBox = new CanvasActionBox();
-	let sideBar = new SideBar();
-
-	window.modal = new Modal();
-	window.spinner = new Spinner();
-
-	window.canvas = new Canvas();
-
-	window.canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
-	canvasToolBox.setVisibility(true);
-	canvasActionBox.setVisibility(true);
-
-	window.mainDivWidthPx = parseInt($('.main').width());
-
 	/**
 	 *
 	 * Functions
 	 *
 	 */
-
-	/**
-   * @description Sets up application
-   */
-	let setUpPixelOdrom = function (){
-		canvasMenu.resetInputFields();
-		canvasToolBox.setVisibility(false);
-		canvasActionBox.setVisibility(false);
-		sideBar.setVisibility();
-		window.canvas.setVisibility();
-	};
 
 	/**
    * @description Navigates to an empty page with no canvas.
@@ -96,6 +69,50 @@ $(function() {
 			sideBar.setBacktotopVisibility(false);
 		}
 	};
+
+	window.btnLoadCanvasClick = function (file){
+		window.canvas.load(file)
+		.catch(err => {
+		 	switch(err){
+		 		case "CanvasInvalid":
+					window.modal.open('error', {'title': MODAL_CONTENT.canvasInvalid.title,
+						'text': MODAL_CONTENT.canvasInvalid.text});
+		 		break;
+		 		default:
+		 			//TODO: Create constants for this error
+					window.modal.open('error', { 'text': 'Error loading canvas.'});
+		 	}
+		});
+
+	}
+
+	/*
+	 *
+	 * Initial calls
+	 *
+	 */
+
+	window.mainDivWidthPx = parseInt($('.main').width());
+
+	window.modal = new Modal();
+	window.spinner = new Spinner();
+	window.canvas = new Canvas();
+
+	window.canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
+
+	window.canvas.setUp();
+
+	window.canvas.setVisibility(true);
+
+	let canvasMenu = new CanvasMenu();
+	let canvasToolBox = new CanvasToolBox();
+	let canvasActionBox = new CanvasActionBox();
+	let sideBar = new SideBar();
+
+	setSideBarVisibility();
+
+	canvasToolBox.setVisibility(true);
+	canvasActionBox.setVisibility(true);
 
 	/**
 	 *
@@ -144,16 +161,8 @@ $(function() {
 		const CANVAS_WIDTH = parseInt($('#input-width').val());
 		const CANVAS_HEIGHT = parseInt($('#input-height').val());
 
-		if (!window.canvas.validProportions(CANVAS_HEIGHT, CANVAS_WIDTH)) {
-			window.modal.open('info', {'title': MODAL_CONTENT.canvasProportions.title,
-				'text': MODAL_CONTENT.canvasProportions.text,
-				'canvas': window.canvas});
-		}
-		else
-		{
-			const DIALOG_MSG = `Are you sure that you want to create a new ${CANVAS_WIDTH}x${CANVAS_HEIGHT} canvas?`;
-			window.modal.open('canvasCreate', {'text': DIALOG_MSG, 'canvas': window.canvas, 'callbackArgs': {'width': CANVAS_WIDTH, 'height': CANVAS_HEIGHT}});
-		}
+		const DIALOG_MSG = `Are you sure that you want to create a new ${CANVAS_WIDTH}x${CANVAS_HEIGHT} canvas?`;
+		window.modal.open('canvasCreate', {'text': DIALOG_MSG, 'canvas': window.canvas, 'callbackArgs': {'width': CANVAS_WIDTH, 'height': CANVAS_HEIGHT}});
 
 		e.preventDefault();
 
@@ -166,7 +175,7 @@ $(function() {
 		window.modal.open('canvasLoad', {'canvas': window.canvas});
 
 		/*
-		If load successfull run:
+		If load successful run:
 
 		$('#input-width').val(CANVAS_WIDTH);
 		$('#input-height').val(CANVAS_HEIGHT);

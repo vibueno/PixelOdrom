@@ -89,7 +89,20 @@ Modal.prototype.open = function (modalType, args) {
 	  case 'canvasCreate':
 	  	this.buttons = {
 	  		'Yes': function () {
-	  						 args.canvas.checkCreate(args.callbackArgs.width, args.callbackArgs.height);
+	  						 args.canvas.create(args.callbackArgs.width, args.callbackArgs.height)
+	  						 .catch(err => {
+		  						 	switch(err.name){
+		  						 		case "CanvasInvalidProportions":
+												window.modal.open('info', {'title': MODAL_CONTENT.canvasInvalidProportions.title,
+													'text': MODAL_CONTENT.canvasInvalidProportions.text,
+													'canvas': window.canvas});
+		  						 		break;
+		  						 		case "CanvasNoSpace":
+		  						 			window.modal.open('canvasNoSpace', {
+													'text': `The dimensions selected exceed the available space.
+														Would you like to create the biggest possible canvas (width: ${this.maxWidth}, height: ${this.maxHeight})?`});
+		  						 	}
+									});
 
 	  						 //if it can be created, we scroll to the canvas.
 	  						 //but the 3 functions to create a canvas must be rechecked so that they

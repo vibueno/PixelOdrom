@@ -64,11 +64,11 @@ const MODAL_START_UP_TEXT = MODAL_HELP_TEXT + `<p>
 
 const MODAL_PAGE_LEAVE_TEXT = 'Leaving the page will reset the canvas. Do you want to proceed?';
 
-const MODAL_CANVAS_CREATE_NO_SPACE_TITLE = 'Canvas too big';
+const MODAL_CANVAS_NO_SPACE_TITLE = 'Canvas too big';
 
-const MODAL_CANVAS_CREATE_PROPORTIONS_TITLE = 'Invalid proportions';
+const MODAL_CANVAS_PROPORTIONS_TITLE = 'Invalid proportions';
 
-const MODAL_CANVAS_CREATE_PROPORTIONS_TEXT = `The proportions selected are not allowed:
+const MODAL_CANVAS_PROPORTIONS_TEXT = `The proportions selected are not allowed:
 	the max. allowed aspect ratio is 1:${CANVAS_ASPECT_RATIO}.`;
 
 const MODAL_CANVAS_LOAD_TEXT  = 'Are you sure that you want to load a previously saved canvas?';
@@ -108,11 +108,11 @@ const MODAL_CONTENT = {
 		'text': MODAL_PAGE_LEAVE_TEXT},
 	canvasCreate: {
 		'title': MODAL_CONFIRM_TITLE},
-	canvasCreateNoSpace: {
-		'title': MODAL_CANVAS_CREATE_NO_SPACE_TITLE},
-	canvasProportions: {
-		'title': MODAL_CANVAS_CREATE_PROPORTIONS_TITLE,
-		'text': MODAL_CANVAS_CREATE_PROPORTIONS_TEXT},
+	canvasNoSpace: {
+		'title': MODAL_CANVAS_NO_SPACE_TITLE},
+	canvasInvalidProportions: {
+		'title': MODAL_CANVAS_PROPORTIONS_TITLE,
+		'text': MODAL_CANVAS_PROPORTIONS_TEXT},
 	canvasLoad: {
 		'title': MODAL_CONFIRM_TITLE,
 		'text': MODAL_CANVAS_LOAD_TEXT},
@@ -128,7 +128,7 @@ const MODAL_CONTENT = {
 	canvasImport: {
 		'title': MODAL_CANVAS_IMPORT_TITLE,
 		'text': MODAL_CANVAS_IMPORT_TEXT},
-	canvasImportInvalid: {
+	canvasInvalid: {
 		'title': MODAL_CANVAS_INVALID_TITLE,
 		'text': MODAL_CANVAS_INVALID_TEXT},
 	info: {},

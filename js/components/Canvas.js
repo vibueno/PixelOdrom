@@ -11,6 +11,8 @@ import {
 
 import { functions } from '../functions.js';
 
+import { CanvasNoSpace, CanvasInvalidProportions } from './Error.js';
+
 /**
  * @constructor
  * @description Creates a new Canvas object.
@@ -114,24 +116,6 @@ Canvas.prototype.validProportions = function(width, height) {
 };
 
 /**
- * @description Checks whether the canvas with the given dimensions can be created.
- */
-Canvas.prototype.checkCreate = function (width, height) {
-
-	if (width > this.maxWidth || height >  this.maxHeight){
-		this.setVisibility(true);
-
-		window.modal.open('canvasCreateNoSpace', {
-			'text': `The dimensions selected exceed the available space.
-			Would you like to create the biggest possible canvas (width: ${this.maxWidth}, height: ${this.maxHeight})?`});
-	}
-	else
-	{
-		this.createCanvasWrapper(width, height);
-	}
-};
-
-/**
  * @description Creates the canvas.
  *
  * @param  {Array}   canvasSize Width and height of the canvas.
@@ -140,6 +124,15 @@ Canvas.prototype.checkCreate = function (width, height) {
 Canvas.prototype.create = function(width, height){
 
 	return new Promise((resolve) => {
+
+		//Check if the size of the canvas fits the available space
+		if (width > this.maxWidth || height >  this.maxHeight){
+			throw new CanvasNoSpace ();
+		}
+
+		if (!this.validProportions(width, height)) {
+			throw new CanvasInvalidProportions ();
+		}
 
 		this.delete();
 
@@ -226,48 +219,47 @@ Canvas.prototype.reset = function() {
  */
 Canvas.prototype.load = function (input) {
 
-	const FILE = input.files[0];
-  let reader = new FileReader();
+	return new Promise((resolve, reject) => {
 
-  reader.readAsText(FILE);
+		const FILE = input.files[0];
+	  let reader = new FileReader();
 
-  reader.onload = function() {
+	  reader.readAsText(FILE);
 
-  	let readerResult = reader.result;
+	  reader.onload = function() {
 
-  	try {
-			let canvasToImport= $(readerResult);
+	  	let readerResult = reader.result;
 
-	  	if (!functions.isValidCanvas(canvasToImport)){
-	  		window.modal.open('canvasInvalid');
-	  	}
-	  	else {
+				let canvasToImport= $(readerResult);
 
-				const CANVAS_WIDTH = canvasToImport.first().find('.pixel').length;
-				const CANVAS_HEIGHT = canvasToImport.length;
 
-				if (CANVAS_WIDTH > this.maxWidth || CANVAS_HEIGHT >  this.maxHeight) {
-					window.modal.open('canvasImport');
-				}
-				else {
-					this.DOMNode.html(reader.result);
-				}
-			}
-		}
-		catch(e) {
-			let shortErrorMessage = (e.message.length>500)?e.message.substring(0,499)+'...':e.message;
+		  	if (!functions.isValidCanvas(canvasToImport)){
+		  		reject('CanvasInvalid');
+		  	}
+		  	else
+		  	{
+					const CANVAS_WIDTH = canvasToImport.first().find('.pixel').length;
+					const CANVAS_HEIGHT = canvasToImport.length;
 
-			window.modal.open('error', {'text': `There was an error while trying to load the canvas: ${shortErrorMessage}`});
-		}
-  }.bind(this);
+					if (CANVAS_WIDTH > this.maxWidth || CANVAS_HEIGHT >  this.maxHeight) {
+						window.modal.open('canvasImport');
+					}
+					else {
+						this.DOMNode.html(reader.result);
+					}
 
-  reader.onerror = function() {
-  	window.modal.open('error', {'text': `There was an error while trying to load the canvas: ${reader.error}`});
-  };
+				  /* This call is needed in order to make the even onchange fires every time,
+				  even if the users selects the same file again */
+				  $('#btn-load-canvas-input').prop('value', '');
 
-  /* This call is needed in order to make the even onchange fires every time,
-  even if the users selects the same file again */
-  $('#btn-load-canvas-input').prop('value', '');
+					resolve ('canvas loaded');
+		  	}
+			}.bind(this);
+
+	  reader.onerror = function() {
+	  	reject('CanvasLoadError');
+	  };
+	});
 
 };
 
