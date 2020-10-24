@@ -1,4 +1,6 @@
-import { TOOL_BRUSH, DEFAULT_PICKER_COLOR } from '../constants.js';
+import {
+	TOOL_BRUSH,
+	DEFAULT_PICKER_COLOR } from '../constants.js';
 import { functions } from '../functions.js';
 
 import { DrawingTool } from './DrawingTool.js';

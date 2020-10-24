@@ -1,6 +1,9 @@
 
-import { TOOL_BRUSH, TOOL_ERASER,
-				 DEFAULT_PICKER_COLOR, BLANK_PIXEL_COLOR } from '../constants.js';
+import {
+	TOOL_BRUSH,
+	TOOL_ERASER,
+	DEFAULT_PICKER_COLOR,
+	BLANK_PIXEL_COLOR } from '../constants.js';
 
 /**
  * @constructor

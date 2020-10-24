@@ -1,4 +1,6 @@
-import { DEFAULT_PICKER_COLOR, CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT } from '../constants.js';
+import {
+	CANVAS_DEFAULT_WIDTH,
+	CANVAS_DEFAULT_HEIGHT } from '../constants.js';
 
 /**
  * @constructor

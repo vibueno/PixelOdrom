@@ -1,5 +1,3 @@
-import { functions } from '../functions.js';
-
 /**
  * @constructor
  * @description Creates a new Spinner object.

@@ -3,7 +3,14 @@ parseInt($('#input-width').val());
 parseInt($('#input-height').val());
 */
 
-import { CANVAS_TOOLBOX_SELECTOR, TOOL_BRUSH, TOOL_ERASER, CURSOR_COLOR, CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT  } from './constants.js';
+import {
+	CANVAS_TOOLBOX_SELECTOR,
+	TOOL_BRUSH,
+	TOOL_ERASER,
+	CURSOR_COLOR,
+	CANVAS_DEFAULT_WIDTH,
+	CANVAS_DEFAULT_HEIGHT,
+	MODAL_CONTENT} from './constants.js';
 
 import { functions } from './functions.js';
 
@@ -138,7 +145,9 @@ $(function() {
 		const CANVAS_HEIGHT = parseInt($('#input-height').val());
 
 		if (!window.canvas.validProportions(CANVAS_HEIGHT, CANVAS_WIDTH)) {
-			window.modal.open('canvasProportions', {'canvas': window.canvas});
+			window.modal.open('info', {'title': MODAL_CONTENT.canvasProportions.title,
+				'text': MODAL_CONTENT.canvasProportions.text,
+				'canvas': window.canvas});
 		}
 		else
 		{
