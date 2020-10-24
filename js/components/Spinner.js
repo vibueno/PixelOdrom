@@ -22,7 +22,7 @@ Spinner.prototype.show = function () {
 
 		$("body").css("overflow", "hidden");
 
-		functions.setBtnSidebarVisibility();
+		window.sideBar.setVisibility();
 
 		this.isActive = true;
 
@@ -42,7 +42,7 @@ Spinner.prototype.hide = function () {
 
 		$("body").css("overflow", "auto");
 
-		functions.setBtnSidebarVisibility();
+		window.sideBar.setVisibility();
 
 		this.isActive = false;
 

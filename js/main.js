@@ -1,16 +1,19 @@
 /*
-parseInt($("#input-width").val());
-parseInt($("#input-height").val());
+parseInt($('#input-width').val());
+parseInt($('#input-height').val());
 */
 
-import { TOOL_BRUSH, TOOL_ERASER, CURSOR_COLOR } from './constants.js';
+import { TOOL_BRUSH, TOOL_ERASER, CURSOR_COLOR, CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT  } from './constants.js';
 
 import { functions } from './functions.js';
 
+import { CanvasMenu } from './components/CanvasMenu.js';
 import { Canvas } from './components/Canvas.js';
 import { Modal } from './components/Modal.js';
+import { SideBar } from './components/SideBar.js';
 import { Spinner } from './components/Spinner.js';
-import { DrawingTool } from './components/DrawingTool.js';
+import { CanvasToolBox } from './components/CanvasToolBox.js';
+import { CanvasActionBox } from './components/CanvasActionBox.js';
 
 /* In this file we use the expression pixelOdrom pixels to refer of the squares in the table (canvas).
 We do so to avoid confusion with CSS pixels */
@@ -20,15 +23,36 @@ We do so to avoid confusion with CSS pixels */
  */
 $(function() {
 
-	window.canvas = new Canvas();
+	let canvasMenu = new CanvasMenu();
+	let canvasActionBox = new CanvasActionBox();
+	window.sideBar = new SideBar();
+
 	window.modal = new Modal();
 	window.spinner = new Spinner();
-	window.drawingTool = new DrawingTool();
 
-	window.mainDivWidthPx = parseInt($(".main").width());
+	window.canvasToolBox = new CanvasToolBox();
+	window.canvas = new Canvas();
 
-	functions.setUpPixelOdrom();
-	window.canvas.create($("#input-width").prop("defaultValue"), $("#input-height").prop("defaultValue"), false);
+	/******************************************/
+	/*
+	This code may needed in some other places,
+	since it was the function pixelOdrom setup
+
+	Once places where needed, remove from here
+	*/
+	canvasMenu.resetInputFields();
+	window.canvasToolBox.setVisibility(false);
+	canvasActionBox.setVisibility(false);
+	window.sideBar.setVisibility();
+	window.canvas.setVisibility();
+	/******************************************/
+
+
+	window.mainDivWidthPx = parseInt($('.main').width());
+
+	window.canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
+	window.canvasToolBox.setVisibility(true);
+	canvasActionBox.setVisibility(true);
 
 	/**
 	 *
@@ -46,20 +70,20 @@ $(function() {
 	 * @description Sets the visibility of the sidebar on each scroll
 	 */
 	$(document).scroll(function() {
-		functions.setBtnSidebarVisibility();
+		window.sideBar.setVisibility();
 	});
 
 	/**
 	 * @description Sets the visibility of the sidebar on each resize
 	 */
 	$(window).resize(function() {
-		functions.setBtnSidebarVisibility();
+		window.sideBar.setVisibility();
 	});
 
 	/**
 	 * @description Sets the visibility of the sidebar on each resize
 	 */
-	$( "#header" ).click(function() {
+	$( '#header' ).click(function() {
 		functions.goToHomePage();
 	});
 
@@ -72,18 +96,18 @@ $(function() {
 	/**
 	 * @description Creates a canvas if requirements satisfied
 	 */
-	$("#size-picker").submit( function(e) {
+	$('#size-picker').submit( function(e) {
 
-		const CANVAS_WIDTH = parseInt($("#input-width").val());
-		const CANVAS_HEIGHT = parseInt($("#input-height").val());
+		const CANVAS_WIDTH = parseInt($('#input-width').val());
+		const CANVAS_HEIGHT = parseInt($('#input-height').val());
 
 		if (!window.canvas.validProportions(CANVAS_HEIGHT, CANVAS_WIDTH)) {
-			window.modal.open('canvasProportions', {});
+			window.modal.open('canvasProportions');
 		}
 		else
 		{
 			const DIALOG_MSG = `Are you sure that you want to create a new ${CANVAS_WIDTH}x${CANVAS_HEIGHT} canvas?`;
-			window.modal.open('canvasCreate', {"text": DIALOG_MSG, "callbackArgs": {"width": CANVAS_WIDTH, "height": CANVAS_HEIGHT}});
+			window.modal.open('canvasCreate', {'text': DIALOG_MSG, 'callbackArgs': {'width': CANVAS_WIDTH, 'height': CANVAS_HEIGHT}});
 		}
 
 		e.preventDefault();
@@ -93,8 +117,21 @@ $(function() {
 	/**
 	 * @description Shows the load canvas dialog
 	 */
-	$("#btn-load-canvas").click( function() {
-		window.modal.open('canvasLoad', {});
+	canvasMenu.DOMNodeBtnCanvasLoad.click( function() {
+		window.modal.open('canvasLoad');
+
+		/*
+		If load successfull run:
+
+		$('#input-width').val(CANVAS_WIDTH);
+		$('#input-height').val(CANVAS_HEIGHT);
+
+		this.setUp();
+
+		functions.setInputFieldsValues(this.width, this.height);
+		functions.scrollToolboxTop();
+		*/
+
 	});
 
 	/*
@@ -106,25 +143,25 @@ $(function() {
 	/**
 	 * @description Paints or erases pixels
 	 */
-	window.canvas.DOMNode.on("mousedown", "td", function() {
+	window.canvas.DOMNode.on('mousedown', 'td', function() {
 		window.mouseDown=true;
-		window.drawingTool.paintPixel(this);
+		window.canvasToolBox.drawingTool.paintPixel(this);
 	});
 
 	/**
 	 * @description Paints or erases pixels
 	 */
-	window.canvas.DOMNode.on("mouseover", "td", function() {
+	window.canvas.DOMNode.on('mouseover', 'td', function() {
 		if (window.mouseDown){
-			window.drawingTool.paintPixel(this);
+			window.canvasToolBox.drawingTool.paintPixel(this);
 		}
 	});
 
 	/**
 	 * @description Paints or erases pixels
 	 */
-	window.canvas.DOMNode.on("mouseenter", function() {
-		$( this ).awesomeCursor(window.drawingTool.tool, {
+	window.canvas.DOMNode.on('mouseenter', function() {
+		$( this ).awesomeCursor(window.canvasToolBox.drawingTool.tool, {
 			hotspot: [2, 15],
 			color: CURSOR_COLOR
 		});
@@ -139,7 +176,7 @@ $(function() {
 	Beware: since the selector is neither id nor class,
 	this may produce unexpected results if other divs with the same style are used
 	*/
-	window.canvas.DOMNode.on("mouseleave", function() {
+	window.canvas.DOMNode.on('mouseleave', function() {
 		$( this ).css('cursor', '');
 
 		let invisibleDiv = $( 'div[style="position: absolute; left: -9999px; top: -9999px;"]' );
@@ -152,7 +189,7 @@ $(function() {
 
 	/* In this case, we must use the document and not the canvas,
 	because the user may release the mouse outside the canvas */
-	$(document).on("mouseup", function() {
+	$(document).on('mouseup', function() {
 		window.mouseDown=false;
 	});
 
@@ -160,7 +197,7 @@ $(function() {
 	 * @description Prevents dragging on painted pixels,
 	 * which otherwise may behave together like an image
 	 */
-	window.canvas.DOMNode.on("dragstart", function (e) {
+	window.canvas.DOMNode.on('dragstart', function (e) {
 		e.preventDefault();
 	});
 
@@ -170,21 +207,21 @@ $(function() {
 	 *
 	 */
 
-	$("#btn-reset-canvas").click(function() {
+	canvasActionBox.DOMNodeCanvasReset.click(function() {
 		if (window.canvas.isActive){
-			window.modal.open("canvasReset", {});
+			window.modal.open('canvasReset');
 		}
 	});
 
-	$("#btn-save-canvas").click( function(){
+	canvasActionBox.DOMNodeCanvasSave.click( function(){
 		if (window.canvas.isActive){
-			window.modal.open("canvasSave", {});
+			window.modal.open('canvasSave');
 		}
 	});
 
-	$("#btn-export-canvas").click( function(){
+	canvasActionBox.DOMNodeCanvasExport.click( function(){
 		if (window.canvas.isActive){
-			window.modal.open("canvasExport", {});
+			window.modal.open('canvasExport');
 		}
 	});
 
@@ -194,12 +231,12 @@ $(function() {
 	 *
 	 */
 
-	$("#btn-tool-brush").click(function() {
-		window.drawingTool.set(TOOL_BRUSH);
+	window.canvasToolBox.DOMNodeBrush.click(function() {
+		window.canvasToolBox.drawingTool.set(TOOL_BRUSH);
 	});
 
-	$("#btn-tool-eraser").click(function() {
-		window.drawingTool.set(TOOL_ERASER);
+	window.canvasToolBox.DOMNodeEraser.click(function() {
+		window.canvasToolBox.drawingTool.set(TOOL_ERASER);
 	});
 
 	/**
@@ -208,7 +245,7 @@ $(function() {
 	 *
 	 */
 
-	$("#btn-back-to-top").click(function() {
+	window.sideBar.DOMNodeBtnBackToTop.click(function() {
 		if (window.canvas.isActive){
 			functions.scrollToolboxTop();
 		}
@@ -223,22 +260,22 @@ $(function() {
 	 *
 	 */
 
-	$( "#dialog" ).on( "dialogopen",
+	window.modal.DOMNode.on( 'dialogopen',
 		function( ) {
-			functions.setBtnSidebarVisibility();
+			window.sideBar.setVisibility();
 		}
 	);
 
-	$( "#dialog" ).on( "dialogclose",
+	window.modal.DOMNode.on( 'dialogclose',
 		function( ) {
-			functions.setBtnSidebarVisibility();
+			window.sideBar.setVisibility();
 		}
 	);
 
-	$("#dialog").on ("change", "#dialog-start-up-hide",
+	window.modal.DOMNode.on ('change', '#dialog-start-up-hide',
 		function( ) {
 			try {
-				if ($("#dialog-not-show-again").is(":checked")){
+				if ($('#dialog-not-show-again').is(':checked')){
 					localStorage.setItem('dialogStartUpHide', true);
 				}
 				else {
@@ -246,7 +283,7 @@ $(function() {
 				}
 			}
 			catch(e) {
-				window.modal.open('error', {"title": "error", "text": `There was an error trying to access the local storage: ${e.message}`});
+				window.modal.open('error', {'title': 'error', 'text': `There was an error trying to access the local storage: ${e.message}`});
 			}
 		}
 	);
@@ -257,11 +294,11 @@ $(function() {
 	 *
 	 */
 
-	$("#btn-help").click(function() {
-		window.modal.open("help", {});
+	window.sideBar.DOMNodeBtnHelp.click(function() {
+		window.modal.open('help');
 	});
 
 	if (!localStorage.dialogStartUpHide) {
-		window.modal.open("startUp", {});
+		window.modal.open('startUp');
 	}
 });

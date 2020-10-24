@@ -7,8 +7,8 @@ import { functions } from '../functions.js';
  *
  */
 let Modal = function(){
-	this.DOMNode = $( "#dialog" );
-	this.DOMNodeText = $( "#dialog" ).first("p");
+	this.DOMNode = $( '#dialog' );
+	this.DOMNodeText = $( '#dialog' ).first('p');
 	this.title = null;
 	this.buttons = null;
 };
@@ -44,114 +44,118 @@ Modal.prototype.setText = function (text, isHTML) {
  */
 Modal.prototype.open = function (modalType, args) {
 
-	if (args.title===undefined) {
-		this.setTitle(MODAL_CONTENT[modalType].title);
-	}
+	if (args!==undefined){
 
-	if (args.title===undefined) {
-		this.setTitle(MODAL_CONTENT[modalType].title);
-	}
-	else {
-		this.setTitle(args.title);
-	}
+		if (args.title===undefined) {
+			this.setTitle(MODAL_CONTENT[modalType].title);
+		}
+		else {
+			this.setTitle(args.title);
+		}
 
-	if (args.text===undefined){
+		if (args.text===undefined){
+			this.setText(MODAL_CONTENT[modalType].text, true);
+		}
+		else {
+			this.setText(args.text);
+		}
+	}
+	else
+	{
+		this.setTitle(MODAL_CONTENT[modalType].title);
 		this.setText(MODAL_CONTENT[modalType].text, true);
-	}
-	else {
-		this.setText(args.text);
 	}
 
 	switch(modalType) {
 	  case 'help':
-	  	this.buttons = { "Alright!": function () { window.modal.DOMNode.dialog("close");}};
+	  	this.buttons = { 'Alright!': function () { this.DOMNode.dialog('close');}.bind(this)};
 	    break;
 	  case 'startUp':
-			this.buttons = {"Get started!": function () { window.modal.DOMNode.dialog("close");}};
+			this.buttons = {'Get started!': function () { this.DOMNode.dialog('close');}.bind(this)};
 	    break;
 	  case 'pageLeave':
 	  	this.buttons = {
-	  		"Yes": function () {
+	  		'Yes': function () {
 	  					   functions.setUpPixelOdrom();
-	  						 window.modal.DOMNode.dialog("close");
-      				 },
-      	"No":  function () {
-        			 	 window.modal.DOMNode.dialog("close");
-      				 }
+	  						 this.DOMNode.dialog('close');
+      				 }.bind(this),
+      	'No':  function () {
+        			 	 this.DOMNode.dialog('close');
+      				 }.bind(this)
     	};
 	    break;
 	  case 'canvasCreate':
 	  	this.buttons = {
-	  		"Yes": function () {
+	  		'Yes': function () {
 	  						 window.canvas.checkCreate(args.callbackArgs.width, args.callbackArgs.height);
-	  						 window.modal.DOMNode.dialog("close");
-      				 },
-      	"No":  function () {
-        				 window.modal.DOMNode.dialog("close");
-      				 }
+	  						 this.DOMNode.dialog('close');
+      				 }.bind(this),
+      	'No':  function () {
+        				 this.DOMNode.dialog('close');
+      				 }.bind(this)
     	};
 	    break;
 	  case 'canvasCreateNoSpace':
 	  	this.buttons = {
-	  		"Yes": function () {
-	  						 functions.createCanvasWrapper(window.canvas.maxWidth, window.canvas.maxHeight);
-	  						 window.modal.DOMNode.dialog("close");
-      				 },
-      	"No":  function () {
-        				 window.modal.DOMNode.dialog("close");
-      				 }
+	  		'Yes': function () {
+	  						 window.canvas.createCanvasWrapper(window.canvas.maxWidth, window.canvas.maxHeight);
+	  						 this.DOMNode.dialog('close');
+      				 }.bind(this),
+      	'No':  function () {
+        				 this.DOMNode.dialog('close');
+      				 }.bind(this)
     	};
 	    break;
 	  case 'canvasLoad':
 	  	this.buttons = {
-	  		"Yes": function () {
+	  		'Yes': function () {
 	  						 functions.showFileDialog();
-	  						 window.modal.DOMNode.dialog("close");
-      				 },
-      	"No":  function () {
-        				 window.modal.DOMNode.dialog("close");
-      				 }
+	  						 this.DOMNode.dialog('close');
+      				 }.bind(this),
+      	'No':  function () {
+        				 this.DOMNode.dialog('close');
+      				 }.bind(this)
     	};
 	    break;
 	  case 'canvasSave':
 	  	this.buttons = {
-	  		"Yes": function () {
+	  		'Yes': function () {
 	  						 window.canvas.save();
-	  						 window.modal.DOMNode.dialog("close");
-      				 },
-      	"No":  function () {
-        				 window.modal.DOMNode.dialog("close");
-      				 }
+	  						 this.DOMNode.dialog('close');
+      				 }.bind(this),
+      	'No':  function () {
+        				 this.DOMNode.dialog('close');
+      				 }.bind(this)
     	};
 	    break;
 	   case 'canvasReset':
 	  	this.buttons = {
-	  		"Yes": function () {
+	  		'Yes': function () {
 	  					   window.canvas.reset();
-	  					   window.modal.DOMNode.dialog("close");
-      				 },
-      	"No":  function () {
-        				 window.modal.DOMNode.dialog("close");
-      				 }
+	  					   this.DOMNode.dialog('close');
+      				 }.bind(this),
+      	'No':  function () {
+        				 this.DOMNode.dialog('close');
+      				 }.bind(this)
     	};
 	    break;
 	  case 'canvasExport':
 	  	this.buttons = {
-	  		"Yes": function () {
-        				 functions.exportCanvasWrapper();
-        				 window.modal.DOMNode.dialog("close");
-      				 },
-      	"No":  function () {
-        				 window.modal.DOMNode.dialog("close");
-      				 }
+	  		'Yes': function () {
+        				 window.canvas.exportCanvasWrapper();
+        				 this.DOMNode.dialog('close');
+      				 }.bind(this),
+      	'No':  function () {
+        				 this.DOMNode.dialog('close');
+      				 }.bind(this)
     	};
 	    break;
 	  case 'info':
 	  case 'error':
 	  	this.buttons = {
-	  		"OK": function () {
-	  			window.modal.DOMNode.dialog("close");
-	  		}
+	  		'OK': function () {
+	  			this.DOMNode.dialog('close');
+	  		}.bind(this)
 	  	};
 	    break;
 	}
@@ -161,7 +165,7 @@ Modal.prototype.open = function (modalType, args) {
 		title: this.title,
 		buttons: this.buttons,
     resizable: false
-  }).parent().removeClass("ui-state-error");
+  }).parent().removeClass('ui-state-error');
 
 };
 
@@ -175,7 +179,7 @@ Modal.prototype.isOpen = function () {
 	/* We check first whether the dialog has been initialized
 	https://stackoverflow.com/questions/15763909/jquery-ui-dialog-check-if-exists-by-instance-method */
 	if (this.DOMNode.hasClass('ui-dialog-content')) {
-		if (this.DOMNode.dialog("isOpen")) {
+		if (this.DOMNode.dialog('isOpen')) {
 			return true;
 		}
 		else {

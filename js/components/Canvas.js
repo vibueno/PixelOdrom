@@ -54,15 +54,14 @@ Canvas.prototype.setUp = function() {
 
 	}
 
-	window.canvas.DOMNode.css('width', (canvasCSSWidth+'%'));
-	window.canvas.width = canvasCSSWidth;
+	this.DOMNode.css('width', (canvasCSSWidth+'%'));
+	this.width = canvasCSSWidth;
 
 	this.pixelSetUp(MAX_CANVAS_WIDTH_PX);
 
-	functions.showToolbox(true);
-	functions.showActionbox(true);
-	window.drawingTool.set(TOOL_BRUSH);
-	window.canvas.setVisibility(true);
+	//remove
+	window.canvasToolBox.drawingTool.set(TOOL_BRUSH);
+	this.setVisibility(true);
 
 };
 
@@ -116,7 +115,7 @@ Canvas.prototype.validProportions = function(width, height) {
 Canvas.prototype.checkCreate = function (width, height) {
 
 	if (width > this.maxWidth || height >  this.maxHeight){
-		window.canvas.setVisibility(true);
+		this.setVisibility(true);
 
 		window.modal.open('canvasCreateNoSpace', {
 			'text': `The dimensions selected exceed the available space.
@@ -124,7 +123,7 @@ Canvas.prototype.checkCreate = function (width, height) {
 	}
 	else
 	{
-		functions.createCanvasWrapper(width, height);
+		this.createCanvasWrapper(width, height);
 	}
 };
 
@@ -138,10 +137,10 @@ Canvas.prototype.create = function(width, height, scrollToCanvas=true){
 
 	return new Promise((resolve) => {
 
-		window.canvas.delete();
+		this.delete();
 
 		for (let i=1; i<=height; i++){
-			window.canvas.DOMNode.append(ROW);
+			this.DOMNode.append(ROW);
 			let lastRow = $(PIXEL_CANVAS_SEL + ' tr').last();
 
 			for (let j=1; j<=width; j++){
@@ -160,6 +159,30 @@ Canvas.prototype.create = function(width, height, scrollToCanvas=true){
 };
 
 /**
+ * @description Wrapper for the create function.
+ *
+ * @param  {Array} canvasSize Width and height of the canvas.
+ */
+Canvas.prototype.createCanvasWrapper = function (width, height) {
+
+	/* It calls the functions sequentially by using promises
+  This is needed for showing the spinner for the amount time
+  pixelOdrom needs to create the canvas
+
+	We need the delay call, because otherwise the Spin is not shown */
+
+  if (width*height>1000) {
+		window.spinner.show().
+			then(functions.delay.bind(1000)).
+			then(window.canvas.create.bind(null, {width, height})).
+			then(window.spinner.hide());
+	}
+	else {
+		window.canvas.create(width, height);
+	}
+};
+
+/**
  * @description Set ups the pixelOdrom pixels in the canvas.
  *
  * @param  {Number} maxCanvasWidthPx maximal width of the canvas in CSS pixels.
@@ -173,8 +196,8 @@ Canvas.prototype.pixelSetUp = function() {
 	let padding = pixelWidth;
 	padding = padding - padding*PIXEL_PADDING_CORRECTION;
 
-	window.canvas.DOMNode.find('.pixel').width(pixelWidth+'%');
-	window.canvas.DOMNode.find('.pixel').css('padding-bottom', padding+'%');
+	this.DOMNode.find('.pixel').width(pixelWidth+'%');
+	this.DOMNode.find('.pixel').css('padding-bottom', padding+'%');
 
 };
 
@@ -224,17 +247,11 @@ Canvas.prototype.load = function (input) {
 				const CANVAS_WIDTH = canvasToImport.first().find('.pixel').length;
 				const CANVAS_HEIGHT = canvasToImport.length;
 
-				if (CANVAS_WIDTH > window.canvas.maxWidth || CANVAS_HEIGHT >  window.canvas.maxHeight) {
+				if (CANVAS_WIDTH > this.maxWidth || CANVAS_HEIGHT >  this.maxHeight) {
 					window.modal.open('canvasImport');
 				}
 				else {
-					window.canvas.DOMNode.html(reader.result);
-					$('#input-width').val(CANVAS_WIDTH);
-					$('#input-height').val(CANVAS_HEIGHT);
-
-					window.canvas.setUp(CANVAS_WIDTH, CANVAS_HEIGHT);
-					functions.setInputFieldValues(window.canvas.width, window.canvas.height);
-					functions.scrollToolboxTop();
+					this.DOMNode.html(reader.result);
 				}
 			}
 		}
@@ -243,15 +260,14 @@ Canvas.prototype.load = function (input) {
 
 			window.modal.open('error', {'text': `There was an error while trying to load the canvas: ${shortErrorMessage}`});
 		}
-  };
+  }.bind(this);
 
   reader.onerror = function() {
   	window.modal.open('error', {'text': `There was an error while trying to load the canvas: ${reader.error}`});
   };
 
-  /* This call is needed in order to make the even onchange fire every time,
+  /* This call is needed in order to make the even onchange fires every time,
   even if the users selects the same file again */
-
   $('#btn-load-canvas-input').prop('value', '');
 
 };
@@ -262,7 +278,7 @@ Canvas.prototype.load = function (input) {
 Canvas.prototype.save = function() {
 
 	//We need to clone the canvas, so that we don't modify the DOM
-	const CANVAS_TO_SAVE = window.canvas.DOMNode.clone();
+	const CANVAS_TO_SAVE = this.DOMNode.clone();
 
 	//removing styles since they should be calculated when loading
 	CANVAS_TO_SAVE.find('.pixel').css('width', '');
@@ -306,6 +322,21 @@ Canvas.prototype.export = function() {
 
 		});
 	});
+};
+
+
+/**
+ * @description Wrapper for the export function.
+ */
+Canvas.prototype.exportCanvasWrapper =  function () {
+
+	/* It calls the functions sequentially by using promises
+  This is needed for showing the spinner for the amount time
+  pixelOdrom needs to export the canvas */
+
+	window.spinner.show().
+		then(window.canvas.export()).
+		then(window.spinner.hide());
 };
 
 export { Canvas };
