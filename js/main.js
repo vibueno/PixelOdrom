@@ -36,15 +36,22 @@ $(function() {
 	 *
 	 */
 
+	let resetPixelOdrom = function (){
+		window.canvas.delete();
+		window.canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
+		window.canvas.setUp();
+		window.canvas.setVisibility(true);
+		setSideBarVisibility();
+		canvasToolBox.setVisibility(true);
+		canvasActionBox.setVisibility(true);
+	};
+
 	/**
    * @description Navigates to an empty page with no canvas.
    */
  	let goToHomePage = function () {
 		if (window.canvas.isActive) {
-			window.modal.open('pageLeave');
-		}
-		else{
-			setUpPixelOdrom();
+			window.modal.open('pageLeave').then(answer_yes => {if (answer_yes) resetPixelOdrom()});
 		}
 	};
 
@@ -97,22 +104,12 @@ $(function() {
 	window.modal = new Modal();
 	window.spinner = new Spinner();
 	window.canvas = new Canvas();
-
-	window.canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
-
-	window.canvas.setUp();
-
-	window.canvas.setVisibility(true);
-
 	let canvasMenu = new CanvasMenu();
 	let canvasToolBox = new CanvasToolBox();
 	let canvasActionBox = new CanvasActionBox();
 	let sideBar = new SideBar();
 
-	setSideBarVisibility();
-
-	canvasToolBox.setVisibility(true);
-	canvasActionBox.setVisibility(true);
+	resetPixelOdrom();
 
 	/**
 	 *
