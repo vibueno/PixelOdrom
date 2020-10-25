@@ -2,7 +2,19 @@
  * @module constants
  */
 
-const CANVAS_SELECTOR = '#pixel-canvas';
+/**
+ *
+ * Application
+ *
+ */
+
+const CURSOR_COLOR = '#888888';
+
+/**
+ *
+ * Canvas Toolbox
+ *
+ */
 
 const CANVAS_TOOLBOX_SELECTOR = $ ( '#tool-box' );
 
@@ -12,49 +24,57 @@ const TOOL_ERASER = 'eraser';
 const BLANK_PIXEL_COLOR = '#fff';
 const DEFAULT_PICKER_COLOR = '#000';
 
+/**
+ *
+ * Canvas
+ *
+ */
+
+const CANVAS_SELECTOR = '#pixel-canvas';
+
 const CANVAS_ASPECT_RATIO = 1.5;
 
 /* Since canvas can be resized and we are using % for the sizes,
 these pixel limits are only used for calculating the % of the main
 div that the canvas will take, so that pixels don't get too big or too small */
 
-const MIN_PIXEL_SIZE = 10; //in CSS pixels
-const MAX_PIXEL_SIZE = 15; //in CSS pixels
+const CANVAS_MIN_PIXEL_SIZE = 10; //in CSS pixels
+const CANVAS_MAX_PIXEL_SIZE = 15; //in CSS pixels
 
 const CANVAS_DEFAULT_WIDTH = 10;
 const CANVAS_DEFAULT_HEIGHT = 10;
 
-const MAX_CANVAS_WIDTH_PO = 100; //in pixelOdrom pixels
+const CANVAS_MAX_WIDTH_PO = 100; //in pixelOdrom pixels
 
-const PIXEL_PADDING_CORRECTION = 0.1;
+const CANVAS_PIXEL_PADDING_CORRECTION = 0.1;
 
-const CURSOR_COLOR = '#888888';
-
-const ROW = '<tr></tr>';
-const COLUMN = "<td class='pixel'></td>";
-
-const TOOL_BRUSH_HTML = "<i class='fa fa-paint-brush'></i>";
-const TOOL_ERASER_HTML = "<i class='fa fa-eraser'></i>";
-const CREATE_CANVAS_HTML = "<i class='fa fa-th'></i>";
-const SAVE_CANVAS_HTML = "<i class='fa fa-floppy-o'></i>";
-const EXPORT_CANVAS_HTML = "<i class='fa fa-image'></i>";
-const OPEN_CANVAS_HTML = "<i class='fa fa-folder-open'></i>";
+const CANVAS_ROW_HTML = '<tr></tr>';
+const CANVAS_COLUMN_HTML = "<td class='pixel'></td>";
 
 /**
  *
- * Dialog constants
+ * Modal
  *
  */
 
+const MODAL_CANVAS_CREATE_ICON_HTML = "<i class='fa fa-th'></i>";
+const MODAL_CANVAS_OPEN_ICON_HTML = "<i class='fa fa-folder-open'></i>";
+
+const MODAL_TOOL_BRUSH_ICON_HTML = "<i class='fa fa-paint-brush'></i>";
+const MODAL_TOOL_ERASER_ICON_HTML = "<i class='fa fa-eraser'></i>";
+
+const MODAL_CANVAS_SAVE_ICON_HTML = "<i class='fa fa-floppy-o'></i>";
+const MODAL_CANVAS_EXPORT_ICON_HTML = "<i class='fa fa-image'></i>";
+
 const MODAL_HELP_TEXT = `<p class = 'dialog-text-intro'>pixelOdrom is a web tool for drawing pixel art.</p>
 	<ul class='dialog-list'>
-	<li class='dialog-list-element'>Create a new canvas &nbsp;${CREATE_CANVAS_HTML} or open an existing one &nbsp;${OPEN_CANVAS_HTML}</li>
-	<li class='dialog-list-element'>Choose a color with the picker and use the &nbsp;${TOOL_BRUSH_HTML} for painting pixels.
+	<li class='dialog-list-element'>Create a new canvas &nbsp;${MODAL_CANVAS_CREATE_ICON_HTML} or open an existing one &nbsp;${MODAL_CANVAS_OPEN_ICON_HTML}</li>
+	<li class='dialog-list-element'>Choose a color with the picker and use the &nbsp;${MODAL_TOOL_BRUSH_ICON_HTML} for painting pixels.
 	<p class='dialog-list-text-below'>If you are using a mouse, you can also draw pixel lines.</p></li>
-	<li class='dialog-list-element'>By using the &nbsp;${TOOL_ERASER_HTML}, you can erase pixels.
+	<li class='dialog-list-element'>By using the &nbsp;${MODAL_TOOL_ERASER_ICON_HTML}, you can erase pixels.
 	<p class='dialog-list-text-below'>If you are using a mouse, you can also erase multiple pixels in one stroke</p></li>
-	<li class='dialog-list-element'>Click on &nbsp;${SAVE_CANVAS_HTML} to save your canvas to a local pixelOdrom file (*.pix) to continue your work later (note that every time you save the canvas, a new file will be created)</li>
-	<li class='dialog-list-element'>Click on &nbsp;${EXPORT_CANVAS_HTML} to export your canvas as an image</li>
+	<li class='dialog-list-element'>Click on &nbsp;${MODAL_CANVAS_SAVE_ICON_HTML} to save your canvas to a local pixelOdrom file (*.pix) to continue your work later (note that every time you save the canvas, a new file will be created)</li>
+	<li class='dialog-list-element'>Click on &nbsp;${MODAL_CANVAS_EXPORT_ICON_HTML} to export your canvas as an image</li>
 	</ul>`;
 
 const MODAL_START_UP_TEXT = MODAL_HELP_TEXT + `<p>
@@ -64,11 +84,16 @@ const MODAL_START_UP_TEXT = MODAL_HELP_TEXT + `<p>
 
 const MODAL_PAGE_LEAVE_TEXT = 'Leaving the page will reset the canvas. Do you want to proceed?';
 
+/**
+ *
+ * Modal -> Canvas
+ *
+ */
+
 const MODAL_CANVAS_NO_SPACE_TITLE = 'Canvas too big';
 
-const MODAL_CANVAS_PROPORTIONS_TITLE = 'Invalid proportions';
-
-const MODAL_CANVAS_PROPORTIONS_TEXT = `The proportions selected are not allowed:
+const MODAL_CANVAS_INVALID_PROP_TITLE = 'Invalid proportions';
+const MODAL_CANVAS_INVALID_PROP_TEXT = `The proportions selected are not allowed:
 	the max. allowed aspect ratio is 1:${CANVAS_ASPECT_RATIO}.`;
 
 const MODAL_CANVAS_LOAD_TEXT  = 'Are you sure that you want to load a previously saved canvas?';
@@ -82,15 +107,13 @@ const MODAL_CANVAS_EXPORT_TEXT = `<p class = 'dialog-text'>You are about to save
 	<p class = 'dialog-text'>If your canvas is big, this process may take a couple of seconds to complete.</p>
 	<p class = 'dialog-text'>Would you like to export this canvas now?</p>`;
 
-const MODAL_CANVAS_IMPORT_TITLE = 'Canvas too big';
-
-const MODAL_CANVAS_IMPORT_TEXT = `The selected canvas is too big for the available space.
+const MODAL_CANVAS_TOO_BIG_TITLE = 'Canvas too big';
+const MODAL_CANVAS_TOO_BIG_TEXT = `The selected canvas is too big for the available space.
 	If you created this canvas on another device, please make sure you use a similar one
 	to edit it.`;
 
-const MODAL_CANVAS_INVALID_TITLE = 'Wrong format';
-
-const MODAL_CANVAS_INVALID_TEXT = 'The selected file does not contain a valid canvas.';
+const MODAL_CANVAS_WRONG_FORMAT_TITLE = 'Wrong format';
+const MODAL_CANVAS_WRONG_FORMAT_TEXT = 'The selected file does not contain a valid canvas.';
 
 const MODAL_CONFIRM_TITLE = 'Confirm';
 
@@ -111,8 +134,8 @@ const MODAL_CONTENT = {
 	canvasNoSpace: {
 		'title': MODAL_CANVAS_NO_SPACE_TITLE},
 	canvasInvalidProportions: {
-		'title': MODAL_CANVAS_PROPORTIONS_TITLE,
-		'text': MODAL_CANVAS_PROPORTIONS_TEXT},
+		'title': MODAL_CANVAS_INVALID_PROP_TITLE,
+		'text': MODAL_CANVAS_INVALID_PROP_TEXT},
 	canvasLoad: {
 		'title': MODAL_CONFIRM_TITLE,
 		'text': MODAL_CANVAS_LOAD_TEXT},
@@ -125,38 +148,33 @@ const MODAL_CONTENT = {
 	canvasExport: {
 		'title': MODAL_CONFIRM_TITLE,
 		'text': MODAL_CANVAS_EXPORT_TEXT},
-	canvasImport: {
-		'title': MODAL_CANVAS_IMPORT_TITLE,
-		'text': MODAL_CANVAS_IMPORT_TEXT},
-	canvasInvalid: {
-		'title': MODAL_CANVAS_INVALID_TITLE,
-		'text': MODAL_CANVAS_INVALID_TEXT},
+	canvasTooBig: {
+		'title': MODAL_CANVAS_TOO_BIG_TITLE,
+		'text': MODAL_CANVAS_TOO_BIG_TEXT},
+	canvasWrongFormat: {
+		'title': MODAL_CANVAS_WRONG_FORMAT_TITLE,
+		'text': MODAL_CANVAS_WRONG_FORMAT_TEXT},
 	info: {},
 	error: {
 		'title': MODAL_ERROR_TITLE}
 	};
 
 export {
-	CANVAS_SELECTOR,
+	CURSOR_COLOR,
 	CANVAS_TOOLBOX_SELECTOR,
 	TOOL_BRUSH,
 	TOOL_ERASER,
 	BLANK_PIXEL_COLOR,
 	DEFAULT_PICKER_COLOR,
+	CANVAS_SELECTOR,
 	CANVAS_ASPECT_RATIO,
-	MIN_PIXEL_SIZE,
-	MAX_PIXEL_SIZE,
+	CANVAS_MIN_PIXEL_SIZE,
+	CANVAS_MAX_PIXEL_SIZE,
 	CANVAS_DEFAULT_WIDTH,
 	CANVAS_DEFAULT_HEIGHT,
-	MAX_CANVAS_WIDTH_PO,
-	PIXEL_PADDING_CORRECTION,
-	CURSOR_COLOR,
-	ROW,
-	COLUMN,
-	TOOL_BRUSH_HTML,
-	TOOL_ERASER_HTML,
-	CREATE_CANVAS_HTML,
-	SAVE_CANVAS_HTML,
-	EXPORT_CANVAS_HTML,
-	OPEN_CANVAS_HTML,
-	MODAL_CONTENT };
+	CANVAS_MAX_WIDTH_PO,
+	CANVAS_PIXEL_PADDING_CORRECTION,
+	CANVAS_ROW_HTML,
+	CANVAS_COLUMN_HTML,
+	MODAL_CONTENT
+};

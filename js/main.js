@@ -4,23 +4,23 @@ window.modal.open('error', {'text': `There was an error while trying to load the
 */
 
 import {
+	CURSOR_COLOR,
 	CANVAS_TOOLBOX_SELECTOR,
 	TOOL_BRUSH,
 	TOOL_ERASER,
-	CURSOR_COLOR,
 	CANVAS_DEFAULT_WIDTH,
 	CANVAS_DEFAULT_HEIGHT,
 	MODAL_CONTENT} from './constants.js';
 
 import { functions } from './functions.js';
 
-import { CanvasMenu } from './components/CanvasMenu.js';
 import { Canvas } from './components/Canvas.js';
+import { CanvasActionBox } from './components/CanvasActionBox.js';
+import { CanvasMenu } from './components/CanvasMenu.js';
+import { CanvasToolBox } from './components/CanvasToolBox.js';
 import { Modal } from './components/Modal.js';
 import { SideBar } from './components/SideBar.js';
 import { Spinner } from './components/Spinner.js';
-import { CanvasToolBox } from './components/CanvasToolBox.js';
-import { CanvasActionBox } from './components/CanvasActionBox.js';
 
 /* In this file we use the expression pixelOdrom pixels to refer of the squares in the table (canvas).
 We do so to avoid confusion with CSS pixels */
@@ -74,9 +74,9 @@ $(function() {
 		window.canvas.load(file)
 		.catch(err => {
 		 	switch(err){
-		 		case "CanvasInvalid":
-					window.modal.open('error', {'title': MODAL_CONTENT.canvasInvalid.title,
-						'text': MODAL_CONTENT.canvasInvalid.text});
+		 		case "CanvasWrongFormat":
+					window.modal.open('error', {'title': MODAL_CONTENT.canvasWrongFormat.title,
+						'text': MODAL_CONTENT.canvasWrongFormat.text});
 		 		break;
 		 		default:
 		 			//TODO: Create constants for this error
@@ -84,7 +84,7 @@ $(function() {
 		 	}
 		});
 
-	}
+	};
 
 	/*
 	 *

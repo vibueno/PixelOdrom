@@ -1,13 +1,14 @@
 import {
-	MIN_PIXEL_SIZE,
-	MAX_CANVAS_WIDTH_PO,
-	CANVAS_ASPECT_RATIO,
+	BLANK_PIXEL_COLOR,
 	CANVAS_SELECTOR,
-	ROW,
-	COLUMN,
-	MAX_PIXEL_SIZE,
-	PIXEL_PADDING_CORRECTION,
-	BLANK_PIXEL_COLOR } from '../constants.js';
+	CANVAS_ASPECT_RATIO,
+	CANVAS_MIN_PIXEL_SIZE,
+	CANVAS_MAX_PIXEL_SIZE,
+	CANVAS_MAX_WIDTH_PO,
+	CANVAS_PIXEL_PADDING_CORRECTION,
+	CANVAS_ROW_HTML,
+	CANVAS_COLUMN_HTML,
+	} from '../constants.js';
 
 import { functions } from '../functions.js';
 
@@ -25,7 +26,7 @@ let Canvas = function(width, height){
 	this.DOMNode = $ ( CANVAS_SELECTOR );
 	this.width = width;
 	this.height = height;
-	this.maxWidthPx = Math.min(Math.floor(window.mainDivWidthPx/MIN_PIXEL_SIZE), MAX_CANVAS_WIDTH_PO);
+	this.maxWidthPx = Math.min(Math.floor(window.mainDivWidthPx/CANVAS_MIN_PIXEL_SIZE), CANVAS_MAX_WIDTH_PO);
 	this.maxHeightPx = Math.floor(this.maxWidth*CANVAS_ASPECT_RATIO);
 	this.isActive = false;
 };
@@ -42,8 +43,8 @@ Canvas.prototype.setUp = function() {
 	let pixelBorderSize = $('.pixel').css('border-left-width');
 	pixelBorderSize = (typeof myVar === 'undefined')? 0: functions.CSSPixelToNumber(pixelBorderSize);
 
-	const TOTAL_BORDER_SIZE = pixelBorderSize * this.height;
-	const MAX_CANVAS_WIDTH_PX = window.mainDivWidthPx-TOTAL_BORDER_SIZE;
+	const CANVAS_TOTAL_BORDER_SIZE = pixelBorderSize * this.height;
+	const CANVAS_MAX_WIDTH_PX = window.mainDivWidthPx-CANVAS_TOTAL_BORDER_SIZE;
 
 	/* Here we calculate the % of the space available that we will use for the canvas,
 	so that the pixels have a reasonable size.
@@ -54,9 +55,9 @@ Canvas.prototype.setUp = function() {
 	for (let i=100;i>=1;i-=1) {
 
 		canvasCSSWidth = i;
-		pixelSize = ((MAX_CANVAS_WIDTH_PX / 100) * i) / this.width;
+		pixelSize = ((CANVAS_MAX_WIDTH_PX / 100) * i) / this.width;
 
-		if ((((MAX_CANVAS_WIDTH_PX / 100) * i) / this.width)<=MAX_PIXEL_SIZE) {
+		if ((((CANVAS_MAX_WIDTH_PX / 100) * i) / this.width)<=CANVAS_MAX_PIXEL_SIZE) {
 			break;
 		}
 
@@ -65,7 +66,7 @@ Canvas.prototype.setUp = function() {
 	this.DOMNode.css('width', (canvasCSSWidth+'%'));
 	this.width = canvasCSSWidth;
 
-	this.pixelSetUp(MAX_CANVAS_WIDTH_PX);
+	this.pixelSetUp(CANVAS_MAX_WIDTH_PX);
 
 	this.setVisibility(true);
 
@@ -137,11 +138,11 @@ Canvas.prototype.create = function(width, height){
 		this.delete();
 
 		for (let i=1; i<=height; i++){
-			this.DOMNode.append(ROW);
+			this.DOMNode.append(CANVAS_ROW_HTML);
 			let lastRow = $(CANVAS_SELECTOR + ' tr').last();
 
 			for (let j=1; j<=width; j++){
-				lastRow.append(COLUMN);
+				lastRow.append(CANVAS_COLUMN_HTML);
 			}
 		}
 
@@ -182,12 +183,12 @@ Canvas.prototype.createCanvasWrapper = function (width, height) {
  */
 Canvas.prototype.pixelSetUp = function() {
 
-	const MAX_CANVAS_WIDTH_PERCENT = (this.maxWidthPx/window.mainDivWidthPx)*100;
+	const CANVAS_MAX_WIDTH_PERCENT = (this.maxWidthPx/window.mainDivWidthPx)*100;
 
-	let pixelWidth = MAX_CANVAS_WIDTH_PERCENT/this.width;
+	let pixelWidth = CANVAS_MAX_WIDTH_PERCENT/this.width;
 
 	let padding = pixelWidth;
-	padding = padding - padding*PIXEL_PADDING_CORRECTION;
+	padding = padding - padding*CANVAS_PIXEL_PADDING_CORRECTION;
 
 	this.DOMNode.find('.pixel').width(pixelWidth+'%');
 	this.DOMNode.find('.pixel').css('padding-bottom', padding+'%');
@@ -232,9 +233,8 @@ Canvas.prototype.load = function (input) {
 
 				let canvasToImport= $(readerResult);
 
-
 		  	if (!functions.isValidCanvas(canvasToImport)){
-		  		reject('CanvasInvalid');
+		  		reject('CanvasWrongFormat');
 		  	}
 		  	else
 		  	{

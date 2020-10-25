@@ -1,6 +1,7 @@
 import {
-	MODAL_CONTENT,
-	CANVAS_TOOLBOX_SELECTOR } from '../constants.js';
+	CANVAS_TOOLBOX_SELECTOR
+	MODAL_CONTENT } from '../constants.js';
+
 import { functions } from '../functions.js';
 
 /**
