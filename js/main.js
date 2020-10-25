@@ -36,6 +36,10 @@ $(function() {
 	 *
 	 */
 
+	/**
+	 * @description Resets PixelOdrom to all default values and visibilities
+	 */
+
 	let resetPixelOdrom = function (){
 		window.canvas.delete();
 		window.canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
@@ -77,6 +81,10 @@ $(function() {
 		}
 	};
 
+	/**
+	 * @description Handles the click even on the header when called from index.html
+	 */
+
 	window.btnLoadCanvasClick = function (file){
 		window.canvas.load(file)
 		.catch(err => {
@@ -90,7 +98,6 @@ $(function() {
 					window.modal.open('error', { 'text': 'Error loading canvas.'});
 		 	}
 		});
-
 	};
 
 	/*
