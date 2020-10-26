@@ -55,7 +55,9 @@ $(function() {
    */
  	let goToHomePage = function () {
 		if (window.canvas.isActive) {
-			window.modal.open('pageLeave').then(answer_yes => {if (answer_yes) resetPixelOdrom()});
+			window.modal.open('pageLeave', 'yesNo')
+			.then(
+				answer_yes => {if (answer_yes) resetPixelOdrom()});
 		}
 	};
 
@@ -90,12 +92,12 @@ $(function() {
 		.catch(err => {
 		 	switch(err){
 		 		case "CanvasWrongFormat":
-					window.modal.open('error', {'title': MODAL_CONTENT.canvasWrongFormat.title,
+					window.modal.open('error', 'OK', {'title': MODAL_CONTENT.canvasWrongFormat.title,
 						'text': MODAL_CONTENT.canvasWrongFormat.text});
 		 		break;
 		 		default:
 		 			//TODO: Create constants for this error
-					window.modal.open('error', { 'text': 'Error loading canvas.'});
+					window.modal.open('error', 'OK', { 'text': 'Error loading canvas.'});
 		 	}
 		});
 	};
@@ -166,7 +168,7 @@ $(function() {
 		const CANVAS_HEIGHT = parseInt($('#input-height').val());
 
 		const DIALOG_MSG = `Are you sure that you want to create a new ${CANVAS_WIDTH}x${CANVAS_HEIGHT} canvas?`;
-		window.modal.open('canvasCreate', {'text': DIALOG_MSG, 'canvas': window.canvas, 'callbackArgs': {'width': CANVAS_WIDTH, 'height': CANVAS_HEIGHT}});
+		window.modal.open('canvasCreate', 'yesNo', {'text': DIALOG_MSG, 'canvas': window.canvas, 'callbackArgs': {'width': CANVAS_WIDTH, 'height': CANVAS_HEIGHT}});
 
 		e.preventDefault();
 
@@ -176,7 +178,7 @@ $(function() {
 	 * @description Shows the load canvas dialog
 	 */
 	canvasMenu.DOMNodeBtnCanvasLoad.click( function() {
-		window.modal.open('canvasLoad', {'canvas': window.canvas});
+		window.modal.open('canvasLoad', 'yesNo', {'canvas': window.canvas});
 
 		/*
 		If load successful run:
@@ -267,19 +269,19 @@ $(function() {
 
 	canvasActionBox.DOMNodeCanvasReset.click(function() {
 		if (window.canvas.isActive){
-			window.modal.open('canvasReset', {'canvas': window.canvas});
+			window.modal.open('canvasReset', 'yesNo', {'canvas': window.canvas});
 		}
 	});
 
 	canvasActionBox.DOMNodeCanvasSave.click( function(){
 		if (window.canvas.isActive){
-			window.modal.open('canvasSave', {'canvas': window.canvas});
+			window.modal.open('canvasSave', 'yesNo', {'canvas': window.canvas});
 		}
 	});
 
 	canvasActionBox.DOMNodeCanvasExport.click( function(){
 		if (window.canvas.isActive){
-			window.modal.open('canvasExport', {'canvas': window.canvas});
+			window.modal.open('canvasExport', 'yesNo', {'canvas': window.canvas});
 		}
 	});
 
@@ -341,7 +343,7 @@ $(function() {
 				}
 			}
 			catch(e) {
-				window.modal.open('error', {'title': 'error', 'text': `There was an error trying to access the local storage: ${e.message}`});
+				window.modal.open('error', 'OK', {'title': 'error', 'text': `There was an error trying to access the local storage: ${e.message}`});
 			}
 		}
 	);
@@ -353,10 +355,10 @@ $(function() {
 	 */
 
 	sideBar.DOMNodeBtnHelp.click(function() {
-		window.modal.open('help');
+		window.modal.open('help', 'OK', {'button1Label': 'Alright!'});
 	});
 
 	if (!localStorage.dialogStartUpHide) {
-		window.modal.open('startUp');
+		window.modal.open('startUp', 'OK', {'button1Label': 'Get started!'});
 	}
 });
