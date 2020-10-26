@@ -47,7 +47,7 @@ CanvasToolBox.prototype.initColorPicker = function (newColor) {
 
   this.drawingTool.color = newColor;
 
-  $('#color-picker').spectrum({
+  $( CANVAS_TOOLBOX_COLOR_PICKER ).spectrum({
     color: newColor,
     replacerClassName: 'btn-color-picker',
     change: function(color) {

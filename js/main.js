@@ -7,15 +7,20 @@ import {
   HEADER,
   MAIN,
   CURSOR_COLOR,
+  CURSOR_INVISIBLE_DIV,
   SPINNER,
   CANVAS_MENU_FORM,
+  CANVAS_MENU_INPUT_WIDTH,
+  CANVAS_MENU_INPUT_HEIGHT,
   CANVAS_MENU_LOAD_INPUT,
   CANVAS_TOOLBOX,
   TOOL_BRUSH,
   TOOL_ERASER,
   CANVAS_DEFAULT_WIDTH,
   CANVAS_DEFAULT_HEIGHT,
-  MODAL_CONTENT} from './constants.js';
+  MODAL_CONTENT,
+  MODAL_HELP_BUTTON_TEXT,
+  MODAL_START_UP_BUTTON_TEXT} from './constants.js';
 
 import { functions } from './functions.js';
 
@@ -98,12 +103,10 @@ $(function() {
     .catch(err => {
       switch(err){
        case "CanvasWrongFormat":
-       modal.open('error', 'OK', {'title': MODAL_CONTENT.canvasWrongFormat.title,
-        'text': MODAL_CONTENT.canvasWrongFormat.text});
+       modal.open('canvasWrongFormat', 'OK');
        break;
        default:
-		 			//TODO: Create constants for this error
-         modal.open('error', 'OK', { 'text': 'Error loading canvas.'});
+         modal.open('canvasLoadError', 'OK');
        }
      });
   };
@@ -129,7 +132,7 @@ $(function() {
   resetPixelOdrom();
 
   if (!localStorage.dialogStartUpHide) {
-    modal.open('startUp', 'OK', {'button1Label': 'Get started!'});
+    modal.open('startUp', 'OK', {'button1Label': MODAL_START_UP_BUTTON_TEXT});
   }
 
   /**
@@ -179,15 +182,15 @@ $(function() {
    */
   $ ( CANVAS_MENU_FORM ).submit( function(e) {
 
-    const CANVAS_WIDTH = parseInt($('#input-width').val());
-    const CANVAS_HEIGHT = parseInt($('#input-height').val());
+    const CANVAS_WIDTH = parseInt($( CANVAS_MENU_INPUT_WIDTH ).val());
+    const CANVAS_HEIGHT = parseInt($( CANVAS_MENU_INPUT_HEIGHT ).val());
 
     const DIALOG_MSG = `Are you sure that you want to create a new ${CANVAS_WIDTH}x${CANVAS_HEIGHT} canvas?`;
 
     //TODO: spinner
     modal.open('canvasCreate', 'yesNo', {'text': DIALOG_MSG})
     .then(
-    	answer_yes => {if (answer_yes) canvas.create(CANVAS_WIDTH, CANVAS_HEIGHT)()});
+    	answer_yes => {if (answer_yes) canvas.create(CANVAS_WIDTH, CANVAS_HEIGHT)});
 
     e.preventDefault();
 
@@ -265,7 +268,7 @@ $(function() {
   canvas.DOMNode.on('mouseleave', function() {
     $( this ).css('cursor', '');
 
-    let invisibleDiv = $( 'div[style="position: absolute; left: -9999px; top: -9999px;"]' );
+    let invisibleDiv = $( CURSOR_INVISIBLE_DIV );
     invisibleDiv.remove();
   });
 
@@ -422,6 +425,6 @@ $(function() {
    * @description click event of the button Help
    */
   sideBar.DOMNodeBtnHelp.click(function() {
-    modal.open('help', 'OK', {'button1Label': 'Alright!'});
+    modal.open('help', 'OK', {'button1Label': MODAL_HELP_BUTTON_TEXT});
   });
 });

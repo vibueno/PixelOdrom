@@ -12,6 +12,7 @@ const HEADER = '#header';
 const MAIN = '.main';
 
 const CURSOR_COLOR = '#888888';
+const CURSOR_INVISIBLE_DIV = 'div[style="position: absolute; left: -9999px; top: -9999px;"]';
 
 /*
  *
@@ -136,10 +137,14 @@ const MODAL_HELP_TEXT = `<p class = 'dialog-text-intro'>pixelOdrom is a web tool
   <li class='dialog-list-element'>Click on &nbsp;${MODAL_CANVAS_EXPORT_ICON_HTML} to export your canvas as an image</li>
   </ul>`;
 
+const MODAL_HELP_BUTTON_TEXT = 'Alright!';
+
 const MODAL_START_UP_TEXT = MODAL_HELP_TEXT + `<p>
   <input type='checkbox' id='dialog-start-up-hide'>
   <label for='dialog-start-up-hide'>I am already a pixelOdrom master. Don't show this again!</label>
   </p>`;
+
+const MODAL_START_UP_BUTTON_TEXT = 'Get started!';
 
 const MODAL_PAGE_LEAVE_TEXT = 'Leaving the page will reset the canvas. Do you want to proceed?';
 
@@ -156,6 +161,8 @@ const MODAL_CANVAS_INVALID_PROP_TEXT = `The proportions selected are not allowed
   the max. allowed aspect ratio is 1:${CANVAS_ASPECT_RATIO}.`;
 
 const MODAL_CANVAS_LOAD_TEXT  = 'Are you sure that you want to load a previously saved canvas?';
+
+const MODAL_CANVAS_LOAD_ERROR_TEXT  = 'There has been an error loading the specified canvas.';
 
 const MODAL_CANVAS_SAVE_TEXT  = 'Are you sure that you want to save this canvas?';
 
@@ -198,6 +205,9 @@ const MODAL_CONTENT = {
   canvasLoad: {
     'title': MODAL_CONFIRM_TITLE,
     'text': MODAL_CANVAS_LOAD_TEXT},
+  canvasLoadError: {
+    'title': MODAL_ERROR_TITLE,
+    'text': MODAL_CANVAS_LOAD_ERROR_TEXT},
   canvasSave: {
     'title': MODAL_CONFIRM_TITLE,
     'text': MODAL_CANVAS_SAVE_TEXT},
@@ -212,15 +222,14 @@ const MODAL_CONTENT = {
     'text': MODAL_CANVAS_TOO_BIG_TEXT},
   canvasWrongFormat: {
     'title': MODAL_CANVAS_WRONG_FORMAT_TITLE,
-    'text': MODAL_CANVAS_WRONG_FORMAT_TEXT},
-  error: {
-    'title': MODAL_ERROR_TITLE}
+    'text': MODAL_CANVAS_WRONG_FORMAT_TEXT}
   };
 
 export {
   HEADER,
   MAIN,
   CURSOR_COLOR,
+  CURSOR_INVISIBLE_DIV,
   SIDEBAR_HELP,
   SIDEBAR_BACK_TO_TOP,
   SPINNER,
@@ -256,5 +265,7 @@ export {
   CANVAS_ROW_HTML,
   CANVAS_COLUMN_HTML,
   MODAL,
-  MODAL_CONTENT
+  MODAL_CONTENT,
+  MODAL_HELP_BUTTON_TEXT,
+  MODAL_START_UP_BUTTON_TEXT
 };

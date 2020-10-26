@@ -26,12 +26,12 @@ import { CanvasNoSpace, CanvasInvalidProportions } from './Error.js';
  * @constructor
  * @description Creates a new Canvas object.
  *
- * @property {Object}  DOMNode DOM object related to the canvas.
- * @property {Number}  canvas width.
- * @property {Number}  canvas height.
- * @property {Number}  canvas maximal width in pixels.
- * @property {Number}  canvas maximal height in pixels.
- * @property {Boolean} tells whether the canvas is active.
+ * @property {Object}  DOMNode     DOM object related to the canvas.
+ * @property {Number}  width       Canvas width.
+ * @property {Number}  height      Canvas height.
+ * @property {Number}  maxWidthPx  Canvas maximal width in pixels.
+ * @property {Number}  maxHeightPx Canvas maximal height in pixels.
+ * @property {Boolean} isActive    tells whether the canvas is active.
  */
 let Canvas = function(width, height){
   this.DOMNode = $ ( CANVAS );
@@ -147,7 +147,7 @@ Canvas.prototype.create = function(width, height){
 
     this.setUp(height, height);
 
-    resolve ('Canvas created');
+    resolve (true);
   });
 };
 
@@ -245,7 +245,7 @@ Canvas.prototype.load = function (input) {
         even if the users selects the same file again */
         $ ( CANVAS_MENU_LOAD_INPUT ).prop('value', '');
 
-        resolve ('canvas loaded');
+        resolve (true);
       }
     }.bind(this);
 
@@ -300,7 +300,7 @@ Canvas.prototype.export = function() {
       this.DOMNode.removeClass('pixel-canvas-export');
       this.DOMNode.addClass('pixel-canvas');
 
-      resolve ('Exported canvas');
+      resolve (true);
     });
   });
 };

@@ -24,11 +24,11 @@ Spinner.prototype.show = function () {
     this.DOMNode.removeClass("spinner-container-hidden");
     this.DOMNode.addClass("spinner-container");
 
-    $("body").css("overflow", "hidden");
+    $( 'body' ).css("overflow", "hidden");
 
     this.isActive = true;
 
-    resolve("Spin shown");
+    resolve(true);
   });
 };
 
@@ -46,7 +46,7 @@ Spinner.prototype.hide = function () {
 
     this.isActive = false;
 
-    resolve("Spin hidden");
+    resolve(true);
   });
 };
 
