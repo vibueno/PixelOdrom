@@ -1,24 +1,20 @@
-/*
-window.modal.open('error', {'text': `There was an error while trying to load the canvas: ${shortErrorMessage}`});
-window.modal.open('error', {'text': `There was an error while trying to load the canvas: ${reader.error}`});
-*/
+/* In this file we use the expression pixelOdrom pixels to refer of the squares in the table (canvas).
+We do so to avoid confusion with CSS pixels */
 
 import {
   HEADER,
   MAIN,
   CURSOR_COLOR,
   CURSOR_INVISIBLE_DIV,
-  SPINNER,
+  //SPINNER,
   CANVAS_MENU_FORM,
   CANVAS_MENU_INPUT_WIDTH,
   CANVAS_MENU_INPUT_HEIGHT,
-  CANVAS_MENU_LOAD_INPUT,
   CANVAS_TOOLBOX,
   TOOL_BRUSH,
   TOOL_ERASER,
   CANVAS_DEFAULT_WIDTH,
   CANVAS_DEFAULT_HEIGHT,
-  MODAL_CONTENT,
   MODAL_HELP_BUTTON_TEXT,
   MODAL_START_UP_BUTTON_TEXT} from './constants.js';
 
@@ -30,10 +26,7 @@ import { CanvasMenu } from './components/CanvasMenu.js';
 import { CanvasToolBox } from './components/CanvasToolBox.js';
 import { Modal } from './components/Modal.js';
 import { SideBar } from './components/SideBar.js';
-import { Spinner } from './components/Spinner.js';
-
-/* In this file we use the expression pixelOdrom pixels to refer of the squares in the table (canvas).
-We do so to avoid confusion with CSS pixels */
+//import { Spinner } from './components/Spinner.js';
 
 /**
  * @description document.ready.
@@ -68,7 +61,7 @@ $(function() {
     if (canvas.isActive) {
      modal.open('pageLeave', 'yesNo')
      .then(
-      answer_yes => {if (answer_yes) resetPixelOdrom()});
+      answer_yes => {if (answer_yes) resetPixelOdrom();});
     }
   };
 
@@ -119,7 +112,7 @@ $(function() {
 
   window.mainDivWidthPx = parseInt($ (MAIN).width());
 
-  let spinner = new Spinner();
+  //let spinner = new Spinner();
   let modal = new Modal();
   let canvas = new Canvas();
   let canvasMenu = new CanvasMenu();
@@ -185,12 +178,11 @@ $(function() {
     const CANVAS_WIDTH = parseInt($( CANVAS_MENU_INPUT_WIDTH ).val());
     const CANVAS_HEIGHT = parseInt($( CANVAS_MENU_INPUT_HEIGHT ).val());
 
-    const DIALOG_MSG = `Are you sure that you want to create a new ${CANVAS_WIDTH}x${CANVAS_HEIGHT} canvas?`;
-
     //TODO: spinner
-    modal.open('canvasCreate', 'yesNo', {'text': DIALOG_MSG})
+    modal.open('canvasCreate', 'yesNo',
+      {'messageArgs': {'canvasWidth': CANVAS_WIDTH, 'canvasHeight': CANVAS_HEIGHT}})
     .then(
-    	answer_yes => {if (answer_yes) canvas.create(CANVAS_WIDTH, CANVAS_HEIGHT)});
+    	answer_yes => {if (answer_yes) canvas.create(CANVAS_WIDTH, CANVAS_HEIGHT);});
 
     e.preventDefault();
 
@@ -305,7 +297,7 @@ $(function() {
     if (canvas.isActive){
       modal.open('canvasReset', 'yesNo')
       .then(
-        answer_yes => {if (answer_yes) canvas.reset()});
+        answer_yes => {if (answer_yes) canvas.reset();});
     }
   });
 
@@ -316,7 +308,7 @@ $(function() {
     if (canvas.isActive){
      modal.open('canvasSave', 'yesNo')
      .then(
-       answer_yes => {if (answer_yes) canvas.save()});
+       answer_yes => {if (answer_yes) canvas.save();});
     }
   });
 
@@ -328,7 +320,7 @@ $(function() {
     if (canvas.isActive){
       modal.open('canvasExport', 'yesNo')
       .then(
-        answer_yes => {if (answer_yes) canvas.export()});
+        answer_yes => {if (answer_yes) canvas.export();});
     }
   });
 
@@ -363,7 +355,7 @@ $(function() {
    */
   sideBar.DOMNodeBtnBackToTop.click(function() {
     if (canvas.isActive){
-     functions.scrollTo(functions.getNodePositionTop(CANVAS_TOOLBOX_SELECTOR));
+     functions.scrollTo(functions.getNodePositionTop(CANVAS_TOOLBOX));
    }
    else {
      functions.scrollTop();
@@ -410,7 +402,7 @@ $(function() {
         }
       }
       catch(e) {
-        modal.open('error', 'OK', {'title': 'error', 'text': `There was an error trying to access the local storage: ${e.message}`});
+        modal.open('localStorageError', 'OK', {'messageArgs': {'errorMessage': e.message}});
       }
     }
   );

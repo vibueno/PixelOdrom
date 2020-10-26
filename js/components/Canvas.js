@@ -20,7 +20,7 @@ import {
 
 import { functions } from '../functions.js';
 
-import { CanvasNoSpace, CanvasInvalidProportions } from './Error.js';
+import { CanvasCreateNoSpace, CanvasInvalidProportions } from './Error.js';
 
 /**
  * @constructor
@@ -125,9 +125,9 @@ Canvas.prototype.create = function(width, height){
 
   return new Promise((resolve) => {
 
-    //Check if the size of the canvas fits the available space
+    //Checks if the size of the canvas fits the available space
     if (width > this.maxWidth || height >  this.maxHeight){
-      throw new CanvasNoSpace ();
+      throw new CanvasCreateNoSpace ();
     }
 
     if (!this.validProportions(width, height)) {
@@ -234,8 +234,8 @@ Canvas.prototype.load = function (input) {
         const CANVAS_WIDTH = canvasToImport.first().find('.pixel').length;
         const CANVAS_HEIGHT = canvasToImport.length;
 
-        if (CANVAS_WIDTH > this.maxWidth || CANVAS_HEIGHT >  this.maxHeight) {
-          window.modal.open('canvasLoad', 'yesNo');
+        if (CANVAS_WIDTH > this.maxWidth || CANVAS_HEIGHT > this.maxHeight) {
+          reject('CanvasLoadNoSpace');
         }
         else {
           this.DOMNode.html(reader.result);

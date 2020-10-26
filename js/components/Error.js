@@ -8,18 +8,28 @@
  */
 let CanvasInvalidProportions = function () {
   this.name = "CanvasInvalidProportions";
-}
+};
 
 CanvasInvalidProportions.prototype = Error.prototype;
 
 /**
  * @constructor
- * @description Creates a new CanvasNoSpace Error object.
+ * @description Creates a new CanvasCreateNoSpace Error object.
  */
-let CanvasNoSpace = function () {
-  this.name = "CanvasNoSpace";
-}
+let CanvasCreateNoSpace = function () {
+  this.name = "CanvasCreateNoSpace";
+};
 
-CanvasNoSpace.prototype = Error.prototype;
+CanvasCreateNoSpace.prototype = Error.prototype;
 
-export { CanvasInvalidProportions, CanvasNoSpace };
+/**
+ * @constructor
+ * @description Creates a new CanvasLoadNoSpace Error object.
+ */
+let CanvasLoadNoSpace = function () {
+  this.name = "CanvasLoadNoSpace";
+};
+
+CanvasLoadNoSpace.prototype = Error.prototype;
+
+export { CanvasInvalidProportions, CanvasCreateNoSpace, CanvasLoadNoSpace};

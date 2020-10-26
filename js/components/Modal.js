@@ -39,8 +39,9 @@ import { MODAL, MODAL_CONTENT } from '../constants.js';
 
 /**
  * @description Opens the modal.
- * @param {String} modalType indicates the type of modal to be shown.
+ * @param {String} modalType    Indicates the type of modal to be shown.
  * @param {String} modalButtons Indicates which buttons should be shown on the modal.
+ * @param {String} messageArgs  Arguments for completing a modal text template
  *
  * @return {Promise} Used if actions will be performed outside of this module.
  */
@@ -53,26 +54,30 @@ Modal.prototype.open = function (modalType, modalButtons, args) {
 
   return new Promise((resolve) => {
 
-    if (args!==undefined){
+    this.setTitle(MODAL_CONTENT[modalType].title);
 
-      if (args.title!==undefined) {
-        this.setTitle(args.title);
-      }
-      else {
-        this.setTitle(MODAL_CONTENT[modalType].title);
-      }
+    if (typeof args.messageArgs==='object'){
 
-      if (args.text!==undefined){
-        this.setText(args.text);
-      }
-      else {
-        this.setText(MODAL_CONTENT[modalType].text, true);
-      }
+      let modalTextTpl = MODAL_CONTENT[modalType].text;
+
+      const makeTemplate = (templateString) => {
+        /*jslint evil: true */
+
+        /* The comment above is telling the JSHint to ignore the Function constructor call
+        Even though this is supposed to be bad practise,
+        I think this case is complicated enough to use it exceptionally.
+        http://jslint.fantasy.codes/the-function-constructor-is-eval
+        */
+        return (templateData) => new Function(`{${Object.keys(templateData).join(',')}}`, 'return `' + templateString + '`')(templateData);
+      };
+
+      const tpl =  makeTemplate(modalTextTpl);
+      const modalTextFilled = tpl(args.messageArgs);
+
+      this.setText(modalTextFilled, true);
     }
-    else
-    {
-     this.setTitle(MODAL_CONTENT[modalType].title);
-     this.setText(MODAL_CONTENT[modalType].text, true);
+    else {
+      this.setText(MODAL_CONTENT[modalType].text, true);
     }
 
     switch(modalButtons) {
@@ -99,12 +104,14 @@ Modal.prototype.open = function (modalType, modalButtons, args) {
       button2Label = 'No';
 
       if (args!==undefined){
-        if (args.button1Label!==undefined) {
-          button1Label =args.button1Label;
-        }
+        if (args.buttonLabels!==undefined){
+          if (args.buttonLabels.button1Label!==undefined) {
+            button1Label =args.buttonLabels.button1Label;
+          }
 
-        if (args.button2Label!==undefined) {
-          button2Label =args.button2Label;
+          if (args.buttonLabels.button2Label!==undefined) {
+            button2Label =args.buttonLabels.button2Label;
+          }
         }
       }
 

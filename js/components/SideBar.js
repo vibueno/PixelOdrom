@@ -20,7 +20,6 @@ let SideBar = function(){
  */
 SideBar.prototype.setHelpVisibility = function (visible) {
   if (visible) {
-
     /* We use the parameter self in order not to lose 'this'
     in the function call inside window.setTimeout */
     window.setTimeout( function(self) {

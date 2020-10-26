@@ -154,15 +154,26 @@ const MODAL_PAGE_LEAVE_TEXT = 'Leaving the page will reset the canvas. Do you wa
  *
  */
 
-const MODAL_CANVAS_NO_SPACE_TITLE = 'Canvas too big';
-
 const MODAL_CANVAS_INVALID_PROP_TITLE = 'Invalid proportions';
 const MODAL_CANVAS_INVALID_PROP_TEXT = `The proportions selected are not allowed:
   the max. allowed aspect ratio is 1:${CANVAS_ASPECT_RATIO}.`;
 
-const MODAL_CANVAS_LOAD_TEXT  = 'Are you sure that you want to load a previously saved canvas?';
+/* This is a modal text template. You can pass arguments for completing this message
+with the parameter args.messageArgs when calling 'open' on Modal */
+const MODAL_CANVAS_CREATE_TEXT = 'Are you sure that you want to create a new ${canvasWidth}x${canvasHeight} canvas?';
 
+const MODAL_CANVAS_CREATE_NO_SPACE_TITLE = 'Canvas too big';
+const MODAL_CANVAS_CREATE_NO_SPACE_TEXT = `The selected canvas is too big for the available space.
+  If you created this canvas on another device, please make sure you use a similar one
+  to edit it.`;
+
+const MODAL_CANVAS_LOAD_TEXT  = 'Are you sure that you want to load a previously saved canvas?';
 const MODAL_CANVAS_LOAD_ERROR_TEXT  = 'There has been an error loading the specified canvas.';
+
+const MODAL_CANVAS_LOAD_NO_SPACE_TITLE = 'Canvas too big';
+const MODAL_CANVAS_LOAD_NO_SPACE_TEXT = `The selected canvas is too big for the available space.
+  If you created this canvas on another device, please make sure you use a similar one
+  to edit it.`;
 
 const MODAL_CANVAS_SAVE_TEXT  = 'Are you sure that you want to save this canvas?';
 
@@ -173,13 +184,10 @@ const MODAL_CANVAS_EXPORT_TEXT = `<p class = 'dialog-text'>You are about to save
   <p class = 'dialog-text'>If your canvas is big, this process may take a couple of seconds to complete.</p>
   <p class = 'dialog-text'>Would you like to export this canvas now?</p>`;
 
-const MODAL_CANVAS_TOO_BIG_TITLE = 'Canvas too big';
-const MODAL_CANVAS_TOO_BIG_TEXT = `The selected canvas is too big for the available space.
-  If you created this canvas on another device, please make sure you use a similar one
-  to edit it.`;
-
 const MODAL_CANVAS_WRONG_FORMAT_TITLE = 'Wrong format';
 const MODAL_CANVAS_WRONG_FORMAT_TEXT = 'The selected file does not contain a valid canvas.';
+
+const MODAL_LOCAL_STORAGE_ERROR_TEXT = 'There was an error trying to access the local storage: ${errorMessage}';
 
 const MODAL_CONFIRM_TITLE = 'Confirm';
 
@@ -196,15 +204,20 @@ const MODAL_CONTENT = {
     'title': MODAL_CONFIRM_TITLE,
     'text': MODAL_PAGE_LEAVE_TEXT},
   canvasCreate: {
-    'title': MODAL_CONFIRM_TITLE},
-  canvasNoSpace: {
-    'title': MODAL_CANVAS_NO_SPACE_TITLE},
+    'title': MODAL_CONFIRM_TITLE,
+    'text': MODAL_CANVAS_CREATE_TEXT},
+  canvasCreateNoSpace: {
+    'title': MODAL_CANVAS_CREATE_NO_SPACE_TITLE,
+    'text': MODAL_CANVAS_CREATE_NO_SPACE_TEXT},
   canvasInvalidProportions: {
     'title': MODAL_CANVAS_INVALID_PROP_TITLE,
     'text': MODAL_CANVAS_INVALID_PROP_TEXT},
   canvasLoad: {
     'title': MODAL_CONFIRM_TITLE,
     'text': MODAL_CANVAS_LOAD_TEXT},
+  canvasLoadNoSpace: {
+    'title': MODAL_CANVAS_LOAD_NO_SPACE_TITLE,
+    'text': MODAL_CANVAS_LOAD_NO_SPACE_TEXT},
   canvasLoadError: {
     'title': MODAL_ERROR_TITLE,
     'text': MODAL_CANVAS_LOAD_ERROR_TEXT},
@@ -217,12 +230,12 @@ const MODAL_CONTENT = {
   canvasExport: {
     'title': MODAL_CONFIRM_TITLE,
     'text': MODAL_CANVAS_EXPORT_TEXT},
-  canvasTooBig: {
-    'title': MODAL_CANVAS_TOO_BIG_TITLE,
-    'text': MODAL_CANVAS_TOO_BIG_TEXT},
   canvasWrongFormat: {
     'title': MODAL_CANVAS_WRONG_FORMAT_TITLE,
-    'text': MODAL_CANVAS_WRONG_FORMAT_TEXT}
+    'text': MODAL_CANVAS_WRONG_FORMAT_TEXT},
+  localStorageError: {
+    'title': MODAL_ERROR_TITLE,
+    'text': MODAL_LOCAL_STORAGE_ERROR_TEXT},
   };
 
 export {

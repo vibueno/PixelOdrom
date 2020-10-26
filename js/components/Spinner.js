@@ -9,7 +9,7 @@ import { SPINNER } from '../constants.js';
  * @description Creates a new Spinner object.
  *
  */
- let Spinner = function(){
+let Spinner = function(){
     this.DOMNode = SPINNER;
     this.isActive = false;
  };
@@ -42,7 +42,7 @@ Spinner.prototype.hide = function () {
     this.DOMNode.addClass("spinner-container-hidden");
     this.DOMNode.removeClass("spinner-container");
 
-    BODY.css("overflow", "auto");
+    $ ( 'body' ).css("overflow", "auto");
 
     this.isActive = false;
 
