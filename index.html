@@ -1,162 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>pixelOdrom</title>
-		<meta
-			name="description"
-			content="Pixel art application developed with jQuery by Víctor Isabel-Bueno">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pixelOdrom</title>
+    <meta
+    name="description"
+    content="Pixel art application developed with jQuery by Víctor Isabel-Bueno">
 
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monoton&display=swap">
-		<link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Monofett&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monoton&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Monofett&display=swap" rel="stylesheet">
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-		<link rel="stylesheet" href="./css/main.css">
-		<link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/responsive.css">
 
-		<link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-		<script src="https://cdn.rawgit.com/jwarby/jquery-awesome-cursor/master/dist/jquery.awesome-cursor.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.rawgit.com/jwarby/jquery-awesome-cursor/master/dist/jquery.awesome-cursor.min.js"></script>
 
-		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
 
-		<script type="module" src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
 
-		<script src="./js/lib/FileSaver.js"></script>
-		<script src="./js/lib/html2canvas.js"></script>
+    <script src="./js/lib/FileSaver.js"></script>
+    <script src="./js/lib/html2canvas.js"></script>
 
-	</head>
-	<body>
+  </head>
+  <body>
 
-		<a id="header" href="javascript:void(0)"><h1>pixelOdrom</h1></a>
+    <a id="header" href="javascript:void(0)"><h1>pixelOdrom</h1></a>
 
-		<div class="main">
+    <div class="main">
 
-			<div class="input-form-container">
-				<form id="size-picker" class="size-picker-form">
-					<div class="input-field">
-						<label for="input-width" class="input-label">Grid Width:</label>
-						<input type="number" id="input-width" name="width" min="2" max="100" value="10">
-					</div>
+     <div class="input-form-container">
+      <form id="size-picker" class="size-picker-form">
+        <div class="input-field">
+          <label for="input-width" class="input-label">Grid Width:</label>
+          <input type="number" id="input-width" name="width" min="2" max="100" value="10">
+        </div>
 
-					<div class="input-field">
-						<label for="input-height" class="input-label">Grid Height:</label>
-						<input type="number" id="input-height" name="height" min="2" value="10">
-					</div>
-					<div>
-						<button type="submit" id="btn-create-canvas" class="btn">
-							<i class="fa fa-th fa-2x"></i>
-						</button>
+        <div class="input-field">
+          <label for="input-height" class="input-label">Grid Height:</label>
+          <input type="number" id="input-height" name="height" min="2" value="10">
+        </div>
+        <div>
+          <button type="submit" id="btn-create-canvas" class="btn">
+            <i class="fa fa-th fa-2x"></i>
+          </button>
 
-						<div id="btn-load-canvas-wrapper">
-						  <button type="button" id="btn-load-canvas" class="btn">
-						  	<i class="fa fa-folder-open fa-2x"></i>
-						  </button>
-						  <input type="file" id="btn-load-canvas-input" class="load-canvas-input-hidden" onchange="window.btnLoadCanvasClick(this)">
-						</div>
-					</div>
-				</form>
-			</div>
+        <div id="btn-load-canvas-wrapper">
+          <button type="button" id="btn-load-canvas" class="btn">
+            <i class="fa fa-folder-open fa-2x"></i>
+          </button>
+          <input type="file" id="btn-load-canvas-input" class="load-canvas-input-hidden" onchange="window.btnLoadCanvasClick(this)">
+        </div>
+      </div>
+    </form>
+  </div>
 
+  <div id="tool-box" class= "tool-box">
+    <input type="text" id="color-picker">
+    <button id="btn-tool-brush" class="btn">
+      <i class="fa fa-paint-brush fa-2x"></i>
+    </button>
+    <button id="btn-tool-eraser" class="btn">
+      <i class="fa fa-eraser fa-2x"></i>
+    </button>
+  </div>
 
-			<div id="tool-box" class= "tool-box">
-				<input type="text" id="color-picker">
-				<button id="btn-tool-brush" class="btn">
-					<i class="fa fa-paint-brush fa-2x"></i>
-				</button>
-				<button id="btn-tool-eraser" class="btn">
-					<i class="fa fa-eraser fa-2x"></i>
-				</button>
-			</div>
+  <table id="pixel-canvas" class="pixel-canvas-hidden"></table>
 
-			<table id="pixel-canvas" class="pixel-canvas-hidden"></table>
+    <div id="action-box" class="action-box">
+      <button id="btn-reset-canvas" class="btn btn-reset-canvas">
+       <i class="fa fa-trash fa-2x"></i>
+     </button>
 
-			<div id="action-box" class="action-box">
-				<button id="btn-reset-canvas" class="btn btn-reset-canvas">
-					<i class="fa fa-trash fa-2x"></i>
-				</button>
+     <button id="btn-save-canvas" class="btn">
+       <i class="fa fa-floppy-o fa-2x"></i>
+     </button>
 
-				<button id="btn-save-canvas" class="btn">
-					<i class="fa fa-floppy-o fa-2x"></i>
-				</button>
+     <button id="btn-export-canvas" class="btn">
+       <i class="fa fa-image fa-2x"></i>
+     </button>
+    </div>
 
-				<button id="btn-export-canvas" class="btn">
-					<i class="fa fa-image fa-2x"></i>
-				</button>
-			</div>
+    <footer>
+      <div class= "footer-credits">
+       <ul>
+        <li>
+         <em>Credits:</em>
+         <span class="footer-credits-title">Design & Programming: </span>
+         <a href="https://github.com/vibueno/pixelodrom">Víctor Isabel-Bueno</a>;
+       </li>
+       <li>
+         <span class="footer-credits-title">Base HTML and CSS: </span>
+         <a href="https://www.udacity.com/course/front-end-web-developer-nanodegree--nd0011">Udacity Front End Web Developer Nanodegree (Pixel Art Maker)</a>;
+       </li>
+       <li>
+         <span class="footer-credits-title">Libraries & Plugins:</span>
+         <a href="https://jquery.com">jQuery</a>,
+         <a href="https://jqueryui.com">jQuery UI</a>,
+         <a href="https://jwarby.github.io/jquery-awesome-cursor">jQuery Awesome Cursor</a>,
+         <a href="http://bgrins.github.io/spectrum">jQuery Colorpicker</a>,
+         <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>;
+       </li>
+       <li>
+         <span class="footer-credits-title">Color Palette:</span>
+         <a href="https://colorhunt.co/palette/168803">Gal Shir</a>;
+       </li>
+       <li>
+         <span class="footer-credits-title">Fonts:</span>
+         <a href="https://fonts.google.com/specimen/Monoton">Monoton</a>,
+         <a href="https://fontawesome.com">Font Awesome</a>
+       </li>
+     </ul>
+    </div>
+    <div class= "footer-samples">
+     <ul>
+      <li>
+       <em>pixelOdrom Art samples:</em>
+       <a href="https://raw.githubusercontent.com/vibueno/pixelodrom/master/pixelart/img/Maura/Psychedelia.png">Psychedelia</a>,
+       <a href="https://raw.githubusercontent.com/vibueno/pixelodrom/master/pixelart/img/Maura/Psychedelia-II.png">Psychedelia II</a>,
+       <a href="https://raw.githubusercontent.com/vibueno/pixelodrom/master/pixelart/img/Maura/SquaredSpiral.png">Squared spiral</a> &
+       <a href="https://raw.githubusercontent.com/vibueno/pixelodrom/master/pixelart/img/Maura/ZenithalPyramid.png">Zenithal Pyramid</a> by Maura Kessler
+     </li>
+    </ul>
+    </div>
 
-			<footer>
-				<div class= "footer-credits">
-					<ul>
-						<li>
-							<em>Credits:</em>
-							<span class="footer-credits-title">Design & Programming: </span>
-							<a href="https://github.com/vibueno/pixelodrom">Víctor Isabel-Bueno</a>;
-						</li>
-						<li>
-							<span class="footer-credits-title">Base HTML and CSS: </span>
-							<a href="https://www.udacity.com/course/front-end-web-developer-nanodegree--nd0011">Udacity Front End Web Developer Nanodegree (Pixel Art Maker)</a>;
-						</li>
-						<li>
-							<span class="footer-credits-title">Libraries & Plugins:</span>
-							<a href="https://jquery.com">jQuery</a>,
-							<a href="https://jqueryui.com">jQuery UI</a>,
-							<a href="https://jwarby.github.io/jquery-awesome-cursor">jQuery Awesome Cursor</a>,
-							<a href="http://bgrins.github.io/spectrum">jQuery Colorpicker</a>,
-							<a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>;
-						</li>
-						<li>
-							<span class="footer-credits-title">Color Palette:</span>
-							<a href="https://colorhunt.co/palette/168803">Gal Shir</a>;
-						</li>
-						<li>
-							<span class="footer-credits-title">Fonts:</span>
-							<a href="https://fonts.google.com/specimen/Monoton">Monoton</a>,
-							<a href="https://fontawesome.com">Font Awesome</a>
-						</li>
-					</ul>
-				</div>
-				<div class= "footer-samples">
-					<ul>
-						<li>
-							<em>pixelOdrom Art samples:</em>
-								<a href="https://raw.githubusercontent.com/vibueno/pixelodrom/master/pixelart/img/Maura/Psychedelia.png">Psychedelia</a>,
-								<a href="https://raw.githubusercontent.com/vibueno/pixelodrom/master/pixelart/img/Maura/Psychedelia-II.png">Psychedelia II</a>,
-								<a href="https://raw.githubusercontent.com/vibueno/pixelodrom/master/pixelart/img/Maura/SquaredSpiral.png">Squared spiral</a> &
-								<a href="https://raw.githubusercontent.com/vibueno/pixelodrom/master/pixelart/img/Maura/ZenithalPyramid.png">Zenithal Pyramid</a> by Maura Kessler
-						</li>
-					</ul>
-				</div>
+    </footer>
 
-			</footer>
+  </div>
 
-		</div>
+  <!-- This div is used for showing the spinner when exporting the canvas -->
+  <div id="spinner-container" class="spinner-container-hidden">
+    <p class="spinner">P</p>
+  </div>
 
-		<!-- This div is used for showing the spinner when exporting the canvas -->
-		<div id="spinner-container" class="spinner-container-hidden">
-			<p class="spinner">P</p>
-		</div>
+  <!-- This div is used for showing the dialogs -->
+  <div id="dialog" title="">
+    <p></p>
+  </div>
 
-		<!-- This div is used for showing the dialogs -->
-		<div id="dialog" title="">
-		  <p></p>
-		</div>
+  <!-- help button -->
+  <button type="button" id="btn-help" class="btn btn-help-hidden">
+    <i class="fa fa-question-circle fa-2x"></i>
+  </button>
 
-		<!-- help button -->
-		<button type="button" id="btn-help" class="btn btn-help-hidden">
-			<i class="fa fa-question-circle fa-2x"></i>
-		</button>
+  <!-- back to top button -->
+  <button type="button" id="btn-back-to-top" class="btn btn-backtotop btn-backtotop-hidden">
+    <i class="fa fa-chevron-up fa-2x"></i>
+  </button>
 
-		<!-- back to top button -->
-		<button type="button" id="btn-back-to-top" class="btn btn-backtotop btn-backtotop-hidden">
-			<i class="fa fa-chevron-up fa-2x"></i>
-		</button>
-
-	</body>
+  </body>
 </html>

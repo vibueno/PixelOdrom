@@ -1,6 +1,6 @@
 import {
-	CANVAS_DEFAULT_WIDTH,
-	CANVAS_DEFAULT_HEIGHT } from '../constants.js';
+  CANVAS_DEFAULT_WIDTH,
+  CANVAS_DEFAULT_HEIGHT } from '../constants.js';
 
 /**
  * @constructor
@@ -8,14 +8,13 @@ import {
  *
  */
 let CanvasMenu = function(){
-	this.DOMNodeGridWidth = $( '#input-width' );
-	this.DOMNodeGridHeight = $( '#input-height' );
-	this.DOMNodeBtnCanvasCreate = $( '#btn-create-canvas' );
-	this.DOMNodeBtnCanvasLoad = $( '#btn-load-canvas' );
+  this.DOMNodeGridWidth = $( '#input-width' );
+  this.DOMNodeGridHeight = $( '#input-height' );
+  this.DOMNodeBtnCanvasCreate = $( '#btn-create-canvas' );
+  this.DOMNodeBtnCanvasLoad = $( '#btn-load-canvas' );
 
-	this.DOMNodeGridHeight.prop('defaultValue', CANVAS_DEFAULT_WIDTH);
-	this.DOMNodeGridHeight.prop('defaultValue', CANVAS_DEFAULT_HEIGHT);
-
+  this.DOMNodeGridHeight.prop('defaultValue', CANVAS_DEFAULT_WIDTH);
+  this.DOMNodeGridHeight.prop('defaultValue', CANVAS_DEFAULT_HEIGHT);
 };
 
 /**
@@ -25,16 +24,16 @@ let CanvasMenu = function(){
  * @param  {Number} canvasHeight canvas height to be set to the input field.
  */
 CanvasMenu.prototype.setInputFields = function (width, height) {
-	this.DOMNodeGridWidth.val(width);
-	this.DOMNodeGridHeight.val(height);
+  this.DOMNodeGridWidth.val(width);
+  this.DOMNodeGridHeight.val(height);
 };
 
 /**
  * @description Resets the input fields to their default values.
  */
 CanvasMenu.prototype.resetInputFields = function () {
-	this.DOMNodeGridWidth.val(CANVAS_DEFAULT_WIDTH);
-	this.DOMNodeGridHeight.val(CANVAS_DEFAULT_HEIGHT);
+  this.DOMNodeGridWidth.val(CANVAS_DEFAULT_WIDTH);
+  this.DOMNodeGridHeight.val(CANVAS_DEFAULT_HEIGHT);
 };
 
 export { CanvasMenu };

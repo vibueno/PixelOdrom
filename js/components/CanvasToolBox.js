@@ -1,6 +1,6 @@
 import {
-	TOOL_BRUSH,
-	DEFAULT_PICKER_COLOR } from '../constants.js';
+  TOOL_BRUSH,
+  DEFAULT_PICKER_COLOR } from '../constants.js';
 
 import { DrawingTool } from './DrawingTool.js';
 
@@ -10,13 +10,13 @@ import { DrawingTool } from './DrawingTool.js';
  *
  */
 let CanvasToolBox = function(){
-	this.DOMNode = $('#tool-box');
-	this.DOMNodeColorPicker = $('#color-picker');
-	this.DOMNodeBrush = $('#btn-tool-brush');
-	this.DOMNodeEraser = $('#btn-tool-eraser');
-	this.drawingTool = new DrawingTool();
+  this.DOMNode = $('#tool-box');
+  this.DOMNodeColorPicker = $('#color-picker');
+  this.DOMNodeBrush = $('#btn-tool-brush');
+  this.DOMNodeEraser = $('#btn-tool-eraser');
+  this.drawingTool = new DrawingTool();
 
-	this.initColorPicker(DEFAULT_PICKER_COLOR);
+  this.initColorPicker(DEFAULT_PICKER_COLOR);
 };
 
 /**
@@ -25,12 +25,12 @@ let CanvasToolBox = function(){
  * @param  {Boolean} visible tells whether the tool box should be shown or hidden.
  */
 CanvasToolBox.prototype.setVisibility = function (visible) {
-	if (visible) {
-		this.DOMNode.removeClass('tool-box-hidden');
-	}
-	else {
-		this.DOMNode.addClass('tool-box-hidden');
-	}
+  if (visible) {
+    this.DOMNode.removeClass('tool-box-hidden');
+  }
+  else {
+    this.DOMNode.addClass('tool-box-hidden');
+  }
 };
 
 /**
@@ -40,16 +40,16 @@ CanvasToolBox.prototype.setVisibility = function (visible) {
  */
 CanvasToolBox.prototype.initColorPicker = function (inputColor) {
 
-	this.drawingTool.color = inputColor;
+  this.drawingTool.color = inputColor;
 
-	$('#color-picker').spectrum({
-	    color: inputColor,
-	    replacerClassName: 'btn-color-picker',
-			change: function(color) {
-        this.drawingTool.color = color.toHexString();
-        this.drawingTool.set(TOOL_BRUSH);
+  $('#color-picker').spectrum({
+    color: inputColor,
+    replacerClassName: 'btn-color-picker',
+    change: function(color) {
+      this.drawingTool.color = color.toHexString();
+      this.drawingTool.set(TOOL_BRUSH);
     }.bind(this)
-	});
+  });
 };
 
 export { CanvasToolBox };

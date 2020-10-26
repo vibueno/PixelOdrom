@@ -1,9 +1,9 @@
 
 import {
-	TOOL_BRUSH,
-	TOOL_ERASER,
-	DEFAULT_PICKER_COLOR,
-	BLANK_PIXEL_COLOR } from '../constants.js';
+  TOOL_BRUSH,
+  TOOL_ERASER,
+  DEFAULT_PICKER_COLOR,
+  BLANK_PIXEL_COLOR } from '../constants.js';
 
 /**
  * @constructor
@@ -14,8 +14,8 @@ import {
  *
  */
 let DrawingTool = function(){
-	this.tool = TOOL_BRUSH;
-	this.color = DEFAULT_PICKER_COLOR;
+  this.tool = TOOL_BRUSH;
+  this.color = DEFAULT_PICKER_COLOR;
 };
 
 /**
@@ -25,18 +25,18 @@ let DrawingTool = function(){
  */
 DrawingTool.prototype.set = function(tool) {
 
-	this.tool = tool;
+  this.tool = tool;
 
-	switch(tool) {
-	  case TOOL_BRUSH:
-	  	$( "#btn-tool-eraser").removeClass("btn-pressed");
-	    $( "#btn-tool-brush").addClass("btn-pressed");
-	    break;
-	  case TOOL_ERASER:
-	  	$( "#btn-tool-brush").removeClass("btn-pressed");
-	  	$( "#btn-tool-eraser").addClass("btn-pressed");
-	    break;
-	}
+  switch(tool) {
+    case TOOL_BRUSH:
+      $( "#btn-tool-eraser").removeClass("btn-pressed");
+      $( "#btn-tool-brush").addClass("btn-pressed");
+      break;
+    case TOOL_ERASER:
+      $( "#btn-tool-brush").removeClass("btn-pressed");
+      $( "#btn-tool-eraser").addClass("btn-pressed");
+      break;
+  }
 };
 
 /**
@@ -45,12 +45,12 @@ DrawingTool.prototype.set = function(tool) {
  * @param {String} color hexadecimal value of the color to be used
  */
 DrawingTool.prototype.paintPixel = function (pixel) {
-	if (this.tool === TOOL_BRUSH){
-		$ (pixel).css( "background-color", this.color);
-	}
-	else 	if (this.tool === TOOL_ERASER){
-		$ (pixel).css( "background-color", BLANK_PIXEL_COLOR);
-	}
+  if (this.tool === TOOL_BRUSH){
+    $(pixel).css( "background-color", this.color);
+  }
+  else if (this.tool === TOOL_ERASER){
+    $(pixel).css( "background-color", BLANK_PIXEL_COLOR);
+  }
 };
 
 export { DrawingTool };
