@@ -168,7 +168,11 @@ $(function() {
 		const CANVAS_HEIGHT = parseInt($('#input-height').val());
 
 		const DIALOG_MSG = `Are you sure that you want to create a new ${CANVAS_WIDTH}x${CANVAS_HEIGHT} canvas?`;
-		window.modal.open('canvasCreate', 'yesNo', {'text': DIALOG_MSG, 'canvas': window.canvas, 'callbackArgs': {'width': CANVAS_WIDTH, 'height': CANVAS_HEIGHT}});
+
+		//TODO: spinner
+		window.modal.open('canvasCreate', 'yesNo', {'text': DIALOG_MSG, 'canvas': window.canvas, 'callbackArgs': {'width': CANVAS_WIDTH, 'height': CANVAS_HEIGHT}})
+		.then(
+			answer_yes => {if (answer_yes) window.canvas.create(CANVAS_WIDTH, CANVAS_HEIGHT)()});
 
 		e.preventDefault();
 
@@ -178,7 +182,11 @@ $(function() {
 	 * @description Shows the load canvas dialog
 	 */
 	canvasMenu.DOMNodeBtnCanvasLoad.click( function() {
-		window.modal.open('canvasLoad', 'yesNo', {'canvas': window.canvas});
+
+		window.modal.open('canvasLoad', 'yesNo', {'canvas': window.canvas})
+		.then(
+			answer_yes => {if (answer_yes) functions.showFileDialog();});
+
 
 		/*
 		If load successful run:
@@ -269,19 +277,26 @@ $(function() {
 
 	canvasActionBox.DOMNodeCanvasReset.click(function() {
 		if (window.canvas.isActive){
-			window.modal.open('canvasReset', 'yesNo', {'canvas': window.canvas});
+			window.modal.open('canvasReset', 'yesNo', {'canvas': window.canvas})
+		.then(
+			answer_yes => {if (answer_yes) window.canvas.reset()});
 		}
 	});
 
 	canvasActionBox.DOMNodeCanvasSave.click( function(){
 		if (window.canvas.isActive){
-			window.modal.open('canvasSave', 'yesNo', {'canvas': window.canvas});
+			window.modal.open('canvasSave', 'yesNo', {'canvas': window.canvas})
+		.then(
+			answer_yes => {if (answer_yes) window.canvas.save()});
 		}
 	});
 
 	canvasActionBox.DOMNodeCanvasExport.click( function(){
+		//TODO: spinner
 		if (window.canvas.isActive){
-			window.modal.open('canvasExport', 'yesNo', {'canvas': window.canvas});
+			window.modal.open('canvasExport', 'yesNo', {'canvas': window.canvas})
+		.then(
+			answer_yes => {if (answer_yes) window.canvas.export()});
 		}
 	});
 
