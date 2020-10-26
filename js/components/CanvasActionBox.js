@@ -1,13 +1,19 @@
+import {
+  CANVAS_ACTION_BOX,
+  CANVAS_ACTION_BOX_RESET,
+  CANVAS_ACTION_BOX_SAVE,
+  CANVAS_ACTION_BOX_EXPORT } from '../constants.js';
+
 /**
  * @constructor
  * @description Creates a new Canvas Action Box object.
  *
  */
 let CanvasActionBox = function(){
-  this.DOMNode = $('#action-box');
-  this.DOMNodeCanvasReset = $('#btn-reset-canvas');
-  this.DOMNodeCanvasSave = $('#btn-save-canvas');
-  this.DOMNodeCanvasExport = $('#btn-export-canvas');
+  this.DOMNode = $ ( CANVAS_ACTION_BOX );
+  this.DOMNodeCanvasReset = $ ( CANVAS_ACTION_BOX_RESET);
+  this.DOMNodeCanvasSave = $ ( CANVAS_ACTION_BOX_SAVE);
+  this.DOMNodeCanvasExport = $ ( CANVAS_ACTION_BOX_EXPORT);
 };
 
 /**

@@ -2,6 +2,8 @@
 import {
   TOOL_BRUSH,
   TOOL_ERASER,
+  CANVAS_TOOLBOX_BRUSH,
+  CANVAS_TOOLBOX_ERASER,
   DEFAULT_PICKER_COLOR,
   BLANK_PIXEL_COLOR } from '../constants.js';
 
@@ -29,12 +31,12 @@ DrawingTool.prototype.set = function(tool) {
 
   switch(tool) {
     case TOOL_BRUSH:
-      $( "#btn-tool-eraser").removeClass("btn-pressed");
-      $( "#btn-tool-brush").addClass("btn-pressed");
+      $ ( CANVAS_TOOLBOX_ERASER ).removeClass("btn-pressed");
+      $ ( CANVAS_TOOLBOX_BRUSH ).addClass("btn-pressed");
       break;
     case TOOL_ERASER:
-      $( "#btn-tool-brush").removeClass("btn-pressed");
-      $( "#btn-tool-eraser").addClass("btn-pressed");
+      $ ( CANVAS_TOOLBOX_BRUSH ).removeClass("btn-pressed");
+      $ ( CANVAS_TOOLBOX_ERASER ).addClass("btn-pressed");
       break;
   }
 };

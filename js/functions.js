@@ -1,3 +1,5 @@
+import { CANVAS_MENU_LOAD_INPUT } from './constants.js';
+
 /**
   * @module functions
   */
@@ -34,7 +36,7 @@ let functions = {
     /* We need to trigger this event manually, since we are using
     a button to activate a hidden input file field */
 
-    $('#btn-load-canvas-input').trigger('click');
+    $ ( CANVAS_MENU_LOAD_INPUT ).trigger('click');
   },
 
   /**

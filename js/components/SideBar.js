@@ -1,11 +1,13 @@
+import { SIDEBAR_HELP, SIDEBAR_BACK_TO_TOP } from '../constants.js';
+
 /**
  * @constructor
  * @description Creates a new SideBar object.
  *
  */
 let SideBar = function(){
-  this.DOMNodeBtnHelp = $( '#btn-help' );
-  this.DOMNodeBtnBackToTop = $( '#btn-back-to-top' );
+  this.DOMNodeBtnHelp = $ ( SIDEBAR_HELP );
+  this.DOMNodeBtnBackToTop = $ ( SIDEBAR_BACK_TO_TOP );
 };
 
 

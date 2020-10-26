@@ -4,8 +4,13 @@ window.modal.open('error', {'text': `There was an error while trying to load the
 */
 
 import {
+  HEADER,
+  MAIN,
   CURSOR_COLOR,
-  CANVAS_TOOLBOX_SELECTOR,
+  SPINNER,
+  CANVAS_MENU_FORM,
+  CANVAS_MENU_LOAD_INPUT,
+  CANVAS_TOOLBOX,
   TOOL_BRUSH,
   TOOL_ERASER,
   CANVAS_DEFAULT_WIDTH,
@@ -73,8 +78,8 @@ $(function() {
       sideBar.setHelpVisibility(false);
     }
 
-    if (((($( window ).height() + $(window).scrollTop()) >= ($('body').outerHeight()/1.25)) &&
-     (functions.getNodePositionTop(CANVAS_TOOLBOX_SELECTOR)<=$(window).scrollTop())) &&
+    if (((($ ( window ).height() + $ ( window ).scrollTop()) >= ($ ( 'body' ).outerHeight()/1.25)) &&
+     (functions.getNodePositionTop(CANVAS_TOOLBOX)<=$ ( window ).scrollTop())) &&
       canvas.isActive &&
       !modal.isOpen()) {
       sideBar.setBacktotopVisibility(true);
@@ -108,7 +113,7 @@ $(function() {
    *
    */
 
-  window.mainDivWidthPx = parseInt($('.main').width());
+  window.mainDivWidthPx = parseInt($ (MAIN).width());
 
   let spinner = new Spinner();
   let modal = new Modal();
@@ -137,21 +142,21 @@ $(function() {
   /**
    * @description Sets the visibility of the sidebar on each scroll
    */
-  $(document).scroll(function() {
+  $ ( document ).scroll(function() {
     setSideBarVisibility();
   });
 
   /**
    * @description Sets the visibility of the sidebar on each resize
    */
-  $(window).resize(function() {
+  $ ( window ).resize(function() {
     setSideBarVisibility();
   });
 
   /**
    * @description Sets the visibility of the sidebar on each resize
    */
-  $( '#header' ).click(function() {
+  $ ( HEADER ).click(function() {
     goToHomePage();
   });
 
@@ -164,7 +169,7 @@ $(function() {
   /**
    * @description Creates a canvas if requirements satisfied
    */
-  $('#size-picker').submit( function(e) {
+  $ ( CANVAS_MENU_FORM ).submit( function(e) {
 
     const CANVAS_WIDTH = parseInt($('#input-width').val());
     const CANVAS_HEIGHT = parseInt($('#input-height').val());
@@ -258,7 +263,7 @@ $(function() {
 
   /* In this case, we must use the document and not the canvas,
   because the user may release the mouse outside the canvas */
-  $(document).on('mouseup', function() {
+  $ ( document ).on('mouseup', function() {
     mouseDown=false;
   });
 

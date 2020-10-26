@@ -4,11 +4,49 @@
 
 /**
  *
- * Application
+ * General
  *
  */
 
+const HEADER = '#header';
+const MAIN = '.main';
+
 const CURSOR_COLOR = '#888888';
+
+/*
+ *
+ * Side bar
+ *
+ */
+
+const SIDEBAR_HELP = '#btn-help';
+const SIDEBAR_BACK_TO_TOP = '#btn-back-to-top';
+
+/*
+ *
+ * Spinner
+ *
+ */
+
+const SPINNER = '#spinner-container';
+
+/**
+ *
+ * Canvas Menu
+ *
+ */
+
+const CANVAS_MENU_FORM = '#size-picker';
+
+const CANVAS_MENU_INPUT_WIDTH = '#input-width';
+const CANVAS_MENU_INPUT_HEIGHT = '#input-height';
+
+const CANVAS_MENU_BTN_CREATE = '#btn-create-canvas';
+const CANVAS_MENU_BTN_LOAD = '#btn-load-canvas';
+
+const CANVAS_MENU_LOAD_INPUT = '#btn-load-canvas-input';
+const CANVAS_MENU_SAVE_FILENAME = 'canvas.pix';
+const CANVAS_MENU_EXPORT_FILENAME = 'pixelOdrom.png';
 
 /**
  *
@@ -16,7 +54,10 @@ const CURSOR_COLOR = '#888888';
  *
  */
 
-const CANVAS_TOOLBOX_SELECTOR = $ ( '#tool-box' );
+const CANVAS_TOOLBOX = '#tool-box';
+const CANVAS_TOOLBOX_COLOR_PICKER = '#color-picker';
+const CANVAS_TOOLBOX_BRUSH = '#btn-tool-brush';
+const CANVAS_TOOLBOX_ERASER = '#btn-tool-eraser';
 
 const TOOL_BRUSH = 'paint-brush';
 const TOOL_ERASER = 'eraser';
@@ -26,11 +67,27 @@ const DEFAULT_PICKER_COLOR = '#000';
 
 /**
  *
+ * Canvas Action Box
+ *
+ */
+
+const CANVAS_ACTION_BOX = '#action-box';
+const CANVAS_ACTION_BOX_RESET = '#btn-reset-canvas';
+const CANVAS_ACTION_BOX_SAVE = '#btn-save-canvas';
+const CANVAS_ACTION_BOX_EXPORT = '#btn-export-canvas';
+
+
+/**
+ *
  * Canvas
  *
  */
 
-const CANVAS_SELECTOR = '#pixel-canvas';
+
+const CANVAS = '#pixel-canvas';
+const PIXEL = '.pixel';
+
+
 
 const CANVAS_ASPECT_RATIO = 1.5;
 
@@ -56,6 +113,8 @@ const CANVAS_COLUMN_HTML = "<td class='pixel'></td>";
  * Modal
  *
  */
+
+const MODAL = '#dialog';
 
 const MODAL_CANVAS_CREATE_ICON_HTML = "<i class='fa fa-th'></i>";
 const MODAL_CANVAS_OPEN_ICON_HTML = "<i class='fa fa-folder-open'></i>";
@@ -159,13 +218,34 @@ const MODAL_CONTENT = {
   };
 
 export {
+  HEADER,
+  MAIN,
   CURSOR_COLOR,
-  CANVAS_TOOLBOX_SELECTOR,
+  SIDEBAR_HELP,
+  SIDEBAR_BACK_TO_TOP,
+  SPINNER,
+  CANVAS_MENU_FORM,
+  CANVAS_MENU_INPUT_WIDTH,
+  CANVAS_MENU_INPUT_HEIGHT,
+  CANVAS_MENU_BTN_CREATE,
+  CANVAS_MENU_BTN_LOAD,
+  CANVAS_MENU_LOAD_INPUT,
+  CANVAS_MENU_SAVE_FILENAME,
+  CANVAS_MENU_EXPORT_FILENAME,
+  CANVAS_TOOLBOX,
+  CANVAS_TOOLBOX_COLOR_PICKER,
+  CANVAS_TOOLBOX_BRUSH,
+  CANVAS_TOOLBOX_ERASER,
   TOOL_BRUSH,
   TOOL_ERASER,
   BLANK_PIXEL_COLOR,
   DEFAULT_PICKER_COLOR,
-  CANVAS_SELECTOR,
+  CANVAS_ACTION_BOX,
+  CANVAS_ACTION_BOX_RESET,
+  CANVAS_ACTION_BOX_SAVE,
+  CANVAS_ACTION_BOX_EXPORT,
+  CANVAS,
+  PIXEL,
   CANVAS_ASPECT_RATIO,
   CANVAS_MIN_PIXEL_SIZE,
   CANVAS_MAX_PIXEL_SIZE,
@@ -175,5 +255,6 @@ export {
   CANVAS_PIXEL_PADDING_CORRECTION,
   CANVAS_ROW_HTML,
   CANVAS_COLUMN_HTML,
+  MODAL,
   MODAL_CONTENT
 };

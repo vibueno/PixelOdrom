@@ -1,4 +1,9 @@
 import {
+  CANVAS_MENU_INPUT_WIDTH,
+  CANVAS_MENU_INPUT_HEIGHT,
+  CANVAS_MENU_BTN_CREATE,
+  CANVAS_MENU_BTN_LOAD,
+  CANVAS_TOOLBOX_COLOR_PICKER,
   CANVAS_DEFAULT_WIDTH,
   CANVAS_DEFAULT_HEIGHT } from '../constants.js';
 
@@ -8,10 +13,10 @@ import {
  *
  */
 let CanvasMenu = function(){
-  this.DOMNodeGridWidth = $( '#input-width' );
-  this.DOMNodeGridHeight = $( '#input-height' );
-  this.DOMNodeBtnCanvasCreate = $( '#btn-create-canvas' );
-  this.DOMNodeBtnCanvasLoad = $( '#btn-load-canvas' );
+  this.DOMNodeGridWidth = $ (CANVAS_MENU_INPUT_WIDTH );
+  this.DOMNodeGridHeight = $ ( CANVAS_MENU_INPUT_HEIGHT );
+  this.DOMNodeBtnCanvasCreate = $ (CANVAS_MENU_BTN_CREATE );
+  this.DOMNodeBtnCanvasLoad = $ ( CANVAS_MENU_BTN_LOAD );
 
   this.DOMNodeGridHeight.prop('defaultValue', CANVAS_DEFAULT_WIDTH);
   this.DOMNodeGridHeight.prop('defaultValue', CANVAS_DEFAULT_HEIGHT);

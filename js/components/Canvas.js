@@ -1,6 +1,10 @@
 import {
+  CANVAS_MENU_LOAD_INPUT,
+  CANVAS_MENU_SAVE_FILENAME,
+  CANVAS_MENU_EXPORT_FILENAME,
   BLANK_PIXEL_COLOR,
-  CANVAS_SELECTOR,
+  CANVAS,
+  PIXEL,
   CANVAS_ASPECT_RATIO,
   CANVAS_MIN_PIXEL_SIZE,
   CANVAS_MAX_PIXEL_SIZE,
@@ -23,7 +27,7 @@ import { CanvasNoSpace, CanvasInvalidProportions } from './Error.js';
  * @property {Number} canvas height.
  */
 let Canvas = function(width, height){
-  this.DOMNode = $ ( CANVAS_SELECTOR );
+  this.DOMNode = $ ( CANVAS );
   this.width = width;
   this.height = height;
   this.maxWidthPx = Math.min(Math.floor(window.mainDivWidthPx/CANVAS_MIN_PIXEL_SIZE), CANVAS_MAX_WIDTH_PO);
@@ -40,7 +44,7 @@ Canvas.prototype.setUp = function() {
   let canvasCSSWidth;
   let pixelSize;
 
-  let pixelBorderSize = $('.pixel').css('border-left-width');
+  let pixelBorderSize = $ ( PIXEL ).css('border-left-width');
   pixelBorderSize = (typeof myVar === 'undefined')? 0: functions.CSSPixelToNumber(pixelBorderSize);
 
   const CANVAS_TOTAL_BORDER_SIZE = pixelBorderSize * this.height;
@@ -137,7 +141,7 @@ Canvas.prototype.create = function(width, height){
 
     for (let i=1; i<=height; i++){
       this.DOMNode.append(CANVAS_ROW_HTML);
-      let lastRow = $(CANVAS_SELECTOR + ' tr').last();
+      let lastRow = $(CANVAS + ' tr').last();
 
       for (let j=1; j<=width; j++){
         lastRow.append(CANVAS_COLUMN_HTML);
@@ -188,8 +192,8 @@ Canvas.prototype.pixelSetUp = function() {
   let padding = pixelWidth;
   padding = padding - padding*CANVAS_PIXEL_PADDING_CORRECTION;
 
-  this.DOMNode.find('.pixel').width(pixelWidth+'%');
-  this.DOMNode.find('.pixel').css('padding-bottom', padding+'%');
+  $ ( PIXEL ).width(pixelWidth+'%');
+  $ ( PIXEL ).css('padding-bottom', padding+'%');
 };
 
 /**
@@ -207,7 +211,7 @@ Canvas.prototype.delete = function() {
  * @description Resets all pixels to their initial color.
  */
 Canvas.prototype.reset = function() {
-  this.DOMNode.find('.pixel').css('background-color', BLANK_PIXEL_COLOR);
+  $ ( PIXEL ).css('background-color', BLANK_PIXEL_COLOR);
 };
 
 /**
@@ -245,7 +249,7 @@ Canvas.prototype.load = function (input) {
 
         /* This call is needed in order to make the even onchange fires every time,
         even if the users selects the same file again */
-        $('#btn-load-canvas-input').prop('value', '');
+        $ ( CANVAS_MENU_LOAD_INPUT ).prop('value', '');
 
         resolve ('canvas loaded');
       }
@@ -267,13 +271,13 @@ Canvas.prototype.save = function() {
   const CANVAS_TO_SAVE = this.DOMNode.clone();
 
   //removing styles since they should be calculated when loading
-  CANVAS_TO_SAVE.find('.pixel').css('width', '');
-  CANVAS_TO_SAVE.find('.pixel').css('padding-bottom', '');
+  CANVAS_TO_SAVE.find(PIXEL).css('width', '');
+  CANVAS_TO_SAVE.find(PIXEL).css('padding-bottom', '');
 
   const canvasContent = CANVAS_TO_SAVE.html();
 
   const blob = new Blob([canvasContent], {type: 'text/plain;charset=utf-8'});
-  saveAs(blob, 'canvas.pix');
+  saveAs(blob, CANVAS_MENU_SAVE_FILENAME);
 };
 
 /**
@@ -296,7 +300,7 @@ Canvas.prototype.export = function() {
     .then(canvas => {
 
       //Saves canvas to client
-      saveAs(canvas.toDataURL(), 'pixelOdrom.png');
+      saveAs(canvas.toDataURL(), CANVAS_MENU_EXPORT_FILENAME);
 
       //Moving the pixel table back to its original position
       this.DOMNode.removeClass('pixel-canvas-export');

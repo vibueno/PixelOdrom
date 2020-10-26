@@ -1,4 +1,4 @@
-import { MODAL_CONTENT } from '../constants.js';
+import { MODAL, MODAL_CONTENT } from '../constants.js';
 
 /**
  * @constructor
@@ -6,8 +6,8 @@ import { MODAL_CONTENT } from '../constants.js';
  *
  */
  let Modal = function(){
-   this.DOMNode = $( '#dialog' );
-   this.DOMNodeText = $( '#dialog' ).first('p');
+   this.DOMNode = $ ( MODAL );
+   this.DOMNodeText = $( MODAL ).first('p');
    this.title = null;
    this.buttons = null;
  };
