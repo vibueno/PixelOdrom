@@ -45,7 +45,7 @@ CanvasToolBox.prototype.setVisibility = function (visible) {
  */
 CanvasToolBox.prototype.initColorPicker = function (newColor) {
 
-  this.drawingTool.color = inputColor;
+  this.drawingTool.color = newColor;
 
   $('#color-picker').spectrum({
     color: newColor,
