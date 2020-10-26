@@ -1,3 +1,7 @@
+/**
+ * @module SideBar
+ */
+
 import { SIDEBAR_HELP, SIDEBAR_BACK_TO_TOP } from '../constants.js';
 
 /**
@@ -10,9 +14,9 @@ let SideBar = function(){
   this.DOMNodeBtnBackToTop = $ ( SIDEBAR_BACK_TO_TOP );
 };
 
-
 /**
  * @description Sets the visibility of the help button.
+ * @param {Boolean} visible Indicates whether the button should be shown or hidden.
  */
 SideBar.prototype.setHelpVisibility = function (visible) {
   if (visible) {
@@ -36,6 +40,7 @@ SideBar.prototype.setHelpVisibility = function (visible) {
 
 /**
  * @description Sets the visibility of the back to top button.
+ * @param {Boolean} visible Indicates whether the button should be shown or hidden.
  */
 SideBar.prototype.setBacktotopVisibility = function (visible) {
 

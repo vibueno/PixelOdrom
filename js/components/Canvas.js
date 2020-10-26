@@ -1,3 +1,7 @@
+/**
+ * @module Canvas
+ */
+
 import {
   CANVAS_MENU_LOAD_INPUT,
   CANVAS_MENU_SAVE_FILENAME,
@@ -22,9 +26,12 @@ import { CanvasNoSpace, CanvasInvalidProportions } from './Error.js';
  * @constructor
  * @description Creates a new Canvas object.
  *
- * @property {Object} DOMNode DOM object related to the canvas.
- * @property {Number} canvas width.
- * @property {Number} canvas height.
+ * @property {Object}  DOMNode DOM object related to the canvas.
+ * @property {Number}  canvas width.
+ * @property {Number}  canvas height.
+ * @property {Number}  canvas maximal width in pixels.
+ * @property {Number}  canvas maximal height in pixels.
+ * @property {Boolean} tells whether the canvas is active.
  */
 let Canvas = function(width, height){
   this.DOMNode = $ ( CANVAS );
@@ -76,11 +83,10 @@ Canvas.prototype.setUp = function() {
 
 /**
  * @description Sets canvas visibility.
- *
- * @param {Boolean} indicates whether the Canvas should be shown or hidden
+ * @param {Boolean} visible Indicates whether the Canvas should be shown or hidden.
  */
-Canvas.prototype.setVisibility = function (show) {
-  if (show){
+Canvas.prototype.setVisibility = function (visible) {
+  if (visible){
     this.DOMNode.removeClass('pixel-canvas-hidden');
     this.DOMNode.addClass('pixel-canvas');
     this.isActive = true;
@@ -94,17 +100,9 @@ Canvas.prototype.setVisibility = function (show) {
 };
 
 /**
- * @description Checks whether there is an active canvas.
- */
-Canvas.prototype.isCanvas = function() {
-  return this.DOMNode.find(' tr ').length;
-};
-
-/**
- * @description Checks if the canvas width/height relation is allowed.
- *
- * @param  {Number} width  width of the canvas in pixelOdrom pixels.
- * @param  {Number} height height of the canvas in pixelOdrom pixels.
+ * @description Checks if the canvas width/height ratio is allowed.
+ * @param  {Number} width  Width of the canvas in pixelOdrom pixels.
+ * @param  {Number} height Height of the canvas in pixelOdrom pixels.
  */
 Canvas.prototype.validProportions = function(width, height) {
 
@@ -120,9 +118,8 @@ Canvas.prototype.validProportions = function(width, height) {
 
 /**
  * @description Creates the canvas.
- *
- * @param  {Array}   canvasSize Width and height of the canvas.
- * @param  {Boolean} scrollToCanvas tells whether to navigate to the canvas after creation.
+ * @param  {Number}  width  Width of the canvas to be created.
+ * @param  {Number}  height Height of the canvas to be created.
  */
 Canvas.prototype.create = function(width, height){
 
@@ -156,8 +153,8 @@ Canvas.prototype.create = function(width, height){
 
 /**
  * @description Wrapper for the create function.
- *
- * @param  {Array} canvasSize Width and height of the canvas.
+ * @param  {Number}  width  Width of the canvas to be created.
+ * @param  {Number}  height Height of the canvas to be created.
  */
 Canvas.prototype.createCanvasWrapper = function (width, height) {
 
@@ -179,9 +176,7 @@ Canvas.prototype.createCanvasWrapper = function (width, height) {
 };
 
 /**
- * @description Set ups the pixelOdrom pixels in the canvas.
- *
- * @param  {Number} maxCanvasWidthPx maximal width of the canvas in CSS pixels.
+ * @description Set ups the pixels in the canvas.
  */
 Canvas.prototype.pixelSetUp = function() {
 
@@ -216,8 +211,7 @@ Canvas.prototype.reset = function() {
 
 /**
  * @description Loads a canvas.
- *
- * @param  {Object} file object containing the canvas to be imported.
+ * @param  {Object} input File object containing the canvas to be loaded.
  */
 Canvas.prototype.load = function (input) {
 
@@ -241,7 +235,7 @@ Canvas.prototype.load = function (input) {
         const CANVAS_HEIGHT = canvasToImport.length;
 
         if (CANVAS_WIDTH > this.maxWidth || CANVAS_HEIGHT >  this.maxHeight) {
-          window.modal.open('canvasImport');
+          window.modal.open('canvasLoad', 'yesNo');
         }
         else {
           this.DOMNode.html(reader.result);

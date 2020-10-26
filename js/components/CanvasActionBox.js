@@ -1,3 +1,7 @@
+/**
+ * @module CanvasActionBox
+ */
+
 import {
   CANVAS_ACTION_BOX,
   CANVAS_ACTION_BOX_RESET,
@@ -7,7 +11,6 @@ import {
 /**
  * @constructor
  * @description Creates a new Canvas Action Box object.
- *
  */
 let CanvasActionBox = function(){
   this.DOMNode = $ ( CANVAS_ACTION_BOX );
@@ -18,8 +21,7 @@ let CanvasActionBox = function(){
 
 /**
  * @description Shows or hides the action box.
- *
- * @param {Boolean} visible tells whether the action box should be shown or hidden.
+ * @param {Boolean} visible Tells whether the action box should be shown or hidden.
  */
 CanvasActionBox.prototype.setVisibility = function (visible) {
   if (visible) {

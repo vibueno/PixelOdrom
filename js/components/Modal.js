@@ -1,9 +1,12 @@
+/**
+ * @module Modal
+ */
+
 import { MODAL, MODAL_CONTENT } from '../constants.js';
 
 /**
  * @constructor
  * @description Creates a new Modal object.
- *
  */
  let Modal = function(){
    this.DOMNode = $ ( MODAL );
@@ -14,8 +17,7 @@ import { MODAL, MODAL_CONTENT } from '../constants.js';
 
 /**
  * @description Sets title text.
- *
- * @param {String} text text to be shown on the modal title bar.
+ * @param {String} text Text to be shown on the modal title bar.
  */
  Modal.prototype.setTitle = function (title) {
    this.title = title;
@@ -23,9 +25,8 @@ import { MODAL, MODAL_CONTENT } from '../constants.js';
 
 /**
  * @description Sets modal text.
- *
- * @param {String} text text to be shown on the modal.
- * @param {String} isHTML indicates whether the text should be treated as HTML.
+ * @param {String} text Text to be shown on the modal.
+ * @param {String} isHTML Indicates whether the text should be treated as HTML.
  */
  Modal.prototype.setText = function (text, isHTML) {
    if (isHTML) {
@@ -38,8 +39,8 @@ import { MODAL, MODAL_CONTENT } from '../constants.js';
 
 /**
  * @description Opens the modal.
- *
  * @param {String} modalType indicates the type of modal to be shown.
+ * @param {String} modalButtons Indicates which buttons should be shown on the modal.
  *
  * @return {Promise} Used if actions will be performed outside of this module.
  */
@@ -132,7 +133,7 @@ Modal.prototype.open = function (modalType, modalButtons, args) {
 /**
  * @description Checks whether the jQuery UI Dialog is open.
  *
- * @returns {Boolean}
+ * @returns {Boolean} Tells whether the modal is open.
  */
 Modal.prototype.isOpen = function () {
 

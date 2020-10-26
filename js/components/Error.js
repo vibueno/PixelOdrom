@@ -1,10 +1,22 @@
-function CanvasInvalidProportions() {
+/**
+ * @module Error
+ */
+
+/**
+ * @constructor
+ * @description Creates a new CanvasInvalidProportions Error object.
+ */
+let CanvasInvalidProportions = function () {
   this.name = "CanvasInvalidProportions";
 }
 
 CanvasInvalidProportions.prototype = Error.prototype;
 
-function CanvasNoSpace() {
+/**
+ * @constructor
+ * @description Creates a new CanvasNoSpace Error object.
+ */
+let CanvasNoSpace = function () {
   this.name = "CanvasNoSpace";
 }
 

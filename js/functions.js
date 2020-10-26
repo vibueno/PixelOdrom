@@ -1,16 +1,16 @@
-import { CANVAS_MENU_LOAD_INPUT } from './constants.js';
-
 /**
-  * @module functions
-  */
+ * @module functions
+ */
+
+import { CANVAS_MENU_LOAD_INPUT } from './constants.js';
 
 let functions = {
 
   /**
    * @description Creates a delay that can be used in a promise chain.
-   * @param  {Number} duration amount of time the delay will run.
+   * @param {Number}   duration Amount of time the delay will run.
    *
-   * @returns {Object} Promise
+   * @returns {Object} Promise.
    */
   delay: function (duration) {
     return new Promise(function(resolve) {
@@ -20,12 +20,12 @@ let functions = {
 
   /**
    * @description Converts a css value to Number.
-   * @param  {String} CSSValue value to be converted.
+   * @param  {String} cssValue Value to be converted.
    *
-   * @returns {Number} converted value
+   * @returns {Number} Converted value.
    */
-  CSSPixelToNumber: function (CSSValue) {
-    return parseInt(CSSValue.replace('px', ''));
+  CSSPixelToNumber: function (cssValue) {
+    return parseInt(cssValue.replace('px', ''));
   },
 
   /**
@@ -35,13 +35,11 @@ let functions = {
 
     /* We need to trigger this event manually, since we are using
     a button to activate a hidden input file field */
-
     $ ( CANVAS_MENU_LOAD_INPUT ).trigger('click');
   },
 
   /**
-   * @description Scrolls to top of window
-   *
+   * @description Scrolls to top of window.
    */
   scrollTop: function () {
     scroll(0, 0);
@@ -49,8 +47,9 @@ let functions = {
 
   /**
    * @description Checks if the file to be imported contains a valid canvas.
+   * @param {Object} canvas Canvas to be checked.
    *
-   * @returns {Boolean}
+   * @returns {Boolean} Tells whether the canvas is valid.
    */
   isValidCanvas: function (canvas) {
     let canvasCheck;
@@ -72,8 +71,9 @@ let functions = {
 
   /**
    * @description Calculates the top position of an HTML node.
+   * @param {Number} id Identifier of the node.
    *
-   * @returns {Number} top position of the node.
+   * @returns {Number} Top position of the node.
    */
   getNodePositionTop: function (id) {
     const TOOL_BOX_MARGIN_TOP = functions.CSSPixelToNumber($(id).css('marginTop'));
@@ -83,8 +83,9 @@ let functions = {
 
   /**
    * @description Scrolls to the set position
+   * @param {Number} position Vertical position to scroll to.
    *
-   * @returns {Number} top position of the node.
+   * @returns {Number} Top position of the node.
    */
   scrollTo: function (position) {
     window.scroll(0, position);

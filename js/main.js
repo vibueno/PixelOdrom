@@ -31,7 +31,7 @@ import { Spinner } from './components/Spinner.js';
 We do so to avoid confusion with CSS pixels */
 
 /**
- * @description document.ready
+ * @description document.ready.
  */
 $(function() {
 
@@ -42,7 +42,7 @@ $(function() {
    */
 
   /**
-   * @description Resets PixelOdrom to all default values and visibilities
+   * @description Resets PixelOdrom to all default values and visibilities.
    */
 
   let resetPixelOdrom = function (){
@@ -68,7 +68,7 @@ $(function() {
   };
 
   /**
-   * @description Sets the visibility of the sidebar
+   * @description Sets the visibility of the sidebar.
    */
   let setSideBarVisibility = function () {
     if (!modal.isOpen()){
@@ -90,7 +90,8 @@ $(function() {
   };
 
   /**
-   * @description Handles the click even on the header when called from index.html
+   * @description Handles the click event on the header when called from index.html.
+   * @param {Number} file File to be loaded as a canvas.
    */
   window.btnLoadCanvasClick = function (file){
     canvas.load(file)
@@ -127,6 +128,10 @@ $(function() {
 
   resetPixelOdrom();
 
+  if (!localStorage.dialogStartUpHide) {
+    modal.open('startUp', 'OK', {'button1Label': 'Get started!'});
+  }
+
   /**
    *
    * Events
@@ -140,21 +145,24 @@ $(function() {
    */
 
   /**
-   * @description Sets the visibility of the sidebar on each scroll
+   * @description scroll event on document.
+   * Sets the visibility of the sidebar on each scroll.
    */
   $ ( document ).scroll(function() {
     setSideBarVisibility();
   });
 
   /**
-   * @description Sets the visibility of the sidebar on each resize
+   * @description resize event on window.
+   * Sets the visibility of the sidebar on each resize.
    */
   $ ( window ).resize(function() {
     setSideBarVisibility();
   });
 
   /**
-   * @description Sets the visibility of the sidebar on each resize
+   * @description click event on the header.
+   * Check whether to reset the application.
    */
   $ ( HEADER ).click(function() {
     goToHomePage();
@@ -167,7 +175,7 @@ $(function() {
    */
 
   /**
-   * @description Creates a canvas if requirements satisfied
+   * @description Creates a canvas if requirements satisfied.
    */
   $ ( CANVAS_MENU_FORM ).submit( function(e) {
 
@@ -186,7 +194,7 @@ $(function() {
   });
 
   /**
-   * @description Shows the load canvas dialog
+   * @description Shows the load canvas dialog.
    */
   canvasMenu.DOMNodeBtnCanvasLoad.click( function() {
 
@@ -215,7 +223,8 @@ $(function() {
    */
 
   /**
-   * @description Paints or erases pixels
+   * @description mousedown event on canvas.td.
+   * Paints or erases pixels.
    */
   canvas.DOMNode.on('mousedown', 'td', function() {
     mouseDown=true;
@@ -223,7 +232,8 @@ $(function() {
   });
 
   /**
-   * @description Paints or erases pixels
+   * @description mousedown event on canvas.td.
+   * Paints or erases pixels.
    */
   canvas.DOMNode.on('mouseover', 'td', function() {
     if (mouseDown){
@@ -232,7 +242,8 @@ $(function() {
   });
 
   /**
-   * @description Paints or erases pixels
+   * @description mouseenter event on canvas.td.
+   * Sets cursor depending on selected tool.
    */
   canvas.DOMNode.on('mouseenter', function() {
     $( this ).awesomeCursor(canvasToolBox.drawingTool.tool, {
@@ -242,7 +253,8 @@ $(function() {
   });
 
   /**
-   * @description Resets the cursor and deletes unneeded divs created by jQuery Awesome Cursor.
+   * @description mouseleave event on canvas.
+   * Resets the cursor and deletes unneeded divs created by jQuery Awesome Cursor.
    */
 
   /* One div is created every time a cursor is shown.
@@ -258,7 +270,8 @@ $(function() {
   });
 
   /**
-   * @description Updates global when mouse button released
+   * @description mouseup event on document.
+   * Updates variable mouseDown when mouse button released.
    */
 
   /* In this case, we must use the document and not the canvas,
@@ -268,8 +281,9 @@ $(function() {
   });
 
   /**
-   * @description Prevents dragging on painted pixels,
-   * which otherwise may behave together like an image
+   * @description dragstart event on canvas.
+   * Prevents dragging on painted pixels, which otherwise may behave together
+   * like an image.
    */
   canvas.DOMNode.on('dragstart', function (e) {
     e.preventDefault();
@@ -281,6 +295,9 @@ $(function() {
    *
    */
 
+  /**
+   * @description click event of the button Reset canvas.
+   */
   canvasActionBox.DOMNodeCanvasReset.click(function() {
     if (canvas.isActive){
       modal.open('canvasReset', 'yesNo')
@@ -289,6 +306,9 @@ $(function() {
     }
   });
 
+  /**
+   * @description click event of the button Save canvas.
+   */
   canvasActionBox.DOMNodeCanvasSave.click( function(){
     if (canvas.isActive){
      modal.open('canvasSave', 'yesNo')
@@ -297,6 +317,9 @@ $(function() {
     }
   });
 
+  /**
+   * @description click event of the button Export canvas.
+   */
   canvasActionBox.DOMNodeCanvasExport.click( function(){
     //TODO: spinner
     if (canvas.isActive){
@@ -312,10 +335,16 @@ $(function() {
    *
    */
 
+  /**
+   * @description click event of the tool Brush.
+   */
   canvasToolBox.DOMNodeBrush.click(function() {
     canvasToolBox.drawingTool.set(TOOL_BRUSH);
   });
 
+  /**
+   * @description click event of the tool Eraser.
+   */
   canvasToolBox.DOMNodeEraser.click(function() {
     canvasToolBox.drawingTool.set(TOOL_ERASER);
   });
@@ -326,6 +355,9 @@ $(function() {
    *
    */
 
+  /**
+   * @description click event of the button Back to top.
+   */
   sideBar.DOMNodeBtnBackToTop.click(function() {
     if (canvas.isActive){
      functions.scrollTo(functions.getNodePositionTop(CANVAS_TOOLBOX_SELECTOR));
@@ -341,18 +373,29 @@ $(function() {
    *
    */
 
+  /**
+   * @description dialogopen event of the modal.
+   * Sets the visibility of the sidebar.
+   */
   modal.DOMNode.on( 'dialogopen',
     function( ) {
      setSideBarVisibility();
     }
   );
 
+  /**
+   * @description dialogclose event of the modal.
+   * Sets the visibility of the sidebar.
+   */
   modal.DOMNode.on( 'dialogclose',
     function( ) {
      setSideBarVisibility();
     }
   );
 
+  /**
+   * @description change event of the modal when start up message shown.
+   */
   modal.DOMNode.on ('change', '#dialog-start-up-hide',
     function( ) {
       try {
@@ -375,11 +418,10 @@ $(function() {
    *
    */
 
+  /**
+   * @description click event of the button Help
+   */
   sideBar.DOMNodeBtnHelp.click(function() {
     modal.open('help', 'OK', {'button1Label': 'Alright!'});
   });
-
-  if (!localStorage.dialogStartUpHide) {
-    modal.open('startUp', 'OK', {'button1Label': 'Get started!'});
-  }
 });

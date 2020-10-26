@@ -1,3 +1,7 @@
+/**
+ * @module CanvasToolBox
+ */
+
 import {
   CANVAS_TOOLBOX,
   CANVAS_TOOLBOX_COLOR_PICKER,
@@ -10,8 +14,7 @@ import { DrawingTool } from './DrawingTool.js';
 
 /**
  * @constructor
- * @description Creates a new Canvas Toolbox object.
- *
+ * @description Creates a new CanvasToolbox object.
  */
 let CanvasToolBox = function(){
   this.DOMNode = $( CANVAS_TOOLBOX );
@@ -25,8 +28,7 @@ let CanvasToolBox = function(){
 
 /**
  * @description Shows or hides the tool box.
- *
- * @param  {Boolean} visible tells whether the tool box should be shown or hidden.
+ * @param {Boolean} visible tells whether the tool box should be shown or hidden.
  */
 CanvasToolBox.prototype.setVisibility = function (visible) {
   if (visible) {
@@ -39,15 +41,14 @@ CanvasToolBox.prototype.setVisibility = function (visible) {
 
 /**
  * @description Initializes the color picker.
- *
- * @param  {String} inputColor Hexadecimal value of the color to be set.
+ * @param  {String} newColor Hexadecimal value of the color to be set.
  */
-CanvasToolBox.prototype.initColorPicker = function (inputColor) {
+CanvasToolBox.prototype.initColorPicker = function (newColor) {
 
   this.drawingTool.color = inputColor;
 
   $('#color-picker').spectrum({
-    color: inputColor,
+    color: newColor,
     replacerClassName: 'btn-color-picker',
     change: function(color) {
       this.drawingTool.color = color.toHexString();

@@ -1,3 +1,7 @@
+/**
+ * @module CanvasMenu
+ */
+
 import {
   CANVAS_MENU_INPUT_WIDTH,
   CANVAS_MENU_INPUT_HEIGHT,
@@ -9,7 +13,7 @@ import {
 
 /**
  * @constructor
- * @description Creates a new Modal object.
+ * @description Creates a new CanvasMenu object.
  *
  */
 let CanvasMenu = function(){
@@ -24,9 +28,8 @@ let CanvasMenu = function(){
 
 /**
  * @description Sets the value of the input fields
- *
- * @param  {Number} canvasWidth canvas width to be set to the input field.
- * @param  {Number} canvasHeight canvas height to be set to the input field.
+ * @param  {Number} width  canvas width to be set into the input field.
+ * @param  {Number} height canvas height to be set into the input field.
  */
 CanvasMenu.prototype.setInputFields = function (width, height) {
   this.DOMNodeGridWidth.val(width);

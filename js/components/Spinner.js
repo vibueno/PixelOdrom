@@ -1,3 +1,7 @@
+/**
+ * @module Spinner
+ */
+
 import { SPINNER } from '../constants.js';
 
 /**

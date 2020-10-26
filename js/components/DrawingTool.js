@@ -1,3 +1,6 @@
+/**
+ * @module DrawingTool
+ */
 
 import {
   TOOL_BRUSH,
@@ -11,8 +14,8 @@ import {
  * @constructor
  * @description Creates a new DrawingTool object.
  *
- * @property {String} selectedTool indicates which drawing tool is selected.
- * @property {String} color color to be used when painting pixels.
+ * @property {String} tool Indicates which drawing tool is selected.
+ * @property {String} color Color to be used when painting pixels.
  *
  */
 let DrawingTool = function(){
@@ -22,8 +25,7 @@ let DrawingTool = function(){
 
 /**
  * @description Changes the active tool.
- *
- * @param  {String} tool drawing tool to be set as active.
+ * @param  {String} tool Drawing tool to be set as active.
  */
 DrawingTool.prototype.set = function(tool) {
 
@@ -43,8 +45,7 @@ DrawingTool.prototype.set = function(tool) {
 
 /**
  * @description Paints or erases a pixel.
- *
- * @param {String} color hexadecimal value of the color to be used
+ * @param {String} pixel Pixel to be painted
  */
 DrawingTool.prototype.paintPixel = function (pixel) {
   if (this.tool === TOOL_BRUSH){
