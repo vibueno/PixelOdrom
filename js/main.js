@@ -41,12 +41,13 @@ $(function() {
 	 */
 
 	let resetPixelOdrom = function (){
-		window.canvas.delete();
-		window.canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
-		window.canvas.setUp();
-		window.canvas.setVisibility(true);
+		canvas.delete();
+		canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
+		canvas.setUp();
+		canvas.setVisibility(true);
 		setSideBarVisibility();
 		canvasToolBox.setVisibility(true);
+		canvasToolBox.drawingTool.set(TOOL_BRUSH);
 		canvasActionBox.setVisibility(true);
 	};
 
@@ -54,8 +55,8 @@ $(function() {
    * @description Navigates to an empty page with no canvas.
    */
  	let goToHomePage = function () {
-		if (window.canvas.isActive) {
-			window.modal.open('pageLeave', 'yesNo')
+		if (canvas.isActive) {
+			modal.open('pageLeave', 'yesNo')
 			.then(
 				answer_yes => {if (answer_yes) resetPixelOdrom()});
 		}
@@ -65,7 +66,7 @@ $(function() {
 	 * @description Sets the visibility of the sidebar
 	 */
 	let setSideBarVisibility = function () {
-		if (!window.modal.isOpen()){
+		if (!modal.isOpen()){
 			sideBar.setHelpVisibility(true);
 		}
 		else {
@@ -74,8 +75,8 @@ $(function() {
 
 		if (((($( window ).height() + $(window).scrollTop()) >= ($('body').outerHeight()/1.25)) &&
 			(functions.getNodePositionTop(CANVAS_TOOLBOX_SELECTOR)<=$(window).scrollTop())) &&
-			window.canvas.isActive &&
-			!window.modal.isOpen()) {
+			canvas.isActive &&
+			!modal.isOpen()) {
 			sideBar.setBacktotopVisibility(true);
 		}
 		else {
@@ -88,16 +89,16 @@ $(function() {
 	 */
 
 	window.btnLoadCanvasClick = function (file){
-		window.canvas.load(file)
+		canvas.load(file)
 		.catch(err => {
 		 	switch(err){
 		 		case "CanvasWrongFormat":
-					window.modal.open('error', 'OK', {'title': MODAL_CONTENT.canvasWrongFormat.title,
+					modal.open('error', 'OK', {'title': MODAL_CONTENT.canvasWrongFormat.title,
 						'text': MODAL_CONTENT.canvasWrongFormat.text});
 		 		break;
 		 		default:
 		 			//TODO: Create constants for this error
-					window.modal.open('error', 'OK', { 'text': 'Error loading canvas.'});
+					modal.open('error', 'OK', { 'text': 'Error loading canvas.'});
 		 	}
 		});
 	};
@@ -110,13 +111,15 @@ $(function() {
 
 	window.mainDivWidthPx = parseInt($('.main').width());
 
-	window.modal = new Modal();
-	window.spinner = new Spinner();
-	window.canvas = new Canvas();
+	let spinner = new Spinner();
+	let modal = new Modal();
+	let canvas = new Canvas();
 	let canvasMenu = new CanvasMenu();
 	let canvasToolBox = new CanvasToolBox();
 	let canvasActionBox = new CanvasActionBox();
 	let sideBar = new SideBar();
+
+	let mouseDown=false;
 
 	resetPixelOdrom();
 
@@ -170,9 +173,9 @@ $(function() {
 		const DIALOG_MSG = `Are you sure that you want to create a new ${CANVAS_WIDTH}x${CANVAS_HEIGHT} canvas?`;
 
 		//TODO: spinner
-		window.modal.open('canvasCreate', 'yesNo', {'text': DIALOG_MSG, 'canvas': window.canvas, 'callbackArgs': {'width': CANVAS_WIDTH, 'height': CANVAS_HEIGHT}})
+		modal.open('canvasCreate', 'yesNo', {'text': DIALOG_MSG})
 		.then(
-			answer_yes => {if (answer_yes) window.canvas.create(CANVAS_WIDTH, CANVAS_HEIGHT)()});
+			answer_yes => {if (answer_yes) canvas.create(CANVAS_WIDTH, CANVAS_HEIGHT)()});
 
 		e.preventDefault();
 
@@ -183,7 +186,7 @@ $(function() {
 	 */
 	canvasMenu.DOMNodeBtnCanvasLoad.click( function() {
 
-		window.modal.open('canvasLoad', 'yesNo', {'canvas': window.canvas})
+		modal.open('canvasLoad', 'yesNo')
 		.then(
 			answer_yes => {if (answer_yes) functions.showFileDialog();});
 
@@ -211,16 +214,16 @@ $(function() {
 	/**
 	 * @description Paints or erases pixels
 	 */
-	window.canvas.DOMNode.on('mousedown', 'td', function() {
-		window.mouseDown=true;
+	canvas.DOMNode.on('mousedown', 'td', function() {
+		mouseDown=true;
 		canvasToolBox.drawingTool.paintPixel(this);
 	});
 
 	/**
 	 * @description Paints or erases pixels
 	 */
-	window.canvas.DOMNode.on('mouseover', 'td', function() {
-		if (window.mouseDown){
+	canvas.DOMNode.on('mouseover', 'td', function() {
+		if (mouseDown){
 			canvasToolBox.drawingTool.paintPixel(this);
 		}
 	});
@@ -228,7 +231,7 @@ $(function() {
 	/**
 	 * @description Paints or erases pixels
 	 */
-	window.canvas.DOMNode.on('mouseenter', function() {
+	canvas.DOMNode.on('mouseenter', function() {
 		$( this ).awesomeCursor(canvasToolBox.drawingTool.tool, {
 			hotspot: [2, 15],
 			color: CURSOR_COLOR
@@ -244,7 +247,7 @@ $(function() {
 	Beware: since the selector is neither id nor class,
 	this may produce unexpected results if other divs with the same style are used
 	*/
-	window.canvas.DOMNode.on('mouseleave', function() {
+	canvas.DOMNode.on('mouseleave', function() {
 		$( this ).css('cursor', '');
 
 		let invisibleDiv = $( 'div[style="position: absolute; left: -9999px; top: -9999px;"]' );
@@ -258,14 +261,14 @@ $(function() {
 	/* In this case, we must use the document and not the canvas,
 	because the user may release the mouse outside the canvas */
 	$(document).on('mouseup', function() {
-		window.mouseDown=false;
+		mouseDown=false;
 	});
 
   /**
 	 * @description Prevents dragging on painted pixels,
 	 * which otherwise may behave together like an image
 	 */
-	window.canvas.DOMNode.on('dragstart', function (e) {
+	canvas.DOMNode.on('dragstart', function (e) {
 		e.preventDefault();
 	});
 
@@ -276,27 +279,27 @@ $(function() {
 	 */
 
 	canvasActionBox.DOMNodeCanvasReset.click(function() {
-		if (window.canvas.isActive){
-			window.modal.open('canvasReset', 'yesNo', {'canvas': window.canvas})
+		if (canvas.isActive){
+			modal.open('canvasReset', 'yesNo')
 		.then(
-			answer_yes => {if (answer_yes) window.canvas.reset()});
+			answer_yes => {if (answer_yes) canvas.reset()});
 		}
 	});
 
 	canvasActionBox.DOMNodeCanvasSave.click( function(){
-		if (window.canvas.isActive){
-			window.modal.open('canvasSave', 'yesNo', {'canvas': window.canvas})
+		if (canvas.isActive){
+			modal.open('canvasSave', 'yesNo')
 		.then(
-			answer_yes => {if (answer_yes) window.canvas.save()});
+			answer_yes => {if (answer_yes) canvas.save()});
 		}
 	});
 
 	canvasActionBox.DOMNodeCanvasExport.click( function(){
 		//TODO: spinner
-		if (window.canvas.isActive){
-			window.modal.open('canvasExport', 'yesNo', {'canvas': window.canvas})
+		if (canvas.isActive){
+			modal.open('canvasExport', 'yesNo')
 		.then(
-			answer_yes => {if (answer_yes) window.canvas.export()});
+			answer_yes => {if (answer_yes) canvas.export()});
 		}
 	});
 
@@ -321,7 +324,7 @@ $(function() {
 	 */
 
 	sideBar.DOMNodeBtnBackToTop.click(function() {
-		if (window.canvas.isActive){
+		if (canvas.isActive){
 			functions.scrollTo(functions.getNodePositionTop(CANVAS_TOOLBOX_SELECTOR));
 		}
 		else {
@@ -335,19 +338,19 @@ $(function() {
 	 *
 	 */
 
-	window.modal.DOMNode.on( 'dialogopen',
+	modal.DOMNode.on( 'dialogopen',
 		function( ) {
 			setSideBarVisibility();
 		}
 	);
 
-	window.modal.DOMNode.on( 'dialogclose',
+	modal.DOMNode.on( 'dialogclose',
 		function( ) {
 			setSideBarVisibility();
 		}
 	);
 
-	window.modal.DOMNode.on ('change', '#dialog-start-up-hide',
+	modal.DOMNode.on ('change', '#dialog-start-up-hide',
 		function( ) {
 			try {
 				if ($('#dialog-not-show-again').is(':checked')){
@@ -358,7 +361,7 @@ $(function() {
 				}
 			}
 			catch(e) {
-				window.modal.open('error', 'OK', {'title': 'error', 'text': `There was an error trying to access the local storage: ${e.message}`});
+				modal.open('error', 'OK', {'title': 'error', 'text': `There was an error trying to access the local storage: ${e.message}`});
 			}
 		}
 	);
@@ -370,10 +373,10 @@ $(function() {
 	 */
 
 	sideBar.DOMNodeBtnHelp.click(function() {
-		window.modal.open('help', 'OK', {'button1Label': 'Alright!'});
+		modal.open('help', 'OK', {'button1Label': 'Alright!'});
 	});
 
 	if (!localStorage.dialogStartUpHide) {
-		window.modal.open('startUp', 'OK', {'button1Label': 'Get started!'});
+		modal.open('startUp', 'OK', {'button1Label': 'Get started!'});
 	}
 });
