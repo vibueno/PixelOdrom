@@ -5,10 +5,10 @@
 import {
   TOOL_BRUSH,
   TOOL_ERASER,
-  CANVAS_TOOLBOX_BRUSH,
-  CANVAS_TOOLBOX_ERASER,
-  DEFAULT_PICKER_COLOR,
-  BLANK_PIXEL_COLOR } from '../constants.js';
+  SEL_BTN_CANVAS_TOOLBOX_BRUSH,
+  SEL_BTN_CANVAS_TOOLBOX_ERASER,
+  COLOR_PICKER_DEFAULT,
+  COLOR_BLANK_PIXEL } from '../constants.js';
 
 /**
  * @constructor
@@ -20,7 +20,7 @@ import {
  */
 let DrawingTool = function(){
   this.tool = TOOL_BRUSH;
-  this.color = DEFAULT_PICKER_COLOR;
+  this.color = COLOR_PICKER_DEFAULT;
 };
 
 /**
@@ -33,12 +33,12 @@ DrawingTool.prototype.set = function(tool) {
 
   switch(tool) {
     case TOOL_BRUSH:
-      $ ( CANVAS_TOOLBOX_ERASER ).removeClass("btn-pressed");
-      $ ( CANVAS_TOOLBOX_BRUSH ).addClass("btn-pressed");
+      $ ( SEL_BTN_CANVAS_TOOLBOX_ERASER ).removeClass("btn-pressed");
+      $ ( SEL_BTN_CANVAS_TOOLBOX_BRUSH ).addClass("btn-pressed");
       break;
     case TOOL_ERASER:
-      $ ( CANVAS_TOOLBOX_BRUSH ).removeClass("btn-pressed");
-      $ ( CANVAS_TOOLBOX_ERASER ).addClass("btn-pressed");
+      $ ( SEL_BTN_CANVAS_TOOLBOX_BRUSH ).removeClass("btn-pressed");
+      $ ( SEL_BTN_CANVAS_TOOLBOX_ERASER ).addClass("btn-pressed");
       break;
   }
 };
@@ -52,7 +52,7 @@ DrawingTool.prototype.paintPixel = function (pixel) {
     $(pixel).css( "background-color", this.color);
   }
   else if (this.tool === TOOL_ERASER){
-    $(pixel).css( "background-color", BLANK_PIXEL_COLOR);
+    $(pixel).css( "background-color", COLOR_BLANK_PIXEL);
   }
 };
 

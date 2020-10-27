@@ -2,15 +2,15 @@
  * @module Modal
  */
 
-import { MODAL, MODAL_CONTENT } from '../constants.js';
+import { SEL_MODAL, MODAL_CONTENT } from '../constants.js';
 
 /**
  * @constructor
  * @description Creates a new Modal object.
  */
  let Modal = function(){
-   this.DOMNode = $ ( MODAL );
-   this.DOMNodeText = $( MODAL ).first('p');
+   this.DOMNode = $ ( SEL_MODAL );
+   this.DOMNodeText = $( SEL_MODAL ).first('p');
    this.title = null;
    this.buttons = null;
  };
@@ -56,25 +56,30 @@ Modal.prototype.open = function (modalType, modalButtons, args) {
 
     this.setTitle(MODAL_CONTENT[modalType].title);
 
-    if (typeof args.messageArgs==='object'){
+    if (typeof args==='object'){
+      if (typeof args.messageArgs==='object'){
 
-      let modalTextTpl = MODAL_CONTENT[modalType].text;
+        let modalTextTpl = MODAL_CONTENT[modalType].text;
 
-      const makeTemplate = (templateString) => {
-        /*jslint evil: true */
+        const makeTemplate = (templateString) => {
+          /*jslint evil: true */
 
-        /* The comment above is telling the JSHint to ignore the Function constructor call
-        Even though this is supposed to be bad practise,
-        I think this case is complicated enough to use it exceptionally.
-        http://jslint.fantasy.codes/the-function-constructor-is-eval
-        */
-        return (templateData) => new Function(`{${Object.keys(templateData).join(',')}}`, 'return `' + templateString + '`')(templateData);
-      };
+          /* The comment above is telling the JSHint to ignore the Function constructor call
+          Even though this is supposed to be bad practise,
+          I think this case is complicated enough to use it exceptionally.
+          http://jslint.fantasy.codes/the-function-constructor-is-eval
+          */
+          return (templateData) => new Function(`{${Object.keys(templateData).join(',')}}`, 'return `' + templateString + '`')(templateData);
+        };
 
-      const tpl =  makeTemplate(modalTextTpl);
-      const modalTextFilled = tpl(args.messageArgs);
+        const tpl =  makeTemplate(modalTextTpl);
+        const modalTextFilled = tpl(args.messageArgs);
 
-      this.setText(modalTextFilled, true);
+        this.setText(modalTextFilled, true);
+      }
+      else {
+        this.setText(MODAL_CONTENT[modalType].text, true);
+      }
     }
     else {
       this.setText(MODAL_CONTENT[modalType].text, true);

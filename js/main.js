@@ -2,21 +2,21 @@
 We do so to avoid confusion with CSS pixels */
 
 import {
-  HEADER,
-  MAIN,
-  CURSOR_COLOR,
-  CURSOR_INVISIBLE_DIV,
-  //SPINNER,
-  CANVAS_MENU_FORM,
-  CANVAS_MENU_INPUT_WIDTH,
-  CANVAS_MENU_INPUT_HEIGHT,
-  CANVAS_TOOLBOX,
+  SEL_HEADER,
+  SEL_MAIN,
+  COLOR_CURSOR,
+  DIV_INVISIBLE_CURSOR,
+  //SEL_SPINNER,
+  SEL_FORM_CANVAS_MENU,
+  SEL_CANVAS_MENU_INPUT_WIDTH,
+  SEL_CANVAS_MENU_INPUT_HEIGHT,
+  SEL_CANVAS_TOOLBOX,
   TOOL_BRUSH,
   TOOL_ERASER,
-  CANVAS_DEFAULT_WIDTH,
-  CANVAS_DEFAULT_HEIGHT,
-  MODAL_HELP_BUTTON_TEXT,
-  MODAL_START_UP_BUTTON_TEXT} from './constants.js';
+  NUM_CANVAS_DEFAULT_WIDTH,
+  NUM_CANVAS_DEFAULT_HEIGHT,
+  CAPTION_BTN_MODAL_HELP,
+  CAPTION_BTN_MODAL_START_UP} from './constants.js';
 
 import { functions } from './functions.js';
 
@@ -45,7 +45,7 @@ $(function() {
 
   let resetPixelOdrom = function (){
     canvas.delete();
-    canvas.create(CANVAS_DEFAULT_WIDTH, CANVAS_DEFAULT_HEIGHT, false);
+    canvas.create(NUM_CANVAS_DEFAULT_WIDTH, NUM_CANVAS_DEFAULT_HEIGHT, false);
     canvas.setUp();
     canvas.setVisibility(true);
     setSideBarVisibility();
@@ -77,7 +77,7 @@ $(function() {
     }
 
     if (((($ ( window ).height() + $ ( window ).scrollTop()) >= ($ ( 'body' ).outerHeight()/1.25)) &&
-     (functions.getNodePositionTop(CANVAS_TOOLBOX)<=$ ( window ).scrollTop())) &&
+     (functions.getNodePositionTop(SEL_CANVAS_TOOLBOX)<=$ ( window ).scrollTop())) &&
       canvas.isActive &&
       !modal.isOpen()) {
       sideBar.setBacktotopVisibility(true);
@@ -110,7 +110,7 @@ $(function() {
    *
    */
 
-  window.mainDivWidthPx = parseInt($ (MAIN).width());
+  window.mainDivWidthPx = parseInt($ (SEL_MAIN).width());
 
   //let spinner = new Spinner();
   let modal = new Modal();
@@ -125,7 +125,7 @@ $(function() {
   resetPixelOdrom();
 
   if (!localStorage.dialogStartUpHide) {
-    modal.open('startUp', 'OK', {'button1Label': MODAL_START_UP_BUTTON_TEXT});
+    modal.open('startUp', 'OK', {'button1Label': CAPTION_BTN_MODAL_START_UP});
   }
 
   /**
@@ -160,7 +160,7 @@ $(function() {
    * @description click event on the header.
    * Check whether to reset the application.
    */
-  $ ( HEADER ).click(function() {
+  $ ( SEL_HEADER ).click(function() {
     goToHomePage();
   });
 
@@ -173,10 +173,10 @@ $(function() {
   /**
    * @description Creates a canvas if requirements satisfied.
    */
-  $ ( CANVAS_MENU_FORM ).submit( function(e) {
+  $ ( SEL_FORM_CANVAS_MENU ).submit( function(e) {
 
-    const CANVAS_WIDTH = parseInt($( CANVAS_MENU_INPUT_WIDTH ).val());
-    const CANVAS_HEIGHT = parseInt($( CANVAS_MENU_INPUT_HEIGHT ).val());
+    const CANVAS_WIDTH = parseInt($( SEL_CANVAS_MENU_INPUT_WIDTH ).val());
+    const CANVAS_HEIGHT = parseInt($( SEL_CANVAS_MENU_INPUT_HEIGHT ).val());
 
     //TODO: spinner
     modal.open('canvasCreate', 'yesNo',
@@ -243,7 +243,7 @@ $(function() {
   canvas.DOMNode.on('mouseenter', function() {
     $( this ).awesomeCursor(canvasToolBox.drawingTool.tool, {
      hotspot: [2, 15],
-     color: CURSOR_COLOR
+     color: COLOR_CURSOR
    });
   });
 
@@ -260,7 +260,7 @@ $(function() {
   canvas.DOMNode.on('mouseleave', function() {
     $( this ).css('cursor', '');
 
-    let invisibleDiv = $( CURSOR_INVISIBLE_DIV );
+    let invisibleDiv = $( DIV_INVISIBLE_CURSOR );
     invisibleDiv.remove();
   });
 
@@ -355,7 +355,7 @@ $(function() {
    */
   sideBar.DOMNodeBtnBackToTop.click(function() {
     if (canvas.isActive){
-     functions.scrollTo(functions.getNodePositionTop(CANVAS_TOOLBOX));
+     functions.scrollTo(functions.getNodePositionTop(SEL_CANVAS_TOOLBOX));
    }
    else {
      functions.scrollTop();
@@ -417,6 +417,6 @@ $(function() {
    * @description click event of the button Help
    */
   sideBar.DOMNodeBtnHelp.click(function() {
-    modal.open('help', 'OK', {'button1Label': MODAL_HELP_BUTTON_TEXT});
+    modal.open('help', 'OK', {'button1Label': CAPTION_BTN_MODAL_HELP});
   });
 });

@@ -3,12 +3,12 @@
  */
 
 import {
-  CANVAS_MENU_INPUT_WIDTH,
-  CANVAS_MENU_INPUT_HEIGHT,
-  CANVAS_MENU_BTN_CREATE,
-  CANVAS_MENU_BTN_LOAD,
-  CANVAS_DEFAULT_WIDTH,
-  CANVAS_DEFAULT_HEIGHT } from '../constants.js';
+  SEL_CANVAS_MENU_INPUT_WIDTH,
+  SEL_CANVAS_MENU_INPUT_HEIGHT,
+  SEL_CANVAS_MENU_CREATE_BTN,
+  SEL_CANVAS_MENU_BTN_LOAD,
+  NUM_CANVAS_DEFAULT_WIDTH,
+  NUM_CANVAS_DEFAULT_HEIGHT } from '../constants.js';
 
 /**
  * @constructor
@@ -16,13 +16,13 @@ import {
  *
  */
 let CanvasMenu = function(){
-  this.DOMNodeGridWidth = $ (CANVAS_MENU_INPUT_WIDTH );
-  this.DOMNodeGridHeight = $ ( CANVAS_MENU_INPUT_HEIGHT );
-  this.DOMNodeBtnCanvasCreate = $ (CANVAS_MENU_BTN_CREATE );
-  this.DOMNodeBtnCanvasLoad = $ ( CANVAS_MENU_BTN_LOAD );
+  this.DOMNodeGridWidth = $ (SEL_CANVAS_MENU_INPUT_WIDTH );
+  this.DOMNodeGridHeight = $ ( SEL_CANVAS_MENU_INPUT_HEIGHT );
+  this.DOMNodeBtnCanvasCreate = $ (SEL_CANVAS_MENU_CREATE_BTN );
+  this.DOMNodeBtnCanvasLoad = $ ( SEL_CANVAS_MENU_BTN_LOAD );
 
-  this.DOMNodeGridHeight.prop('defaultValue', CANVAS_DEFAULT_WIDTH);
-  this.DOMNodeGridHeight.prop('defaultValue', CANVAS_DEFAULT_HEIGHT);
+  this.DOMNodeGridHeight.prop('defaultValue', NUM_CANVAS_DEFAULT_WIDTH);
+  this.DOMNodeGridHeight.prop('defaultValue', NUM_CANVAS_DEFAULT_HEIGHT);
 };
 
 /**
@@ -39,8 +39,8 @@ CanvasMenu.prototype.setInputFields = function (width, height) {
  * @description Resets the input fields to their default values.
  */
 CanvasMenu.prototype.resetInputFields = function () {
-  this.DOMNodeGridWidth.val(CANVAS_DEFAULT_WIDTH);
-  this.DOMNodeGridHeight.val(CANVAS_DEFAULT_HEIGHT);
+  this.DOMNodeGridWidth.val(NUM_CANVAS_DEFAULT_WIDTH);
+  this.DOMNodeGridHeight.val(NUM_CANVAS_DEFAULT_HEIGHT);
 };
 
 export { CanvasMenu };

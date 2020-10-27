@@ -3,20 +3,20 @@
  */
 
 import {
-  CANVAS_ACTION_BOX,
-  CANVAS_ACTION_BOX_RESET,
-  CANVAS_ACTION_BOX_SAVE,
-  CANVAS_ACTION_BOX_EXPORT } from '../constants.js';
+  SEL_CANVAS_ACTION_BOX,
+  SEL_BTN_RESET_CANVAS_ACTION_BOX,
+  SEL_BTN_SAVE_CANVAS_ACTION_BOX,
+  SEL_BTN_EXPORT_CANVAS_ACTION_BOX } from '../constants.js';
 
 /**
  * @constructor
  * @description Creates a new Canvas Action Box object.
  */
 let CanvasActionBox = function(){
-  this.DOMNode = $ ( CANVAS_ACTION_BOX );
-  this.DOMNodeCanvasReset = $ ( CANVAS_ACTION_BOX_RESET);
-  this.DOMNodeCanvasSave = $ ( CANVAS_ACTION_BOX_SAVE);
-  this.DOMNodeCanvasExport = $ ( CANVAS_ACTION_BOX_EXPORT);
+  this.DOMNode = $ ( SEL_CANVAS_ACTION_BOX );
+  this.DOMNodeCanvasReset = $ ( SEL_BTN_RESET_CANVAS_ACTION_BOX);
+  this.DOMNodeCanvasSave = $ ( SEL_BTN_SAVE_CANVAS_ACTION_BOX);
+  this.DOMNodeCanvasExport = $ ( SEL_BTN_EXPORT_CANVAS_ACTION_BOX);
 };
 
 /**

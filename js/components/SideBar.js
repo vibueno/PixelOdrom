@@ -2,7 +2,7 @@
  * @module SideBar
  */
 
-import { SIDEBAR_HELP, SIDEBAR_BACK_TO_TOP } from '../constants.js';
+import { SEL_SIDEBAR_HELP, SEL_SIDEBAR_BACK_TO_TOP } from '../constants.js';
 
 /**
  * @constructor
@@ -10,8 +10,8 @@ import { SIDEBAR_HELP, SIDEBAR_BACK_TO_TOP } from '../constants.js';
  *
  */
 let SideBar = function(){
-  this.DOMNodeBtnHelp = $ ( SIDEBAR_HELP );
-  this.DOMNodeBtnBackToTop = $ ( SIDEBAR_BACK_TO_TOP );
+  this.DOMNodeBtnHelp = $ ( SEL_SIDEBAR_HELP );
+  this.DOMNodeBtnBackToTop = $ ( SEL_SIDEBAR_BACK_TO_TOP );
 };
 
 /**

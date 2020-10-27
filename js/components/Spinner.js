@@ -2,7 +2,7 @@
  * @module Spinner
  */
 
-import { SPINNER } from '../constants.js';
+import { SEL_SPINNER } from '../constants.js';
 
 /**
  * @constructor
@@ -10,7 +10,7 @@ import { SPINNER } from '../constants.js';
  *
  */
 let Spinner = function(){
-    this.DOMNode = SPINNER;
+    this.DOMNode = SEL_SPINNER;
     this.isActive = false;
  };
 

@@ -3,12 +3,12 @@
  */
 
 import {
-  CANVAS_TOOLBOX,
-  CANVAS_TOOLBOX_COLOR_PICKER,
-  CANVAS_TOOLBOX_BRUSH,
-  CANVAS_TOOLBOX_ERASER,
+  SEL_CANVAS_TOOLBOX,
+  SEL_COLOR_PICKER_CANVAS_TOOLBOX,
+  SEL_BTN_CANVAS_TOOLBOX_BRUSH,
+  SEL_BTN_CANVAS_TOOLBOX_ERASER,
   TOOL_BRUSH,
-  DEFAULT_PICKER_COLOR } from '../constants.js';
+  COLOR_PICKER_DEFAULT } from '../constants.js';
 
 import { DrawingTool } from './DrawingTool.js';
 
@@ -17,13 +17,13 @@ import { DrawingTool } from './DrawingTool.js';
  * @description Creates a new CanvasToolbox object.
  */
 let CanvasToolBox = function(){
-  this.DOMNode = $( CANVAS_TOOLBOX );
-  this.DOMNodeColorPicker = $( CANVAS_TOOLBOX_COLOR_PICKER );
-  this.DOMNodeBrush = $( CANVAS_TOOLBOX_BRUSH );
-  this.DOMNodeEraser = $( CANVAS_TOOLBOX_ERASER );
+  this.DOMNode = $( SEL_CANVAS_TOOLBOX );
+  this.DOMNodeColorPicker = $( SEL_COLOR_PICKER_CANVAS_TOOLBOX );
+  this.DOMNodeBrush = $( SEL_BTN_CANVAS_TOOLBOX_BRUSH );
+  this.DOMNodeEraser = $( SEL_BTN_CANVAS_TOOLBOX_ERASER );
   this.drawingTool = new DrawingTool();
 
-  this.initColorPicker(DEFAULT_PICKER_COLOR);
+  this.initColorPicker(COLOR_PICKER_DEFAULT);
 };
 
 /**
@@ -47,7 +47,7 @@ CanvasToolBox.prototype.initColorPicker = function (newColor) {
 
   this.drawingTool.color = newColor;
 
-  $( CANVAS_TOOLBOX_COLOR_PICKER ).spectrum({
+  $( SEL_COLOR_PICKER_CANVAS_TOOLBOX ).spectrum({
     color: newColor,
     replacerClassName: 'btn-color-picker',
     change: function(color) {
