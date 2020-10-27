@@ -154,6 +154,7 @@ $(function() {
    */
   $ ( window ).resize(function() {
     setSideBarVisibility();
+    modal.center();
   });
 
   /**

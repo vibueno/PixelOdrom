@@ -164,4 +164,11 @@ Modal.prototype.isOpen = function () {
   }
 };
 
+/**
+ * @description Centers the modal
+ */
+Modal.prototype.center = function () {
+  $( SEL_MODAL ).dialog("option", "position", {my: "center", at: "center", of: window});
+};
+
 export { Modal };
