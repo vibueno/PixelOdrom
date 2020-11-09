@@ -92,7 +92,13 @@ $(function() {
    * @param {Number} file File to be loaded as a canvas.
    */
   window.btnLoadCanvasClick = function (file){
-    canvas.load(file)
+    canvas.load(file).then(
+      canvasSize => {
+        canvas.width = canvasSize.width;
+        canvas.height = canvasSize.height;
+        canvasMenu.setInputFields(canvas.width, canvas.height);
+        console.log(canvas);
+      })
     .catch(err => {
       switch(err){
        case "CanvasWrongFormat":

@@ -8,6 +8,7 @@ import {
   FILENAME_CANVAS_MENU_EXPORT,
   COLOR_BLANK_PIXEL,
   SEL_CANVAS,
+  SEL_JS_CANVAS,
   SEL_PIXEL,
   NUM_CANVAS_ASPECT_RATIO,
   NUM_CANVAS_MIN_PIXEL_SIZE,
@@ -145,7 +146,7 @@ Canvas.prototype.create = function(width, height){
       }
     }
 
-    this.setUp(height, height);
+    this.setUp(width, height);
 
     resolve (true);
   });
@@ -245,7 +246,8 @@ Canvas.prototype.load = function (input) {
         even if the users selects the same file again */
         $ ( SEL_BTN_INPUT_CANVAS_MENU_LOAD ).prop('value', '');
 
-        resolve (true);
+        resolve ({'width': document.getElementById(SEL_JS_CANVAS).rows[0].cells.length,
+          'height': $(SEL_CANVAS + ' tr').length});
       }
     }.bind(this);
 

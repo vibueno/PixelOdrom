@@ -35,7 +35,7 @@ For a live version of pixelOdrom, visit [GitHub Pages](https://vibueno.github.io
 * JavaScript Promises
 
 ### Style Guidelines
-* [HTML](https://validator.w3.org)
+* [HTML](http://udacity.github.io/frontend-nanodegree-styleguide/index.html)
 * [CSS](http://udacity.github.io/frontend-nanodegree-styleguide/css.html)
 * [CSS Rule order](https://9elements.com/css-rule-order)
 * [JavaScript](http://udacity.github.io/frontend-nanodegree-styleguide/javascript.html)

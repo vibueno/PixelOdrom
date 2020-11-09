@@ -5,6 +5,7 @@
 /* The constants in this module contain some prefixes in their names to make clearer
 what they are used for:
 - SEL: jQuery selector
+- SEL_JS: vanilla js selector
 - COLOR: contains a hexadecimal color code
 - HTML: contains HTML code
 - CAPTION: contains text to be shown on a button
@@ -94,6 +95,8 @@ const SEL_BTN_EXPORT_CANVAS_ACTION_BOX = '#btn-export-canvas';
  */
 
 const SEL_CANVAS = '#pixel-canvas';
+const SEL_JS_CANVAS = 'pixel-canvas';
+
 const SEL_PIXEL = '.pixel';
 
 const NUM_CANVAS_ASPECT_RATIO = 1.5;
@@ -273,6 +276,7 @@ export {
   SEL_BTN_SAVE_CANVAS_ACTION_BOX,
   SEL_BTN_EXPORT_CANVAS_ACTION_BOX,
   SEL_CANVAS,
+  SEL_JS_CANVAS,
   SEL_PIXEL,
   NUM_CANVAS_ASPECT_RATIO,
   NUM_CANVAS_MIN_PIXEL_SIZE,
