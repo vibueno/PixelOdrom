@@ -76,9 +76,9 @@ let functions = {
    * @returns {Number} Top position of the node.
    */
   getNodePositionTop: function (id) {
-    const TOOL_BOX_MARGIN_TOP = functions.CSSPixelToNumber($(id).css('marginTop'));
-    const TOOL_BOX_POSITION_TOP = $(id).position().top + TOOL_BOX_MARGIN_TOP;
-    return TOOL_BOX_POSITION_TOP;
+    const NODE_MARGIN_TOP = functions.CSSPixelToNumber($(id).css('marginTop'));
+    const NODE_POSITION_TOP = $(id).position().top + NODE_MARGIN_TOP;
+    return NODE_POSITION_TOP;
   },
 
   /**
