@@ -9,22 +9,21 @@ import { SEL_SPINNER } from '../constants.js';
  * @description Creates a new Spinner object.
  *
  */
-let Spinner = function(){
-    this.DOMNode = SEL_SPINNER;
-    this.isActive = false;
- };
+let Spinner = function() {
+  this.DOMNode = SEL_SPINNER;
+  this.isActive = false;
+};
 
 /**
  * @description Shows the spinner.
  */
-Spinner.prototype.show = function () {
+Spinner.prototype.show = function() {
   //a promise is needed to stop async execution
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
+    this.DOMNode.removeClass('spinner-container-hidden');
+    this.DOMNode.addClass('spinner-container');
 
-    this.DOMNode.removeClass("spinner-container-hidden");
-    this.DOMNode.addClass("spinner-container");
-
-    $( 'body' ).css("overflow", "hidden");
+    $('body').css('overflow', 'hidden');
 
     this.isActive = true;
 
@@ -35,14 +34,13 @@ Spinner.prototype.show = function () {
 /**
  * @description Hides the spinner.
  */
-Spinner.prototype.hide = function () {
+Spinner.prototype.hide = function() {
   //a promise is needed to stop async execution
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
+    this.DOMNode.addClass('spinner-container-hidden');
+    this.DOMNode.removeClass('spinner-container');
 
-    this.DOMNode.addClass("spinner-container-hidden");
-    this.DOMNode.removeClass("spinner-container");
-
-    $ ( 'body' ).css("overflow", "auto");
+    $('body').css('overflow', 'auto');
 
     this.isActive = false;
 

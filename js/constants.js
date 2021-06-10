@@ -23,7 +23,8 @@ const SEL_HEADER = '#header';
 const SEL_MAIN = '.main';
 
 const COLOR_CURSOR = '#888888';
-const DIV_INVISIBLE_CURSOR = 'div[style="position: absolute; left: -9999px; top: -9999px;"]';
+const DIV_INVISIBLE_CURSOR =
+  'div[style="position: absolute; left: -9999px; top: -9999px;"]';
 
 /*
  *
@@ -148,14 +149,17 @@ const HTML_TEXT_MODAL_HELP = `<p class = 'dialog-text-intro'>pixelOdrom is a web
 
 const CAPTION_BTN_MODAL_HELP = 'Alright!';
 
-const HTML_TEXT_MODAL_START_UP = HTML_TEXT_MODAL_HELP + `<p>
+const HTML_TEXT_MODAL_START_UP =
+  HTML_TEXT_MODAL_HELP +
+  `<p>
   <input type='checkbox' id='dialog-start-up-hide'>
   <label for='dialog-start-up-hide'>I am already a pixelOdrom master. Don't show this again!</label>
   </p>`;
 
 const CAPTION_BTN_MODAL_START_UP = 'Get started!';
 
-const TEXT_MODAL_PAGE_LEAVE = 'Leaving the page will reset the canvas. Do you want to proceed?';
+const TEXT_MODAL_PAGE_LEAVE =
+  'Leaving the page will reset the canvas. Do you want to proceed?';
 
 /**
  *
@@ -169,24 +173,29 @@ const TEXT_MODAL_CANVAS_INVALID_RATIO = `The proportions selected are not allowe
 
 /* This is a modal text template. You can pass arguments for completing this message
 with the parameter args.messageArgs when calling 'open' on Modal */
-const TEXT_MODAL_CANVAS_CREATE = 'Are you sure that you want to create a new ${canvasWidth}x${canvasHeight} canvas?';
+const TEXT_MODAL_CANVAS_CREATE =
+  'Are you sure that you want to create a new ${canvasWidth}x${canvasHeight} canvas?';
 
 const TITLE_MODAL_CANVAS_CREATE_NO_SPACE = 'Canvas too big';
 const TEXT_MODAL_CANVAS_CREATE_NO_SPACE = `The selected canvas is too big for the available space.
   If you created this canvas on another device, please make sure you use a similar one
   to edit it.`;
 
-const TEXT_MODAL_CANVAS_LOAD  = 'Are you sure that you want to load a previously saved canvas?';
-const TEXT_MODAL_CANVAS_LOAD_ERROR  = 'There has been an error loading the specified canvas.';
+const TEXT_MODAL_CANVAS_LOAD =
+  'Are you sure that you want to load a previously saved canvas?';
+const TEXT_MODAL_CANVAS_LOAD_ERROR =
+  'There has been an error loading the specified canvas.';
 
 const TITLE_MODAL_CANVAS_LOAD_NO_SPACE = 'Canvas too big';
 const TEXT_MODAL_CANVAS_LOAD_NO_SPACE = `The selected canvas is too big for the available space.
   If you created this canvas on another device, please make sure you use a similar one
   to edit it.`;
 
-const TEXT_MODAL_CANVAS_SAVE  = 'Are you sure that you want to save this canvas?';
+const TEXT_MODAL_CANVAS_SAVE =
+  'Are you sure that you want to save this canvas?';
 
-const TEXT_MODAL_CANVAS_RESET  = 'Are you sure that you want to reset this canvas?';
+const TEXT_MODAL_CANVAS_RESET =
+  'Are you sure that you want to reset this canvas?';
 
 const TEXT_MODAL_CANVAS_EXPORT = `<p class = 'dialog-text'>You are about to save your pixel art to an image file.</p>
   <p class = 'dialog-text'>Depending on your browser configuration, the picture may start to download automatically and be saved into your download directory.</p>
@@ -194,9 +203,11 @@ const TEXT_MODAL_CANVAS_EXPORT = `<p class = 'dialog-text'>You are about to save
   <p class = 'dialog-text'>Would you like to export this canvas now?</p>`;
 
 const TITLE_MODAL_CANVAS_WRONG_FORMAT = 'Wrong format';
-const TEXT_MODAL_CANVAS_WRONG_FORMAT = 'The selected file does not contain a valid canvas.';
+const TEXT_MODAL_CANVAS_WRONG_FORMAT =
+  'The selected file does not contain a valid canvas.';
 
-const TEXT_MODAL_LOCAL_STORAGE_ERROR = 'There was an error trying to access the local storage: ${errorMessage}';
+const TEXT_MODAL_LOCAL_STORAGE_ERROR =
+  'There was an error trying to access the local storage: ${errorMessage}';
 
 const TITLE_MODAL_CONFIRM = 'Confirm';
 
@@ -204,48 +215,62 @@ const TITLE_MODAL_ERROR = 'Error';
 
 const MODAL_CONTENT = {
   help: {
-    'title': 'pixelOdrom help',
-    'text': HTML_TEXT_MODAL_HELP},
+    title: 'pixelOdrom help',
+    text: HTML_TEXT_MODAL_HELP,
+  },
   startUp: {
-    'title': 'Welcome to pixelOdrom',
-    'text': HTML_TEXT_MODAL_START_UP},
+    title: 'Welcome to pixelOdrom',
+    text: HTML_TEXT_MODAL_START_UP,
+  },
   pageLeave: {
-    'title': TITLE_MODAL_CONFIRM,
-    'text': TEXT_MODAL_PAGE_LEAVE},
+    title: TITLE_MODAL_CONFIRM,
+    text: TEXT_MODAL_PAGE_LEAVE,
+  },
   canvasCreate: {
-    'title': TITLE_MODAL_CONFIRM,
-    'text': TEXT_MODAL_CANVAS_CREATE},
+    title: TITLE_MODAL_CONFIRM,
+    text: TEXT_MODAL_CANVAS_CREATE,
+  },
   canvasCreateNoSpace: {
-    'title': TITLE_MODAL_CANVAS_CREATE_NO_SPACE,
-    'text': TEXT_MODAL_CANVAS_CREATE_NO_SPACE},
+    title: TITLE_MODAL_CANVAS_CREATE_NO_SPACE,
+    text: TEXT_MODAL_CANVAS_CREATE_NO_SPACE,
+  },
   canvasInvalidProportions: {
-    'title': TITLE_MODAL_CANVAS_INVALID_RATIO,
-    'text': TEXT_MODAL_CANVAS_INVALID_RATIO},
+    title: TITLE_MODAL_CANVAS_INVALID_RATIO,
+    text: TEXT_MODAL_CANVAS_INVALID_RATIO,
+  },
   canvasLoad: {
-    'title': TITLE_MODAL_CONFIRM,
-    'text': TEXT_MODAL_CANVAS_LOAD},
+    title: TITLE_MODAL_CONFIRM,
+    text: TEXT_MODAL_CANVAS_LOAD,
+  },
   canvasLoadNoSpace: {
-    'title': TITLE_MODAL_CANVAS_LOAD_NO_SPACE,
-    'text': TEXT_MODAL_CANVAS_LOAD_NO_SPACE},
+    title: TITLE_MODAL_CANVAS_LOAD_NO_SPACE,
+    text: TEXT_MODAL_CANVAS_LOAD_NO_SPACE,
+  },
   canvasLoadError: {
-    'title': TITLE_MODAL_ERROR,
-    'text': TEXT_MODAL_CANVAS_LOAD_ERROR},
+    title: TITLE_MODAL_ERROR,
+    text: TEXT_MODAL_CANVAS_LOAD_ERROR,
+  },
   canvasSave: {
-    'title': TITLE_MODAL_CONFIRM,
-    'text': TEXT_MODAL_CANVAS_SAVE},
+    title: TITLE_MODAL_CONFIRM,
+    text: TEXT_MODAL_CANVAS_SAVE,
+  },
   canvasReset: {
-    'title': TITLE_MODAL_CONFIRM,
-    'text': TEXT_MODAL_CANVAS_RESET},
+    title: TITLE_MODAL_CONFIRM,
+    text: TEXT_MODAL_CANVAS_RESET,
+  },
   canvasExport: {
-    'title': TITLE_MODAL_CONFIRM,
-    'text': TEXT_MODAL_CANVAS_EXPORT},
+    title: TITLE_MODAL_CONFIRM,
+    text: TEXT_MODAL_CANVAS_EXPORT,
+  },
   canvasWrongFormat: {
-    'title': TITLE_MODAL_CANVAS_WRONG_FORMAT,
-    'text': TEXT_MODAL_CANVAS_WRONG_FORMAT},
+    title: TITLE_MODAL_CANVAS_WRONG_FORMAT,
+    text: TEXT_MODAL_CANVAS_WRONG_FORMAT,
+  },
   localStorageError: {
-    'title': TITLE_MODAL_ERROR,
-    'text': TEXT_MODAL_LOCAL_STORAGE_ERROR},
-  };
+    title: TITLE_MODAL_ERROR,
+    text: TEXT_MODAL_LOCAL_STORAGE_ERROR,
+  },
+};
 
 export {
   SEL_HEADER,
@@ -290,5 +315,5 @@ export {
   SEL_MODAL,
   MODAL_CONTENT,
   CAPTION_BTN_MODAL_HELP,
-  CAPTION_BTN_MODAL_START_UP
+  CAPTION_BTN_MODAL_START_UP,
 };

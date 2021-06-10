@@ -16,7 +16,8 @@ import {
   NUM_CANVAS_DEFAULT_WIDTH,
   NUM_CANVAS_DEFAULT_HEIGHT,
   CAPTION_BTN_MODAL_HELP,
-  CAPTION_BTN_MODAL_START_UP} from './constants.js';
+  CAPTION_BTN_MODAL_START_UP,
+} from './constants.js';
 
 import { functions } from './functions.js';
 
@@ -32,7 +33,6 @@ import { SideBar } from './components/SideBar.js';
  * @description document.ready.
  */
 $(function() {
-
   /**
    *
    * Functions
@@ -43,7 +43,7 @@ $(function() {
    * @description Resets PixelOdrom to all default values and visibilities.
    */
 
-  let resetPixelOdrom = function (){
+  let resetPixelOdrom = function() {
     canvas.delete();
     canvas.create(NUM_CANVAS_DEFAULT_WIDTH, NUM_CANVAS_DEFAULT_HEIGHT, false);
     canvas.setUp();
@@ -57,32 +57,34 @@ $(function() {
   /**
    * @description Navigates to an empty page with no canvas.
    */
-   let goToHomePage = function () {
+  let goToHomePage = function() {
     if (canvas.isActive) {
-     modal.open('pageLeave', 'yesNo')
-     .then(
-      answer_yes => {if (answer_yes) resetPixelOdrom();});
+      modal.open('pageLeave', 'yesNo').then(answer_yes => {
+        if (answer_yes) resetPixelOdrom();
+      });
     }
   };
 
   /**
    * @description Sets the visibility of the sidebar.
    */
-  let setSideBarVisibility = function () {
-    if (!modal.isOpen()){
+  let setSideBarVisibility = function() {
+    if (!modal.isOpen()) {
       sideBar.setHelpVisibility(true);
-    }
-    else {
+    } else {
       sideBar.setHelpVisibility(false);
     }
 
-    if (((($ ( window ).height() + $ ( window ).scrollTop()) >= ($ ( 'body' ).outerHeight()/1.25)) &&
-     (functions.getNodePositionTop(SEL_CANVAS_TOOLBOX)<=$ ( window ).scrollTop())) &&
+    if (
+      $(window).height() + $(window).scrollTop() >=
+        $('body').outerHeight() / 1.25 &&
+      functions.getNodePositionTop(SEL_CANVAS_TOOLBOX) <=
+        $(window).scrollTop() &&
       canvas.isActive &&
-      !modal.isOpen()) {
+      !modal.isOpen()
+    ) {
       sideBar.setBacktotopVisibility(true);
-    }
-    else {
+    } else {
       sideBar.setBacktotopVisibility(false);
     }
   };
@@ -91,23 +93,24 @@ $(function() {
    * @description Handles the click event on the header when called from index.html.
    * @param {Number} file File to be loaded as a canvas.
    */
-  window.btnLoadCanvasClick = function (file){
-    canvas.load(file).then(
-      canvasSize => {
+  window.btnLoadCanvasClick = function(file) {
+    canvas
+      .load(file)
+      .then(canvasSize => {
         canvas.width = canvasSize.width;
         canvas.height = canvasSize.height;
         canvasMenu.setInputFields(canvas.width, canvas.height);
         console.log(canvas);
       })
-    .catch(err => {
-      switch(err){
-       case "CanvasWrongFormat":
-       modal.open('canvasWrongFormat', 'OK');
-       break;
-       default:
-         modal.open('canvasLoadError', 'OK');
-       }
-     });
+      .catch(err => {
+        switch (err) {
+          case 'CanvasWrongFormat':
+            modal.open('canvasWrongFormat', 'OK');
+            break;
+          default:
+            modal.open('canvasLoadError', 'OK');
+        }
+      });
   };
 
   /*
@@ -116,7 +119,7 @@ $(function() {
    *
    */
 
-  window.mainDivWidthPx = parseInt($ (SEL_MAIN).width());
+  window.mainDivWidthPx = parseInt($(SEL_MAIN).width());
 
   //let spinner = new Spinner();
   let modal = new Modal();
@@ -126,12 +129,12 @@ $(function() {
   let canvasActionBox = new CanvasActionBox();
   let sideBar = new SideBar();
 
-  let mouseDown=false;
+  let mouseDown = false;
 
   resetPixelOdrom();
 
   if (!localStorage.dialogStartUpHide) {
-    modal.open('startUp', 'OK', {'button1Label': CAPTION_BTN_MODAL_START_UP});
+    modal.open('startUp', 'OK', { button1Label: CAPTION_BTN_MODAL_START_UP });
   }
 
   /**
@@ -150,7 +153,7 @@ $(function() {
    * @description scroll event on document.
    * Sets the visibility of the sidebar on each scroll.
    */
-  $ ( document ).scroll(function() {
+  $(document).scroll(function() {
     setSideBarVisibility();
   });
 
@@ -158,7 +161,7 @@ $(function() {
    * @description resize event on window.
    * Sets the visibility of the sidebar on each resize.
    */
-  $ ( window ).resize(function() {
+  $(window).resize(function() {
     setSideBarVisibility();
     modal.center();
   });
@@ -167,7 +170,7 @@ $(function() {
    * @description click event on the header.
    * Check whether to reset the application.
    */
-  $ ( SEL_HEADER ).click(function() {
+  $(SEL_HEADER).click(function() {
     goToHomePage();
   });
 
@@ -180,29 +183,29 @@ $(function() {
   /**
    * @description Creates a canvas if requirements satisfied.
    */
-  $ ( SEL_FORM_CANVAS_MENU ).submit( function(e) {
-
-    const CANVAS_WIDTH = parseInt($( SEL_CANVAS_MENU_INPUT_WIDTH ).val());
-    const CANVAS_HEIGHT = parseInt($( SEL_CANVAS_MENU_INPUT_HEIGHT ).val());
+  $(SEL_FORM_CANVAS_MENU).submit(function(e) {
+    const CANVAS_WIDTH = parseInt($(SEL_CANVAS_MENU_INPUT_WIDTH).val());
+    const CANVAS_HEIGHT = parseInt($(SEL_CANVAS_MENU_INPUT_HEIGHT).val());
 
     //TODO: spinner
-    modal.open('canvasCreate', 'yesNo',
-      {'messageArgs': {'canvasWidth': CANVAS_WIDTH, 'canvasHeight': CANVAS_HEIGHT}})
-    .then(
-    	answer_yes => {if (answer_yes) canvas.create(CANVAS_WIDTH, CANVAS_HEIGHT);});
+    modal
+      .open('canvasCreate', 'yesNo', {
+        messageArgs: { canvasWidth: CANVAS_WIDTH, canvasHeight: CANVAS_HEIGHT },
+      })
+      .then(answer_yes => {
+        if (answer_yes) canvas.create(CANVAS_WIDTH, CANVAS_HEIGHT);
+      });
 
     e.preventDefault();
-
   });
 
   /**
    * @description Shows the load canvas dialog.
    */
-  canvasMenu.DOMNodeBtnCanvasLoad.click( function() {
-
-    modal.open('canvasLoad', 'yesNo')
-    .then(
-     answer_yes => {if (answer_yes) functions.showFileDialog();});
+  canvasMenu.DOMNodeBtnCanvasLoad.click(function() {
+    modal.open('canvasLoad', 'yesNo').then(answer_yes => {
+      if (answer_yes) functions.showFileDialog();
+    });
 
     /*
     If load successful run:
@@ -215,7 +218,6 @@ $(function() {
     functions.setInputFieldsValues(this.width, this.height);
     functions.scrollToolboxTop();
     */
-
   });
 
   /*
@@ -229,7 +231,7 @@ $(function() {
    * Paints or erases pixels.
    */
   canvas.DOMNode.on('mousedown', 'td', function() {
-    mouseDown=true;
+    mouseDown = true;
     canvasToolBox.drawingTool.paintPixel(this);
   });
 
@@ -238,9 +240,9 @@ $(function() {
    * Paints or erases pixels.
    */
   canvas.DOMNode.on('mouseover', 'td', function() {
-    if (mouseDown){
-     canvasToolBox.drawingTool.paintPixel(this);
-   }
+    if (mouseDown) {
+      canvasToolBox.drawingTool.paintPixel(this);
+    }
   });
 
   /**
@@ -248,10 +250,10 @@ $(function() {
    * Sets cursor depending on selected tool.
    */
   canvas.DOMNode.on('mouseenter', function() {
-    $( this ).awesomeCursor(canvasToolBox.drawingTool.tool, {
-     hotspot: [2, 15],
-     color: COLOR_CURSOR
-   });
+    $(this).awesomeCursor(canvasToolBox.drawingTool.tool, {
+      hotspot: [2, 15],
+      color: COLOR_CURSOR,
+    });
   });
 
   /**
@@ -265,9 +267,9 @@ $(function() {
   this may produce unexpected results if other divs with the same style are used
   */
   canvas.DOMNode.on('mouseleave', function() {
-    $( this ).css('cursor', '');
+    $(this).css('cursor', '');
 
-    let invisibleDiv = $( DIV_INVISIBLE_CURSOR );
+    let invisibleDiv = $(DIV_INVISIBLE_CURSOR);
     invisibleDiv.remove();
   });
 
@@ -278,8 +280,8 @@ $(function() {
 
   /* In this case, we must use the document and not the canvas,
   because the user may release the mouse outside the canvas */
-  $ ( document ).on('mouseup', function() {
-    mouseDown=false;
+  $(document).on('mouseup', function() {
+    mouseDown = false;
   });
 
   /**
@@ -287,7 +289,7 @@ $(function() {
    * Prevents dragging on painted pixels, which otherwise may behave together
    * like an image.
    */
-  canvas.DOMNode.on('dragstart', function (e) {
+  canvas.DOMNode.on('dragstart', function(e) {
     e.preventDefault();
   });
 
@@ -301,33 +303,33 @@ $(function() {
    * @description click event of the button Reset canvas.
    */
   canvasActionBox.DOMNodeCanvasReset.click(function() {
-    if (canvas.isActive){
-      modal.open('canvasReset', 'yesNo')
-      .then(
-        answer_yes => {if (answer_yes) canvas.reset();});
+    if (canvas.isActive) {
+      modal.open('canvasReset', 'yesNo').then(answer_yes => {
+        if (answer_yes) canvas.reset();
+      });
     }
   });
 
   /**
    * @description click event of the button Save canvas.
    */
-  canvasActionBox.DOMNodeCanvasSave.click( function(){
-    if (canvas.isActive){
-     modal.open('canvasSave', 'yesNo')
-     .then(
-       answer_yes => {if (answer_yes) canvas.save();});
+  canvasActionBox.DOMNodeCanvasSave.click(function() {
+    if (canvas.isActive) {
+      modal.open('canvasSave', 'yesNo').then(answer_yes => {
+        if (answer_yes) canvas.save();
+      });
     }
   });
 
   /**
    * @description click event of the button Export canvas.
    */
-  canvasActionBox.DOMNodeCanvasExport.click( function(){
+  canvasActionBox.DOMNodeCanvasExport.click(function() {
     //TODO: spinner
-    if (canvas.isActive){
-      modal.open('canvasExport', 'yesNo')
-      .then(
-        answer_yes => {if (answer_yes) canvas.export();});
+    if (canvas.isActive) {
+      modal.open('canvasExport', 'yesNo').then(answer_yes => {
+        if (answer_yes) canvas.export();
+      });
     }
   });
 
@@ -361,11 +363,10 @@ $(function() {
    * @description click event of the button Back to top.
    */
   sideBar.DOMNodeBtnBackToTop.click(function() {
-    if (canvas.isActive){
-     functions.scrollTo(functions.getNodePositionTop(SEL_CANVAS_TOOLBOX));
-   }
-   else {
-     functions.scrollTop();
+    if (canvas.isActive) {
+      functions.scrollTo(functions.getNodePositionTop(SEL_CANVAS_TOOLBOX));
+    } else {
+      functions.scrollTop();
     }
   });
 
@@ -379,40 +380,34 @@ $(function() {
    * @description dialogopen event of the modal.
    * Sets the visibility of the sidebar.
    */
-  modal.DOMNode.on( 'dialogopen',
-    function( ) {
-     setSideBarVisibility();
-    }
-  );
+  modal.DOMNode.on('dialogopen', function() {
+    setSideBarVisibility();
+  });
 
   /**
    * @description dialogclose event of the modal.
    * Sets the visibility of the sidebar.
    */
-  modal.DOMNode.on( 'dialogclose',
-    function( ) {
-     setSideBarVisibility();
-    }
-  );
+  modal.DOMNode.on('dialogclose', function() {
+    setSideBarVisibility();
+  });
 
   /**
    * @description change event of the modal when start up message shown.
    */
-  modal.DOMNode.on ('change', '#dialog-start-up-hide',
-    function( ) {
-      try {
-        if ($('#dialog-not-show-again').is(':checked')){
-          localStorage.setItem('dialogStartUpHide', true);
-        }
-        else {
-          localStorage.setItem('dialogStartUpHide', false);
-        }
+  modal.DOMNode.on('change', '#dialog-start-up-hide', function() {
+    try {
+      if ($('#dialog-not-show-again').is(':checked')) {
+        localStorage.setItem('dialogStartUpHide', true);
+      } else {
+        localStorage.setItem('dialogStartUpHide', false);
       }
-      catch(e) {
-        modal.open('localStorageError', 'OK', {'messageArgs': {'errorMessage': e.message}});
-      }
+    } catch (e) {
+      modal.open('localStorageError', 'OK', {
+        messageArgs: { errorMessage: e.message },
+      });
     }
-  );
+  });
 
   /**
    *
@@ -424,6 +419,6 @@ $(function() {
    * @description click event of the button Help
    */
   sideBar.DOMNodeBtnHelp.click(function() {
-    modal.open('help', 'OK', {'button1Label': CAPTION_BTN_MODAL_HELP});
+    modal.open('help', 'OK', { button1Label: CAPTION_BTN_MODAL_HELP });
   });
 });

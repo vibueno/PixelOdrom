@@ -5,14 +5,13 @@
 import { SEL_BTN_INPUT_CANVAS_MENU_LOAD } from './constants.js';
 
 let functions = {
-
   /**
    * @description Creates a delay that can be used in a promise chain.
    * @param {Number}   duration Amount of time the delay will run.
    *
    * @returns {Object} Promise.
    */
-  delay: function (duration) {
+  delay: function(duration) {
     return new Promise(function(resolve) {
       setTimeout(resolve, duration);
     });
@@ -24,24 +23,23 @@ let functions = {
    *
    * @returns {Number} Converted value.
    */
-  CSSPixelToNumber: function (cssValue) {
+  CSSPixelToNumber: function(cssValue) {
     return parseInt(cssValue.replace('px', ''));
   },
 
   /**
    * @description Opens the open file dialog (not a jQuery UI Dialog).
    */
-  showFileDialog: function () {
-
+  showFileDialog: function() {
     /* We need to trigger this event manually, since we are using
     a button to activate a hidden input file field */
-    $ ( SEL_BTN_INPUT_CANVAS_MENU_LOAD ).trigger('click');
+    $(SEL_BTN_INPUT_CANVAS_MENU_LOAD).trigger('click');
   },
 
   /**
    * @description Scrolls to top of window.
    */
-  scrollTop: function () {
+  scrollTop: function() {
     scroll(0, 0);
   },
 
@@ -51,20 +49,18 @@ let functions = {
    *
    * @returns {Boolean} Tells whether the canvas is valid.
    */
-  isValidCanvas: function (canvas) {
+  isValidCanvas: function(canvas) {
     let canvasCheck;
 
-    if (canvas.length>0) {
-     canvasCheck = canvas.filter('tr').get(0);
+    if (canvas.length > 0) {
+      canvasCheck = canvas.filter('tr').get(0);
 
-     if (canvasCheck === canvas.get(0)) {
-      return true;
-      }
-      else {
+      if (canvasCheck === canvas.get(0)) {
+        return true;
+      } else {
         return false;
       }
-    }
-    else {
+    } else {
       return false;
     }
   },
@@ -75,7 +71,7 @@ let functions = {
    *
    * @returns {Number} Top position of the node.
    */
-  getNodePositionTop: function (id) {
+  getNodePositionTop: function(id) {
     const NODE_MARGIN_TOP = functions.CSSPixelToNumber($(id).css('marginTop'));
     const NODE_POSITION_TOP = $(id).position().top + NODE_MARGIN_TOP;
     return NODE_POSITION_TOP;
@@ -87,9 +83,9 @@ let functions = {
    *
    * @returns {Number} Top position of the node.
    */
-  scrollTo: function (position) {
+  scrollTo: function(position) {
     window.scroll(0, position);
-  }
+  },
 };
 
 export { functions };
