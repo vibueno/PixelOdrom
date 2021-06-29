@@ -717,7 +717,9 @@ function saveCanvas() {
   CANVAS_TO_SAVE.find('.pixel').css('width', '');
   CANVAS_TO_SAVE.find('.pixel').css('padding-bottom', '');
 
-  const canvasContent = CANVAS_TO_SAVE.html();
+  const canvasContent = CANVAS_TO_SAVE.wrap('<p/>')
+    .parent()
+    .html();
 
   const blob = new Blob([canvasContent], { type: 'text/plain;charset=utf-8' });
   saveAs(blob, 'canvas.pix');
@@ -803,7 +805,13 @@ function loadCanvas(input) {
     let readerResult = reader.result;
 
     try {
-      let canvasToImport = $(readerResult);
+      var cleanHTML = DOMPurify.sanitize(readerResult);
+
+      let canvasToImport = $(
+        $(cleanHTML)
+          .children()
+          .children()
+      );
 
       if (!isValidCanvas(canvasToImport)) {
         showInfoDialog(
@@ -827,7 +835,7 @@ function loadCanvas(input) {
 
           showInfoDialog('Canvas too big', DIALOG_MSG, false);
         } else {
-          gbCanvas.html(reader.result);
+          gbCanvas.html(cleanHTML);
           $('#input-width').val(CANVAS_WIDTH);
           $('#input-height').val(CANVAS_HEIGHT);
 
@@ -969,7 +977,8 @@ function setBacktotopVisibility() {
       $('body').outerHeight() / 1.25 &&
     getToolboxPositionTop() <= $(window).scrollTop() &&
     isCanvasActive() &&
-    !isDialogOpen() && !isSpinnerActive()
+    !isDialogOpen() &&
+    !isSpinnerActive()
   ) {
     window.setTimeout(function() {
       $('#btn-back-to-top').removeClass('btn-back-to-top-hidden');
